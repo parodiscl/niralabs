@@ -315,8 +315,21 @@
       font-size: 32px;
       font-weight: 600;
       letter-spacing: -1px;
-      color: var(--nira-text);
       margin-bottom: 4px;
+      background: linear-gradient(
+        90deg,
+        #00D4FF 0%,
+        #FFFFFF 18%,
+        #A78BFA 36%,
+        #F472B6 54%,
+        #FFFFFF 72%,
+        #34D399 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientFlow 5s ease-in-out infinite alternate;
     }
 
     .product-category {
