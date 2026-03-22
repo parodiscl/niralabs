@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" width="400" height="80">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Versión light: fondo blanco -->
+  <rect width="400" height="80" fill="#FFFFFF"/>
+
+  <!-- Wordmark: "nira" en navy, "labs" en colores individuales -->
+  <text
+    x="32"
+    y="46"
+    font-family="'Space Grotesk', 'Inter', system-ui, sans-serif"
+    font-weight="600"
+    font-size="38"
+    letter-spacing="-1.5"
+    fill="none"
+  >
+    <tspan fill="#0A0F1C">nira</tspan>
+    <tspan fill="#00D4FF">l</tspan>
+    <tspan fill="#A78BFA">a</tspan>
+    <tspan fill="#F472B6">b</tspan>
+    <tspan fill="#34D399">s</tspan>
+  </text>
+
+  <!-- Tagline "sine cera" -->
+  <text
+    x="33"
+    y="65"
+    font-family="'Space Grotesk', 'Inter', system-ui, sans-serif"
+    font-weight="500"
+    font-size="10"
+    letter-spacing="4"
+    fill="#0A0F1C"
+    opacity="0.25"
+  >sine cera</text>
+</svg>

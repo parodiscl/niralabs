@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nira Labs — Guía de Marca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --nira-base:     #0A0F1C;
+      --nira-surface:  #111827;
+      --nira-border:   rgba(255,255,255,0.06);
+      --nira-text:     #E8ECF0;
+      --nira-muted:    #6B7280;
+      --nira-cyan:     #00D4FF;
+      --nira-violet:   #A78BFA;
+      --nira-pink:     #F472B6;
+      --nira-emerald:  #34D399;
+
+      --guide-bg:      #F8F9FA;
+      --guide-surface: #FFFFFF;
+      --guide-text:    #111827;
+      --guide-muted:   #6B7280;
+      --guide-border:  #E5E7EB;
+      --guide-label:   #9CA3AF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+      background: var(--guide-bg);
+      color: var(--guide-text);
+      line-height: 1.6;
+    }
+
+    /* ────────────────────────────
+       LAYOUT
+    ──────────────────────────── */
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px 120px;
+    }
+
+    section {
+      padding-top: 80px;
+    }
+
+    /* ────────────────────────────
+       TIPOGRAFÍA DE LA GUÍA
+    ──────────────────────────── */
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--guide-label);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--guide-text);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--guide-muted);
+      margin-bottom: 40px;
+      max-width: 560px;
+    }
+
+    /* ────────────────────────────
+       CARD BASE
+    ──────────────────────────── */
+    .card {
+      background: var(--guide-surface);
+      border-radius: 16px;
+      border: 1px solid var(--guide-border);
+      overflow: hidden;
+    }
+
+    .card-inner {
+      padding: 32px;
+    }
+
+    /* ────────────────────────────
+       HEADER DE LA GUÍA
+    ──────────────────────────── */
+    .guide-header {
+      background: var(--nira-base);
+      border-radius: 0 0 24px 24px;
+      padding: 72px 48px 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+
+    .guide-header-meta {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(232,236,240,0.3);
+    }
+
+    /* ────────────────────────────
+       WORDMARK
+    ──────────────────────────── */
+    .wordmark {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .wordmark .nira   { color: var(--nira-text); }
+    .wordmark .l-char { color: var(--nira-cyan); }
+    .wordmark .a-char { color: var(--nira-violet); }
+    .wordmark .b-char { color: var(--nira-pink); }
+    .wordmark .s-char { color: var(--nira-emerald); }
+
+    .tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      color: var(--nira-text);
+      opacity: 0.3;
+      text-transform: lowercase;
+    }
+
+    /* ────────────────────────────
+       SECCIÓN LOGO — VARIANTES
+    ──────────────────────────── */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .logo-grid { grid-template-columns: 1fr; }
+    }
+
+    .logo-variant {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 12px;
+      padding: 48px 40px;
+    }
+
+    .logo-variant-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .logo-variant.dark {
+      background: var(--nira-base);
+      border-radius: 16px 0 0 16px;
+    }
+
+    .logo-variant.dark .logo-variant-label {
+      color: rgba(232,236,240,0.25);
+    }
+
+    .logo-variant.light {
+      background: #FFFFFF;
+      border-radius: 0 16px 16px 0;
+      border-left: 1px solid #E5E7EB;
+    }
+
+    .logo-variant.light .logo-variant-label {
+      color: rgba(17,24,39,0.35);
+    }
+
+    .logo-variant.light .wordmark .nira {
+      color: var(--nira-base);
+    }
+
+    /* ────────────────────────────
+       SECCIÓN COLORES
+    ──────────────────────────── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .color-chip {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--guide-border);
+    }
+
+    .color-chip-swatch {
+      height: 80px;
+    }
+
+    .color-chip-info {
+      padding: 14px 16px;
+      background: var(--guide-surface);
+    }
+
+    .color-chip-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--guide-text);
+      margin-bottom: 2px;
+    }
+
+    .color-chip-hex {
+      font-size: 12px;
+      color: var(--guide-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .color-chip-var {
+      font-size: 10px;
+      color: var(--guide-label);
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    /* ────────────────────────────
+       SECCIÓN TIPOGRAFÍA
+    ──────────────────────────── */
+    .type-block {
+      border-top: 1px solid var(--guide-border);
+      padding: 32px 0;
+    }
+
+    .type-block:first-child { border-top: none; padding-top: 0; }
+
+    .type-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .type-family-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--guide-text);
+    }
+
+    .type-role {
+      font-size: 11px;
+      color: var(--guide-label);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .type-samples-sg {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .type-sample-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+    }
+
+    .type-sample-weight {
+      font-size: 10px;
+      color: var(--guide-label);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 56px;
+      flex-shrink: 0;
+    }
+
+    .sg-300 { font-family: 'Space Grotesk', sans-serif; font-weight: 300; font-size: 22px; color: var(--guide-text); letter-spacing: -0.3px; }
+    .sg-400 { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 22px; color: var(--guide-text); letter-spacing: -0.3px; }
+    .sg-500 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 22px; color: var(--guide-text); letter-spacing: -0.3px; }
+    .sg-600 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; color: var(--guide-text); letter-spacing: -0.5px; }
+    .sg-700 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: var(--guide-text); letter-spacing: -0.5px; }
+
+    .sg-display { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 48px; color: var(--guide-text); letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; }
+
+    .ibm-samples { display: flex; flex-direction: column; gap: 14px; }
+    .ibm-300 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; font-size: 16px; color: var(--guide-text); line-height: 1.6; }
+    .ibm-400 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 16px; color: var(--guide-text); line-height: 1.6; }
+    .ibm-500 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 500; font-size: 16px; color: var(--guide-text); line-height: 1.6; }
+    .ibm-600 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 16px; color: var(--guide-text); line-height: 1.6; }
+    .ibm-italic { font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-style: italic; font-size: 16px; color: var(--guide-muted); line-height: 1.6; }
+
+    /* ────────────────────────────
+       SECCIÓN VOZ DE MARCA
+    ──────────────────────────── */
+    .voice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .voice-grid { grid-template-columns: 1fr; }
+    }
+
+    .voice-card {
+      border-radius: 14px;
+      padding: 28px;
+    }
+
+    .voice-card.correct {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+    }
+
+    .voice-card.incorrect {
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+    }
+
+    .voice-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .voice-tag {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .voice-card.correct  .voice-tag { background: #D1FAE5; color: #065F46; }
+    .voice-card.incorrect .voice-tag { background: #FFE4E6; color: #9F1239; }
+
+    .voice-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .voice-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .voice-item-text {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .voice-card.correct  .voice-item-text { color: #065F46; }
+    .voice-card.incorrect .voice-item-text { color: #9F1239; text-decoration: line-through; }
+
+    .voice-rules {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .voice-rule {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px 20px;
+      background: var(--guide-surface);
+      border: 1px solid var(--guide-border);
+      border-radius: 12px;
+    }
+
+    .voice-rule-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .voice-rule-text {
+      font-size: 14px;
+      color: var(--guide-muted);
+      line-height: 1.6;
+    }
+
+    .voice-rule-text strong {
+      font-weight: 600;
+      color: var(--guide-text);
+    }
+
+    /* ────────────────────────────
+       SECCIÓN APLICACIONES
+    ──────────────────────────── */
+    .applications-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .applications-grid { grid-template-columns: 1fr; }
+    }
+
+    .app-card {
+      background: var(--guide-surface);
+      border: 1px solid var(--guide-border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .app-card-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+    }
+
+    .app-card-preview.dark { background: var(--nira-base); }
+    .app-card-preview.surface { background: var(--nira-surface); }
+    .app-card-preview.light-gray { background: #F0F2F5; }
+    .app-card-preview.white { background: #FFFFFF; border-bottom: 1px solid var(--guide-border); }
+
+    .app-card-info {
+      padding: 20px 24px;
+      border-top: 1px solid var(--guide-border);
+    }
+
+    .app-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--guide-text);
+      margin-bottom: 4px;
+    }
+
+    .app-card-desc {
+      font-size: 12px;
+      color: var(--guide-muted);
+    }
+
+    /* Nav mockup */
+    .nav-mockup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 14px 20px;
+      background: rgba(10,15,28,0.9);
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--nira-border);
+    }
+
+    .nav-mockup-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-mockup-link {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      color: rgba(232,236,240,0.45);
+    }
+
+    /* Favicon mockup */
+    .favicon-mockup {
+      width: 48px;
+      height: 48px;
+      background: var(--nira-base);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--nira-border);
+    }
+
+    .favicon-letter {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      letter-spacing: -1px;
+      color: var(--nira-text);
+    }
+
+    /* Footer mockup */
+    .footer-mockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 28px 20px;
+      background: var(--nira-base);
+      border-radius: 10px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .footer-links-mockup {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-link-mockup {
+      font-size: 10px;
+      color: rgba(232,236,240,0.25);
+    }
+
+    .footer-copy-mockup {
+      font-size: 10px;
+      color: rgba(232,236,240,0.2);
+    }
+
+    /* OG mockup */
+    .og-mockup {
+      width: 100%;
+      aspect-ratio: 1200/630;
+      max-height: 160px;
+      background: var(--nira-base);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid var(--nira-border);
+    }
+
+    .og-tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: rgba(232,236,240,0.2);
+      text-transform: lowercase;
+    }
+
+    /* Divisor */
+    .guide-divider {
+      height: 1px;
+      background: var(--guide-border);
+      margin: 80px 0 0;
+    }
+
+    /* Espaciado especial para la primera sección */
+    #logo { padding-top: 56px; }
+
+    /* ────────────────────────────
+       SCROLL NAV LATERAL
+    ──────────────────────────── */
+    .side-nav {
+      position: fixed;
+      top: 50%;
+      right: 32px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 50;
+    }
+
+    .side-nav a {
+      font-size: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--guide-label);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .side-nav a:hover { color: var(--guide-text); }
+
+    @media (max-width: 1100px) {
+      .side-nav { display: none; }
+    }
+
+    /* ────────────────────────────
+       GUIDE FOOTER
+    ──────────────────────────── */
+    .guide-footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--guide-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .guide-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .guide-footer-copy {
+      font-size: 13px;
+      color: var(--guide-label);
+    }
+
+    .guide-version {
+      font-size: 11px;
+      color: var(--guide-label);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="guide-header">
+    <span class="guide-header-meta">Brand Identity — v1.0 — 2025</span>
+    <div class="wordmark" style="font-size: 52px;">
+      <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+    </div>
+    <span class="tagline">guía de marca</span>
+  </header>
+
+  <!-- Nav lateral -->
+  <nav class="side-nav">
+    <a href="#logo">Logo</a>
+    <a href="#colores">Colores</a>
+    <a href="#tipografia">Tipografía</a>
+    <a href="#voz">Voz</a>
+    <a href="#aplicaciones">Aplicaciones</a>
+  </nav>
+
+  <div class="page">
+
+    <!-- ══════════════════════════════
+         1. LOGO
+    ══════════════════════════════ -->
+    <section id="logo">
+      <p class="section-label">01 — Logotipo</p>
+      <h2 class="section-title">El wordmark</h2>
+      <p class="section-desc">El nombre de la marca como sistema tipográfico. Las cuatro letras de "labs" son el sistema de color: cada una porta un acento de la paleta.</p>
+
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="logo-grid">
+          <div class="logo-variant dark">
+            <span class="logo-variant-label" style="color: rgba(232,236,240,0.25);">Sobre oscuro</span>
+            <div class="wordmark" style="font-size: 40px;">
+              <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+            </div>
+            <span class="tagline">sine cera</span>
+          </div>
+          <div class="logo-variant light">
+            <span class="logo-variant-label">Sobre claro</span>
+            <div class="wordmark" style="font-size: 40px;">
+              <span style="color:#0A0F1C">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+            </div>
+            <span class="tagline" style="color:#0A0F1C; opacity:0.25;">sine cera</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Anatomía del wordmark -->
+      <div class="card">
+        <div class="card-inner">
+          <p class="section-label" style="margin-bottom: 24px;">Anatomía</p>
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+
+            <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+              <div class="wordmark" style="font-size: 32px; background: var(--nira-base); padding: 16px 24px; border-radius: 10px;">
+                <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-block; width:12px; height:12px; background:#E8ECF0; border-radius:3px; border:1px solid var(--guide-border);"></span>
+                  <span style="font-size:13px; color: var(--guide-muted);">nira — #E8ECF0 (blanco frío)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-block; width:12px; height:12px; background:#00D4FF; border-radius:3px;"></span>
+                  <span style="font-size:13px; color: var(--guide-muted);">l — #00D4FF (cyan)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-block; width:12px; height:12px; background:#A78BFA; border-radius:3px;"></span>
+                  <span style="font-size:13px; color: var(--guide-muted);">a — #A78BFA (violeta)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-block; width:12px; height:12px; background:#F472B6; border-radius:3px;"></span>
+                  <span style="font-size:13px; color: var(--guide-muted);">b — #F472B6 (rosa)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-block; width:12px; height:12px; background:#34D399; border-radius:3px;"></span>
+                  <span style="font-size:13px; color: var(--guide-muted);">s — #34D399 (esmeralda)</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding-top: 20px; border-top: 1px solid var(--guide-border); display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+              <div>
+                <p style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--guide-label); margin-bottom:6px;">Fuente</p>
+                <p style="font-size:14px; font-family:'Space Grotesk', sans-serif; color:var(--guide-text); font-weight:600;">Space Grotesk 600</p>
+              </div>
+              <div>
+                <p style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--guide-label); margin-bottom:6px;">Letter-spacing</p>
+                <p style="font-size:14px; font-family:'Space Grotesk', sans-serif; color:var(--guide-text); font-weight:600;">-1.5px</p>
+              </div>
+              <div>
+                <p style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--guide-label); margin-bottom:6px;">Tagline</p>
+                <p style="font-size:14px; font-family:'Space Grotesk', sans-serif; color:var(--guide-text); font-weight:400; opacity:0.5;">sine cera</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="guide-divider"></div>
+
+    <!-- ══════════════════════════════
+         2. COLORES
+    ══════════════════════════════ -->
+    <section id="colores">
+      <p class="section-label">02 — Colores</p>
+      <h2 class="section-title">Paleta de marca</h2>
+      <p class="section-desc">Nueve tokens de color. Los fondos definen la arquitectura espacial; los acentos dan identidad a los elementos clave.</p>
+
+      <div class="color-grid">
+        <!-- Fondos y superficies -->
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#0A0F1C; border-bottom:1px solid rgba(255,255,255,0.06);"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Base</p>
+            <p class="color-chip-hex">#0A0F1C</p>
+            <p class="color-chip-var">--nira-base</p>
+          </div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#111827; border-bottom:1px solid rgba(255,255,255,0.06);"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Surface</p>
+            <p class="color-chip-hex">#111827</p>
+            <p class="color-chip-var">--nira-surface</p>
+          </div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#E8ECF0;"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Text</p>
+            <p class="color-chip-hex">#E8ECF0</p>
+            <p class="color-chip-var">--nira-text</p>
+          </div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#6B7280;"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Muted</p>
+            <p class="color-chip-hex">#6B7280</p>
+            <p class="color-chip-var">--nira-muted</p>
+          </div>
+        </div>
+
+        <!-- Acentos (las letras de labs) -->
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#00D4FF;"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Cyan</p>
+            <p class="color-chip-hex">#00D4FF</p>
+            <p class="color-chip-var">--nira-cyan · l</p>
+          </div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#A78BFA;"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Violet</p>
+            <p class="color-chip-hex">#A78BFA</p>
+            <p class="color-chip-var">--nira-violet · a</p>
+          </div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#F472B6;"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Pink</p>
+            <p class="color-chip-hex">#F472B6</p>
+            <p class="color-chip-var">--nira-pink · b</p>
+          </div>
+        </div>
+        <div class="color-chip">
+          <div class="color-chip-swatch" style="background:#34D399;"></div>
+          <div class="color-chip-info">
+            <p class="color-chip-name">Emerald</p>
+            <p class="color-chip-hex">#34D399</p>
+            <p class="color-chip-var">--nira-emerald · s</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Variables snippet -->
+      <div style="margin-top: 16px; background: var(--nira-surface); border-radius: 14px; padding: 28px 32px; border: 1px solid rgba(255,255,255,0.05);">
+        <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(232,236,240,0.25); margin-bottom: 16px; font-family:'Space Grotesk',sans-serif;">CSS Variables</p>
+        <pre style="font-family: 'IBM Plex Mono', 'Fira Code', monospace; font-size: 13px; color: rgba(232,236,240,0.7); line-height: 1.8; white-space: pre-wrap;">:root {
+  --nira-base:     #0A0F1C;
+  --nira-surface:  #111827;
+  --nira-border:   rgba(255,255,255,0.06);
+  --nira-text:     #E8ECF0;
+  --nira-muted:    #6B7280;
+  --nira-cyan:     #00D4FF;
+  --nira-violet:   #A78BFA;
+  --nira-pink:     #F472B6;
+  --nira-emerald:  #34D399;
+}</pre>
+      </div>
+    </section>
+
+    <div class="guide-divider"></div>
+
+    <!-- ══════════════════════════════
+         3. TIPOGRAFÍA
+    ══════════════════════════════ -->
+    <section id="tipografia">
+      <p class="section-label">03 — Tipografía</p>
+      <h2 class="section-title">Sistema tipográfico</h2>
+      <p class="section-desc">Dos familias complementarias. Space Grotesk para presencia e identidad; IBM Plex Sans para legibilidad funcional.</p>
+
+      <div class="card">
+        <div class="card-inner">
+
+          <!-- Space Grotesk -->
+          <div class="type-block">
+            <div class="type-meta">
+              <span class="type-family-name">Space Grotesk</span>
+              <span class="type-role">Display / Headlines / UI</span>
+            </div>
+            <div class="sg-display">Apps que<br>la gente usa.</div>
+            <div class="type-samples-sg">
+              <div class="type-sample-row">
+                <span class="type-sample-weight">300</span>
+                <span class="sg-300">El software tiene que ser invisible.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">400</span>
+                <span class="sg-400">El software tiene que ser invisible.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">500</span>
+                <span class="sg-500">El software tiene que ser invisible.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">600 ★</span>
+                <span class="sg-600">El software tiene que ser invisible.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">700</span>
+                <span class="sg-700">El software tiene que ser invisible.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- IBM Plex Sans -->
+          <div class="type-block">
+            <div class="type-meta">
+              <span class="type-family-name">IBM Plex Sans</span>
+              <span class="type-role">Body / Descripciones / Meta</span>
+            </div>
+            <div class="ibm-samples">
+              <div class="type-sample-row">
+                <span class="type-sample-weight">300</span>
+                <span class="ibm-300">Construimos productos para personas reales, con problemas reales.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">400 ★</span>
+                <span class="ibm-400">Construimos productos para personas reales, con problemas reales.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">500</span>
+                <span class="ibm-500">Construimos productos para personas reales, con problemas reales.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">600</span>
+                <span class="ibm-600">Construimos productos para personas reales, con problemas reales.</span>
+              </div>
+              <div class="type-sample-row">
+                <span class="type-sample-weight">Italic</span>
+                <span class="ibm-italic">sine cera — sin cera. Lo que ves es lo que hay.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Jerarquía de escala -->
+          <div class="type-block">
+            <p class="type-family-name" style="margin-bottom: 20px;">Escala tipográfica recomendada</p>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="display: flex; align-items: baseline; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--guide-border);">
+                <span style="font-size:10px; color:var(--guide-label); min-width:120px; letter-spacing:0.08em; text-transform:uppercase;">Display — 56–72px</span>
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:32px; letter-spacing:-1px; color:var(--guide-text);">Título principal</span>
+              </div>
+              <div style="display: flex; align-items: baseline; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--guide-border);">
+                <span style="font-size:10px; color:var(--guide-label); min-width:120px; letter-spacing:0.08em; text-transform:uppercase;">H1 — 40–48px</span>
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:24px; letter-spacing:-0.5px; color:var(--guide-text);">Sección hero</span>
+              </div>
+              <div style="display: flex; align-items: baseline; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--guide-border);">
+                <span style="font-size:10px; color:var(--guide-label); min-width:120px; letter-spacing:0.08em; text-transform:uppercase;">H2 — 28–32px</span>
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; letter-spacing:-0.3px; color:var(--guide-text);">Título de sección</span>
+              </div>
+              <div style="display: flex; align-items: baseline; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--guide-border);">
+                <span style="font-size:10px; color:var(--guide-label); min-width:120px; letter-spacing:0.08em; text-transform:uppercase;">Body — 15–17px</span>
+                <span style="font-family:'IBM Plex Sans',sans-serif; font-weight:400; font-size:15px; color:var(--guide-text);">Texto de contenido principal</span>
+              </div>
+              <div style="display: flex; align-items: baseline; gap: 16px;">
+                <span style="font-size:10px; color:var(--guide-label); min-width:120px; letter-spacing:0.08em; text-transform:uppercase;">Caption — 12–13px</span>
+                <span style="font-family:'IBM Plex Sans',sans-serif; font-weight:400; font-size:12px; color:var(--guide-muted);">Texto auxiliar, metadatos, labels</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="guide-divider"></div>
+
+    <!-- ══════════════════════════════
+         4. VOZ DE MARCA
+    ══════════════════════════════ -->
+    <section id="voz">
+      <p class="section-label">04 — Voz de marca</p>
+      <h2 class="section-title">Cómo habla Nira Labs</h2>
+      <p class="section-desc">Precisa, confiada, directa. Sin ruido, sin promesas vacías, sin jerga de startup. Cada palabra tiene que ganar su lugar.</p>
+
+      <div class="voice-grid" style="margin-bottom: 24px;">
+        <div class="voice-card correct">
+          <div class="voice-card-header">
+            <span class="voice-tag">Correcto</span>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"Apps que la gente usa."</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"Flowbit — hábitos sin ruido."</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"Construimos, no prometemos."</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"Un solo foco. Bien hecho."</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"sine cera."</p>
+          </div>
+        </div>
+        <div class="voice-card incorrect">
+          <div class="voice-card-header">
+            <span class="voice-tag">Incorrecto</span>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"¡Revolucionamos tu productividad!"</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"La plataforma #1 para el éxito."</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"Impulsamos tu journey hacia el next level."</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"Solución disruptiva e innovadora."</p>
+          </div>
+          <div class="voice-item">
+            <p class="voice-item-text">"¡Únete a la comunidad de makers!"</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="voice-rules">
+        <div class="voice-rule">
+          <div class="voice-rule-dot" style="background: var(--nira-cyan);"></div>
+          <p class="voice-rule-text"><strong>Oraciones cortas.</strong> Si necesitas una coma, pregunta si puedes usar un punto.</p>
+        </div>
+        <div class="voice-rule">
+          <div class="voice-rule-dot" style="background: var(--nira-violet);"></div>
+          <p class="voice-rule-text"><strong>Sin superlativos vacíos.</strong> "mejor", "increíble", "revolucionario" — no significan nada sin evidencia.</p>
+        </div>
+        <div class="voice-rule">
+          <div class="voice-rule-dot" style="background: var(--nira-pink);"></div>
+          <p class="voice-rule-text"><strong>Presente, activo, concreto.</strong> "Construimos apps" > "Somos un estudio dedicado a la construcción de aplicaciones".</p>
+        </div>
+        <div class="voice-rule">
+          <div class="voice-rule-dot" style="background: var(--nira-emerald);"></div>
+          <p class="voice-rule-text"><strong>Minúsculas con criterio.</strong> El nombre de la marca es "Nira Labs". El tagline "sine cera" va siempre en minúsculas.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="guide-divider"></div>
+
+    <!-- ══════════════════════════════
+         5. APLICACIONES
+    ══════════════════════════════ -->
+    <section id="aplicaciones">
+      <p class="section-label">05 — Aplicaciones</p>
+      <h2 class="section-title">El wordmark en contexto</h2>
+      <p class="section-desc">Cómo se despliega la identidad en los puntos de contacto principales.</p>
+
+      <div class="applications-grid">
+
+        <!-- Nav -->
+        <div class="app-card">
+          <div class="app-card-preview dark">
+            <div class="nav-mockup">
+              <div class="wordmark" style="font-size: 18px;">
+                <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+              </div>
+              <div class="nav-mockup-links">
+                <span class="nav-mockup-link">Productos</span>
+                <span class="nav-mockup-link">Estudio</span>
+                <span class="nav-mockup-link">Contacto</span>
+              </div>
+            </div>
+          </div>
+          <div class="app-card-info">
+            <p class="app-card-title">Navegación web</p>
+            <p class="app-card-desc">18–20px, fijo con backdrop blur. Sin botón CTA en nav.</p>
+          </div>
+        </div>
+
+        <!-- Favicon -->
+        <div class="app-card">
+          <div class="app-card-preview surface">
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <div class="favicon-mockup" style="width:64px; height:64px; border-radius:14px;">
+                <span class="favicon-letter" style="font-size:32px;">n</span>
+              </div>
+              <div class="favicon-mockup" style="width:48px; height:48px; border-radius:10px;">
+                <span class="favicon-letter" style="font-size:24px;">n</span>
+              </div>
+              <div class="favicon-mockup" style="width:32px; height:32px; border-radius:7px;">
+                <span class="favicon-letter" style="font-size:16px;">n</span>
+              </div>
+              <div class="favicon-mockup" style="width:16px; height:16px; border-radius:3px;">
+                <span class="favicon-letter" style="font-size:10px;">n</span>
+              </div>
+            </div>
+          </div>
+          <div class="app-card-info">
+            <p class="app-card-title">Favicon / App icon</p>
+            <p class="app-card-desc">"n" en #E8ECF0 sobre fondo #0A0F1C. Escala a 16, 32, 48, 64px.</p>
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="app-card">
+          <div class="app-card-preview dark" style="flex-direction: column; gap: 8px;">
+            <div class="wordmark" style="font-size: 36px;">
+              <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+            </div>
+            <span class="tagline" style="font-size: 9px;">sine cera</span>
+          </div>
+          <div class="app-card-info">
+            <p class="app-card-title">Hero de landing</p>
+            <p class="app-card-desc">80–100px como elemento visual central. Tagline visible solo aquí.</p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="app-card">
+          <div class="app-card-preview dark">
+            <div class="footer-mockup">
+              <div class="wordmark" style="font-size: 15px;">
+                <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+              </div>
+              <div class="footer-links-mockup">
+                <span class="footer-link-mockup">Privacidad</span>
+                <span class="footer-link-mockup">Contacto</span>
+              </div>
+              <span class="footer-copy-mockup">© 2025 Nira Labs</span>
+            </div>
+          </div>
+          <div class="app-card-info">
+            <p class="app-card-title">Footer</p>
+            <p class="app-card-desc">14–16px, opacidad reducida. Links en --nira-muted.</p>
+          </div>
+        </div>
+
+        <!-- OG Image -->
+        <div class="app-card" style="grid-column: 1 / -1;">
+          <div class="app-card-preview dark" style="padding: 32px;">
+            <div class="og-mockup">
+              <div class="wordmark" style="font-size: 28px;">
+                <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+              </div>
+              <span class="og-tagline">sine cera</span>
+            </div>
+          </div>
+          <div class="app-card-info">
+            <p class="app-card-title">Open Graph / Social preview</p>
+            <p class="app-card-desc">1200×630px. Wordmark centrado sobre fondo base. Sin texto adicional — solo marca.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer de la guía -->
+    <div class="guide-footer">
+      <div class="guide-footer-left">
+        <div class="wordmark" style="font-size: 16px; background: var(--nira-base); padding: 8px 14px; border-radius: 8px;">
+          <span class="nira">nira</span><span class="l-char">l</span><span class="a-char">a</span><span class="b-char">b</span><span class="s-char">s</span>
+        </div>
+        <span class="guide-footer-copy">Brand Identity System — v1.0</span>
+      </div>
+      <span class="guide-version">Santiago, Chile — 2025</span>
+    </div>
+
+  </div>
+
+</body>
+</html>
