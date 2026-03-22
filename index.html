@@ -65,6 +65,34 @@
     .wm-b    { color: var(--nira-pink); }
     .wm-s    { color: var(--nira-emerald); }
 
+    /* ── Hero nira gradient animado ── */
+    .hero-nira {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: clamp(96px, 18vw, 200px);
+      letter-spacing: -6px;
+      line-height: 1;
+      background: linear-gradient(
+        90deg,
+        #00D4FF 0%,
+        #FFFFFF 18%,
+        #A78BFA 36%,
+        #F472B6 54%,
+        #FFFFFF 72%,
+        #34D399 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientFlow 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradientFlow {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
     /* ════════════════════════════════════════
        NAV
     ════════════════════════════════════════ */
@@ -630,7 +658,8 @@
     </div>
 
     <div class="hero-logo-wrap">
-      <div class="wordmark" style="font-size: clamp(72px, 12vw, 120px);">
+      <div class="hero-nira">nira</div>
+      <div class="wordmark" style="font-size: clamp(72px, 12vw, 120px); display:none;">
         <span class="wm-nira">nira</span><span class="wm-l">l</span><span class="wm-a">a</span><span class="wm-b">b</span><span class="wm-s">s</span>
       </div>
     </div>
