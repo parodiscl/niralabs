@@ -1,0 +1,14 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" fill="#0D1B2A"/>
+
+  <!-- N Mark (centered) -->
+  <g transform="translate(18, 8)">
+    <!-- Left bar -->
+    <rect x="0" y="0" width="7" height="48" rx="1.5" fill="#FFFFFF"/>
+    <!-- Diagonal accent (teal) -->
+    <polygon points="7,0 14,0 21,48 14,48" fill="#4ECDC4"/>
+    <!-- Right bar -->
+    <rect x="21" y="0" width="7" height="48" rx="1.5" fill="#FFFFFF"/>
+  </g>
+</svg>
