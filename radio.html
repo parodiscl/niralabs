@@ -290,6 +290,7 @@
   };
 
   let cur = null;
+  let waveCol = '#00D4FF';
   const nameEl  = document.getElementById('sName');
   const tagEl   = document.getElementById('sTagline');
   const wrap    = document.getElementById('embedWrap');
@@ -341,7 +342,7 @@
   /* ── Canvas olas ─────────────────────────────────── */
   const cv  = document.getElementById('cv');
   const ctx = cv.getContext('2d');
-  let W, H, waveCol = '#00D4FF', t = 0;
+  let W, H, t = 0;
 
   function resize() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
   addEventListener('resize', resize); resize();
