@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    NIRA LABS — Hero Experiment Engine
-   30 backgrounds random: 6 videos + 24 canvas experiments
+   40 backgrounds random: 6 videos + 34 canvas experiments
 ═══════════════════════════════════════════════════════ */
 (function () {
   const CV = document.getElementById('heroCanvas');
@@ -869,6 +869,133 @@
       };
     },
 
+
+    /* B9 · ButterMelt — dark organic blobs dripping on warm yellow */
+    function ButterMelt() {
+      let t = 0;
+      const blobs = Array.from({length:7}, () => ({
+        x: rnd()*W, y: rnd()*H,
+        r: rf(H*.07, H*.2),
+        vx: rf(-.22,.22), vy: rf(-.22,.22),
+        phase: rnd()*TAU, speed: rf(.005,.015),
+        c: ['#1a1400','#2d1b00','#0d0d0d','#120800','#3d2b00'][ri(5)]
+      }));
+      const drips = Array.from({length:9}, (_, i) => ({
+        x: (i/9 + rf(-.04,.04)) * W,
+        len: rf(H*.06, H*.32),
+        w: rf(3,10),
+        bx: rf(-30,30)
+      }));
+      return () => {
+        CT.clearRect(0, 0, W, H);
+        // Butter gradient bg
+        const bg = CT.createLinearGradient(0, 0, W, H);
+        bg.addColorStop(0, '#FFFDE7');
+        bg.addColorStop(.45, '#FFF176');
+        bg.addColorStop(1, '#FFF44F');
+        CT.fillStyle = bg; CT.fillRect(0, 0, W, H);
+        // Honey drips from top
+        drips.forEach(d => {
+          const yOff = Math.sin(t*.55 + d.x*.009) * H*.05;
+          CT.strokeStyle = 'rgba(18,8,0,.72)';
+          CT.lineWidth = d.w; CT.lineCap = 'round';
+          CT.beginPath();
+          CT.moveTo(d.x, -4);
+          CT.bezierCurveTo(d.x + d.bx*.25, d.len*.3, d.x + d.bx, d.len*.72, d.x + d.bx*.55, d.len + yOff);
+          CT.stroke();
+          CT.fillStyle = 'rgba(18,8,0,.78)';
+          CT.beginPath(); CT.arc(d.x + d.bx*.55, d.len + yOff, d.w*1.45, 0, TAU); CT.fill();
+        });
+        // Organic dark blobs
+        blobs.forEach(b => {
+          b.x += b.vx; b.y += b.vy;
+          if(b.x < -b.r*2) b.x = W+b.r; if(b.x > W+b.r*2) b.x = -b.r;
+          if(b.y < -b.r*2) b.y = H+b.r; if(b.y > H+b.r*2) b.y = -b.r;
+          b.phase += b.speed;
+          CT.save(); CT.translate(b.x, b.y);
+          CT.beginPath();
+          for(let i = 0; i <= 12; i++) {
+            const ang = (i/12)*TAU;
+            const w = b.r * (.6 + .4*Math.sin(ang*3+b.phase)*Math.cos(ang*2.2+b.phase*.65));
+            const px = Math.cos(ang)*w, py = Math.sin(ang)*w;
+            i === 0 ? CT.moveTo(px, py) : CT.lineTo(px, py);
+          }
+          CT.closePath();
+          CT.fillStyle = b.c + 'e8'; CT.fill();
+          CT.strokeStyle = 'rgba(0,0,0,.45)'; CT.lineWidth = 2.5; CT.stroke();
+          CT.restore();
+        });
+        // Lemon accent scatter dots
+        for(let i=0; i<18; i++) {
+          const dx = (Math.sin(t*1.1+i*2.4)*W*.48+W/2);
+          const dy = (Math.cos(t*.9+i*1.7)*H*.42+H/2);
+          CT.fillStyle = i%3===0 ? 'rgba(255,100,0,.35)' : 'rgba(0,0,0,.25)';
+          CT.beginPath(); CT.arc(dx, dy, rf(2,7), 0, TAU); CT.fill();
+        }
+        t += .012;
+      };
+    },
+
+    /* B10 · LemonCrash — kinetic black geometry on electric lemon */
+    function LemonCrash() {
+      let t = 0;
+      const shapes = Array.from({length:28}, () => ({
+        x: rnd()*W, y: rnd()*H,
+        vx: rf(-1.8,1.8), vy: rf(-1.8,1.8),
+        size: rf(W*.018, W*.09),
+        rot: rnd()*TAU, vrot: rf(-.05,.05),
+        type: ri(4), // 0=tri 1=rect 2=circle 3=diamond
+        fill: ['#000000','#111100','#000d00','#1a1a00'][ri(4)],
+        outline: ri(2)
+      }));
+      const streaks = Array.from({length:20}, () => ({
+        x: rnd()*W, y: rnd()*H,
+        angle: rnd()*TAU, len: rf(W*.04,W*.18),
+        v: rf(.8,2.2), w: rf(1,5)
+      }));
+      return () => {
+        CT.clearRect(0, 0, W, H);
+        // Electric lemon flat base
+        CT.fillStyle = '#FFF44F'; CT.fillRect(0, 0, W, H);
+        // Butter patch (off-center glow)
+        const patch = CT.createRadialGradient(W*.28, H*.35, 0, W*.28, H*.35, W*.5);
+        patch.addColorStop(0,'rgba(255,253,231,.7)'); patch.addColorStop(1,'rgba(255,253,231,0)');
+        CT.fillStyle = patch; CT.fillRect(0,0,W,H);
+        // Kinetic streaks
+        streaks.forEach(s => {
+          s.x += Math.cos(s.angle)*s.v; s.y += Math.sin(s.angle)*s.v;
+          if(s.x<-s.len||s.x>W+s.len||s.y<-s.len||s.y>H+s.len){s.x=rnd()*W;s.y=rnd()*H;s.angle=rnd()*TAU;}
+          CT.strokeStyle = 'rgba(0,0,0,.55)'; CT.lineWidth = s.w; CT.lineCap = 'square';
+          CT.beginPath(); CT.moveTo(s.x, s.y);
+          CT.lineTo(s.x+Math.cos(s.angle)*s.len, s.y+Math.sin(s.angle)*s.len); CT.stroke();
+        });
+        // Geometric shapes crashing
+        shapes.forEach(s => {
+          s.x += s.vx; s.y += s.vy; s.rot += s.vrot;
+          if(s.x < -s.size*2||s.x > W+s.size*2) s.vx *= -1;
+          if(s.y < -s.size*2||s.y > H+s.size*2) s.vy *= -1;
+          CT.save(); CT.translate(s.x, s.y); CT.rotate(s.rot);
+          CT.fillStyle = s.fill + 'cc';
+          CT.strokeStyle = '#000'; CT.lineWidth = s.outline ? 2.5 : 0;
+          CT.beginPath();
+          if(s.type===0){CT.moveTo(0,-s.size);CT.lineTo(s.size,s.size);CT.lineTo(-s.size,s.size);CT.closePath();}
+          else if(s.type===1){CT.rect(-s.size*.5,-s.size*.5,s.size,s.size);}
+          else if(s.type===2){CT.arc(0,0,s.size*.55,0,TAU);}
+          else{CT.moveTo(0,-s.size);CT.lineTo(s.size*.7,0);CT.lineTo(0,s.size);CT.lineTo(-s.size*.7,0);CT.closePath();}
+          CT.fill(); if(s.outline) CT.stroke();
+          CT.restore();
+        });
+        // Risograph grain
+        for(let i=0;i<500;i++){
+          CT.fillStyle=`rgba(0,0,0,${rnd()*.04})`;
+          CT.fillRect(rnd()*W, rnd()*H, 1, 1);
+        }
+        // Strobe flicker (subtle)
+        if(Math.sin(t*11)>.82){CT.fillStyle='rgba(255,255,255,.07)';CT.fillRect(0,0,W,H);}
+        t += .015;
+      };
+    },
+
   ]; /* end BOLD */
 
   /* ── Video experiments ──────────────────────────── */
@@ -878,8 +1005,8 @@
   ];
 
   /* ── Pick & Run ─────────────────────────────────── */
-  const ALL_CANVAS = [...EXPS, ...BOLD]; // 24 dark + 8 bold = 32 canvas
-  const total = VIDEOS.length + ALL_CANVAS.length; // 6 + 32 = 38
+  const ALL_CANVAS = [...EXPS, ...BOLD]; // 24 dark + 10 bold = 34 canvas
+  const total = VIDEOS.length + ALL_CANVAS.length; // 6 + 34 = 40
   const pick  = ri(total);
 
   if (pick < VIDEOS.length) {
