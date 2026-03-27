@@ -329,9 +329,10 @@
       wrap.classList.add('on');
     }, 300);
 
-    document.querySelectorAll('.btn').forEach(b =>
-      b.classList.toggle('on', b.dataset.s === key)
-    );
+    document.querySelectorAll('.btn').forEach(b => {
+      b.classList.remove('on');
+      if (b.dataset.s === key) b.classList.add('on');
+    });
   }
 
   document.querySelectorAll('.btn').forEach(b =>
