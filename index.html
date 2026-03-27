@@ -1125,15 +1125,8 @@
 
     <!-- Video background (random) -->
     <video class="hero-video" id="heroVideo" autoplay muted loop playsinline></video>
-    <script>
-      (function() {
-        var videos = ['hero-bg.mp4','hero-bg2.mp4','hero-bg3.mp4','hero-bg4.mp4','hero-bg5.mp4','hero-bg6.mp4'];
-        var v = document.getElementById('heroVideo');
-        v.src = videos[Math.floor(Math.random() * videos.length)];
-      })();
-    </script>
 
-    <!-- Aurora particles canvas -->
+    <!-- Experiment canvas -->
     <canvas class="hero-canvas" id="heroCanvas"></canvas>
 
     <!-- Gradient overlay -->
@@ -1162,62 +1155,7 @@
 
   </section>
 
-  <script>
-    // Reactive dot grid (desktop only)
-    (function() {
-      if (window.innerWidth <= 768) return;
-      const canvas = document.getElementById('heroCanvas');
-      const ctx = canvas.getContext('2d');
-      const COLS = ['#00D4FF','#A78BFA','#F472B6','#34D399'];
-      let W, H, dots = [];
-      let mx = -9999, my = -9999;
-      const GAP = 32, R = 1.8, RADIUS = 120, FORCE = 18;
-
-      function resize() {
-        W = canvas.width  = canvas.offsetWidth;
-        H = canvas.height = canvas.offsetHeight;
-        dots = [];
-        for (let x = GAP; x < W; x += GAP)
-          for (let y = GAP; y < H; y += GAP)
-            dots.push({ ox: x, oy: y, x, y,
-              color: COLS[Math.floor(Math.random() * COLS.length)] });
-      }
-
-      window.addEventListener('mousemove', e => {
-        const r = canvas.getBoundingClientRect();
-        mx = e.clientX - r.left;
-        my = e.clientY - r.top;
-      });
-
-      function draw() {
-        ctx.clearRect(0, 0, W, H);
-        dots.forEach(d => {
-          const dx = d.ox - mx, dy = d.oy - my;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < RADIUS) {
-            const f = (1 - dist / RADIUS) * FORCE;
-            d.x += (d.ox + (dx / dist) * f - d.x) * 0.18;
-            d.y += (d.oy + (dy / dist) * f - d.y) * 0.18;
-          } else {
-            d.x += (d.ox - d.x) * 0.08;
-            d.y += (d.oy - d.y) * 0.08;
-          }
-          const proximity = Math.max(0, 1 - dist / RADIUS);
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, R + proximity * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = proximity > 0.1
-            ? d.color + Math.round((0.15 + proximity * 0.7) * 255).toString(16).padStart(2,'0')
-            : 'rgba(255,255,255,0.12)';
-          ctx.fill();
-        });
-        requestAnimationFrame(draw);
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-      draw();
-    })();
-  </script>
+  <script src="hero.js"></script>
 
   <div class="section-divider"></div>
 
