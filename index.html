@@ -1046,8 +1046,9 @@
   </section>
 
   <script>
-    // Reactive dot grid
+    // Reactive dot grid (desktop only)
     (function() {
+      if (window.innerWidth <= 768) return;
       const canvas = document.getElementById('heroCanvas');
       const ctx = canvas.getContext('2d');
       const COLS = ['#00D4FF','#A78BFA','#F472B6','#34D399'];
