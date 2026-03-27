@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #F0F2F5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 40px;
+      font-family: 'Space Grotesk', sans-serif;
+      gap: 0;
+    }
+
+    .title {
+      color: rgba(0,0,0,0.25);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 64px;
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      max-width: 780px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      padding: 36px 48px;
+      gap: 40px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+    }
+    .row:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
+
+    /* Fondos distintos por variante */
+    .bg-white   { background: #FFFFFF; }
+    .bg-light   { background: #F8F9FA; }
+    .bg-cream   { background: #FAFAF7; }
+    .bg-warm    { background: #FDF8F0; }
+    .bg-cool    { background: #F4F6FF; }
+
+    .num {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(0,0,0,0.2);
+      width: 24px;
+      flex-shrink: 0;
+    }
+
+    .wordmark {
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: -1.5px;
+      flex: 1;
+    }
+
+    .tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(0,0,0,0.25);
+      letter-spacing: 0.05em;
+      width: 180px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="title">nira labs — versión light</div>
+
+  <div class="grid">
+
+    <!-- 01: nira navy, labs colores originales, fondo blanco -->
+    <div class="row bg-white">
+      <div class="num">01</div>
+      <div class="wordmark">
+        <span style="color:#0A0F1C">nira</span><span style="color:#00D4FF">l</span><span style="color:#A78BFA">a</span><span style="color:#F472B6">b</span><span style="color:#34D399">s</span>
+      </div>
+      <div class="tag">nira navy · labs colores</div>
+    </div>
+
+    <!-- 02: nira navy, labs colores oscurecidos para light -->
+    <div class="row bg-white">
+      <div class="num">02</div>
+      <div class="wordmark">
+        <span style="color:#0A0F1C">nira</span><span style="color:#0099CC">l</span><span style="color:#7C5CB8">a</span><span style="color:#D63894">b</span><span style="color:#1A9E6A">s</span>
+      </div>
+      <div class="tag">nira navy · labs oscurecidos</div>
+    </div>
+
+    <!-- 03: todo navy, solo labs con colores suaves -->
+    <div class="row bg-light">
+      <div class="num">03</div>
+      <div class="wordmark">
+        <span style="color:#0A0F1C">nira</span><span style="color:#06B6D4">l</span><span style="color:#8B5CF6">a</span><span style="color:#EC4899">b</span><span style="color:#10B981">s</span>
+      </div>
+      <div class="tag">fondo gris suave</div>
+    </div>
+
+    <!-- 04: nira gris oscuro, labs colores originales, fondo cream -->
+    <div class="row bg-cream">
+      <div class="num">04</div>
+      <div class="wordmark">
+        <span style="color:#1E2533">nira</span><span style="color:#00D4FF">l</span><span style="color:#A78BFA">a</span><span style="color:#F472B6">b</span><span style="color:#34D399">s</span>
+      </div>
+      <div class="tag">fondo cream · labs originales</div>
+    </div>
+
+    <!-- 05: nira navy, labs en negro con underline de color -->
+    <div class="row bg-white">
+      <div class="num">05</div>
+      <div class="wordmark">
+        <span style="color:#0A0F1C">nira</span><span style="color:#0A0F1C; border-bottom: 3px solid #00D4FF; padding-bottom:2px">l</span><span style="color:#0A0F1C; border-bottom: 3px solid #A78BFA; padding-bottom:2px">a</span><span style="color:#0A0F1C; border-bottom: 3px solid #F472B6; padding-bottom:2px">b</span><span style="color:#0A0F1C; border-bottom: 3px solid #34D399; padding-bottom:2px">s</span>
+      </div>
+      <div class="tag">underline de color</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

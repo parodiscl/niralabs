@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #060810;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 40px;
+      gap: 0;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .title {
+      color: rgba(255,255,255,0.15);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 64px;
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      max-width: 780px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      padding: 32px 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      gap: 40px;
+    }
+    .row:first-child { border-top: 1px solid rgba(255,255,255,0.04); }
+    .row:hover { background: rgba(255,255,255,0.02); }
+
+    .num {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.15);
+      width: 24px;
+      flex-shrink: 0;
+    }
+
+    .wordmark {
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: -1.5px;
+      flex: 1;
+    }
+    .nira { color: #E8ECF0; }
+
+    .palette-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em;
+      width: 130px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="title">nira labs — paletas de color por letra</div>
+
+  <div class="grid">
+
+    <!-- PALETA 1: Aurora — cyan, violet, pink, teal -->
+    <div class="row">
+      <div class="num">01</div>
+      <div class="wordmark">
+        <span class="nira">nira</span><span style="color:#00D4FF">l</span><span style="color:#A78BFA">a</span><span style="color:#F472B6">b</span><span style="color:#34D399">s</span>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#00D4FF"></div>
+        <div class="swatch" style="background:#A78BFA"></div>
+        <div class="swatch" style="background:#F472B6"></div>
+        <div class="swatch" style="background:#34D399"></div>
+      </div>
+      <div class="palette-name">aurora</div>
+    </div>
+
+    <!-- PALETA 2: Sunset — coral, orange, gold, pink -->
+    <div class="row">
+      <div class="num">02</div>
+      <div class="wordmark">
+        <span class="nira">nira</span><span style="color:#FF6B6B">l</span><span style="color:#FF8E3C">a</span><span style="color:#FFD60A">b</span><span style="color:#FF4ECD">s</span>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#FF6B6B"></div>
+        <div class="swatch" style="background:#FF8E3C"></div>
+        <div class="swatch" style="background:#FFD60A"></div>
+        <div class="swatch" style="background:#FF4ECD"></div>
+      </div>
+      <div class="palette-name">sunset</div>
+    </div>
+
+    <!-- PALETA 3: Neon — lime, cyan, pink, purple -->
+    <div class="row">
+      <div class="num">03</div>
+      <div class="wordmark">
+        <span class="nira">nira</span><span style="color:#CDFF50">l</span><span style="color:#00F5FF">a</span><span style="color:#FF3DFF">b</span><span style="color:#B44FFF">s</span>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#CDFF50"></div>
+        <div class="swatch" style="background:#00F5FF"></div>
+        <div class="swatch" style="background:#FF3DFF"></div>
+        <div class="swatch" style="background:#B44FFF"></div>
+      </div>
+      <div class="palette-name">neon</div>
+    </div>
+
+    <!-- PALETA 4: Pastel — lavender, peach, mint, sky -->
+    <div class="row">
+      <div class="num">04</div>
+      <div class="wordmark">
+        <span class="nira">nira</span><span style="color:#C4B5FD">l</span><span style="color:#FCA5A5">a</span><span style="color:#6EE7B7">b</span><span style="color:#7DD3FC">s</span>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#C4B5FD"></div>
+        <div class="swatch" style="background:#FCA5A5"></div>
+        <div class="swatch" style="background:#6EE7B7"></div>
+        <div class="swatch" style="background:#7DD3FC"></div>
+      </div>
+      <div class="palette-name">pastel</div>
+    </div>
+
+    <!-- PALETA 5: Prism — blue, violet, orange, green -->
+    <div class="row">
+      <div class="num">05</div>
+      <div class="wordmark">
+        <span class="nira">nira</span><span style="color:#3B82F6">l</span><span style="color:#8B5CF6">a</span><span style="color:#F97316">b</span><span style="color:#10B981">s</span>
+      </div>
+      <div class="swatches">
+        <div class="swatch" style="background:#3B82F6"></div>
+        <div class="swatch" style="background:#8B5CF6"></div>
+        <div class="swatch" style="background:#F97316"></div>
+        <div class="swatch" style="background:#10B981"></div>
+      </div>
+      <div class="palette-name">prism</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<svg width="400" height="80" viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="80" fill="#0A0F1C"/>
+
+  <!-- "nira" in E8ECF0 — Space Grotesk style, geometric, precise -->
+  <!-- n -->
+  <path d="M32 52 L32 28 L36 28 L36 38 Q36 44 42 44 Q48 44 48 38 L48 28 L52 28 L52 52 L48 52 L48 40 Q48 47.5 42 47.5 Q36 47.5 36 40 L36 52 Z" fill="#E8ECF0"/>
+  <!-- Rewriting with cleaner approach using text-like paths -->
+
+  <!-- Using text elements with precise spacing -->
+  <text
+    x="30"
+    y="53"
+    font-family="'Space Grotesk', 'Inter', -apple-system, sans-serif"
+    font-size="36"
+    font-weight="500"
+    letter-spacing="-0.5"
+    fill="#E8ECF0">nira</text>
+
+  <text
+    x="148"
+    y="53"
+    font-family="'Space Grotesk', 'Inter', -apple-system, sans-serif"
+    font-size="36"
+    font-weight="500"
+    letter-spacing="-0.5"
+    fill="#CDFF50">labs</text>
+
+  <!-- Tagline -->
+  <text
+    x="31"
+    y="68"
+    font-family="'Space Grotesk', 'Inter', -apple-system, sans-serif"
+    font-size="9"
+    font-weight="400"
+    letter-spacing="3"
+    fill="#E8ECF0"
+    opacity="0.35">SINE CERA</text>
+</svg>
