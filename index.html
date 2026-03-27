@@ -803,6 +803,114 @@
     }
 
     /* ════════════════════════════════════════
+       RADIO
+    ════════════════════════════════════════ */
+    .radio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .radio-card {
+      background: var(--nira-surface);
+      border: 1px solid var(--nira-border);
+      border-radius: 20px;
+      padding: 28px 24px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .radio-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .radio-card:hover { transform: translateY(-3px); }
+    .radio-card:hover::before { opacity: 1; }
+
+    .radio-card.alpha { --rc: #00D4FF; }
+    .radio-card.theta { --rc: #A78BFA; }
+    .radio-card.delta { --rc: #34D399; }
+
+    .radio-card:hover { border-color: var(--rc); }
+    .radio-card::before { box-shadow: inset 0 0 60px -20px var(--rc); }
+
+    .radio-greek {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--rc);
+      opacity: 0.12;
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      user-select: none;
+      letter-spacing: -2px;
+    }
+
+    .radio-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rc);
+      margin-bottom: 14px;
+    }
+
+    .radio-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--rc);
+      animation: radio-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes radio-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .radio-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--nira-text);
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .radio-desc {
+      font-size: 13px;
+      color: rgba(232,236,240,0.45);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .radio-embed {
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .radio-embed iframe {
+      display: block;
+      width: 100%;
+      border: none;
+    }
+
+    /* ════════════════════════════════════════
        CONTACTO
     ════════════════════════════════════════ */
     .contact-box {
@@ -928,6 +1036,13 @@
       .studio-card:first-child { border-radius: 20px 20px 0 0; }
       .studio-card:last-child  { border-radius: 0 0 20px 20px; }
 
+      .radio-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .radio-greek { font-size: 48px; }
+
       .contact-box {
         flex-direction: column;
         align-items: flex-start;
@@ -975,6 +1090,7 @@
       <a href="#servicios">Servicios</a>
       <a href="#proyectos">Proyectos</a>
       <a href="#estudio">Estudio</a>
+      <a href="#radio">Radio</a>
       <a href="#contacto">Contacto</a>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
@@ -990,6 +1106,7 @@
     <a href="#servicios" class="mobile-nav-link">Servicios</a>
     <a href="#proyectos" class="mobile-nav-link">Proyectos</a>
     <a href="#estudio" class="mobile-nav-link">Estudio</a>
+    <a href="#radio" class="mobile-nav-link">Radio</a>
     <a href="#contacto" class="mobile-nav-link">Contacto</a>
     <a href="#contacto" class="mobile-menu-cta">Iniciar proyecto →</a>
   </div>
@@ -1180,6 +1297,68 @@
         </div>
         <h3 class="studio-card-title">Productos para<br>el mundo real.</h3>
         <p class="studio-card-desc">No diseñamos para demos. Diseñamos para personas que tienen prisa, sueño y distracciones.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════
+       RADIO
+  ══════════════════════════════ -->
+  <section class="section" id="radio">
+    <p class="section-label">Nira Radio</p>
+    <h2 class="section-title">Sintoniza tu estado.</h2>
+
+    <div class="radio-grid">
+
+      <!-- Alpha -->
+      <div class="radio-card alpha">
+        <span class="radio-greek">α</span>
+        <div class="radio-badge">Transmitiendo</div>
+        <div class="radio-name">Alpha</div>
+        <div class="radio-desc">Foco profundo. Para cuando construyes algo que importa.</div>
+        <div class="radio-embed">
+          <iframe
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWZeKCadgRdKQ?utm_source=generator&theme=0"
+            height="152"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Theta -->
+      <div class="radio-card theta">
+        <span class="radio-greek">θ</span>
+        <div class="radio-badge">Transmitiendo</div>
+        <div class="radio-name">Theta</div>
+        <div class="radio-desc">Flujo creativo. Las ideas emergen cuando la mente viaja.</div>
+        <div class="radio-embed">
+          <iframe
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWXLeA8Omikj7?utm_source=generator&theme=0"
+            height="152"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Delta -->
+      <div class="radio-card delta">
+        <span class="radio-greek">δ</span>
+        <div class="radio-badge">Transmitiendo</div>
+        <div class="radio-name">Delta</div>
+        <div class="radio-desc">Descanso activo. El cerebro también procesa en silencio.</div>
+        <div class="radio-embed">
+          <iframe
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator&theme=0"
+            height="152"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
       </div>
 
     </div>
