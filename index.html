@@ -184,18 +184,22 @@
       align-items: center;
       width: 44px;
       height: 44px;
-      background: none;
-      border: none;
+      background: rgba(10,15,28,0.6);
+      border: 1px solid rgba(232,236,240,0.15);
+      border-radius: 8px;
       cursor: pointer;
       gap: 5px;
       padding: 0;
+      -webkit-appearance: none;
+      z-index: 101;
+      flex-shrink: 0;
     }
 
     .nav-hamburger span {
       display: block;
       width: 22px;
       height: 2px;
-      background: var(--nira-text);
+      background: #E8ECF0;
       border-radius: 2px;
       transition: transform 0.3s ease, opacity 0.3s ease;
       transform-origin: center;
@@ -938,6 +942,15 @@
       }
 
       .hero-badge { margin-bottom: 40px; }
+
+      .hero-tagline {
+        margin-top: 8px;
+      }
+
+      .hero-tagline::before,
+      .hero-tagline::after {
+        display: none;
+      }
     }
 
     @media (max-width: 480px) {
