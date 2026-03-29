@@ -688,22 +688,11 @@
 
     .feature-list li::before {
       content: '';
-      width: 16px;
-      height: 16px;
+      width: 4px;
+      height: 4px;
       border-radius: 50%;
-      background: rgba(0, 212, 255, 0.12);
-      border: 1px solid rgba(0, 212, 255, 0.3);
+      background: var(--nira-cyan);
       flex-shrink: 0;
-      position: relative;
-    }
-
-    .feature-list li::after {
-      content: '✓';
-      color: var(--nira-cyan);
-      font-size: 10px;
-      position: absolute;
-      margin-left: -24px;
-      pointer-events: none;
     }
 
     .product-category--pink { color: var(--nira-pink); }
@@ -711,10 +700,8 @@
     .product-category--emerald { color: var(--nira-emerald); }
     .product-category--emerald::before { background: var(--nira-emerald); }
 
-    .feature-list.pink li::before { background: rgba(244,114,182,0.12); border-color: rgba(244,114,182,0.3); }
-    .feature-list.pink li::after { color: var(--nira-pink); }
-    .feature-list.emerald li::before { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.3); }
-    .feature-list.emerald li::after { color: var(--nira-emerald); }
+    .feature-list.pink li::before { background: var(--nira-pink); }
+    .feature-list.emerald li::before { background: var(--nira-emerald); }
 
     .platform-tags {
       display: flex;
