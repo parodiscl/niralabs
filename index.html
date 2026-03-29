@@ -1201,111 +1201,339 @@
     }
 
     /* ════════════════════════════════════════
-       RADIO
+       RADIO — Cassette Lo-fi Player
     ════════════════════════════════════════ */
-    .radio-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+    .nr-wrap {
+      position: relative;
+      background: #18120C;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
       margin-top: 48px;
     }
 
-    .radio-card {
-      background: var(--nira-surface);
-      border: 1px solid var(--nira-border);
-      border-radius: 20px;
-      padding: 28px 24px 24px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .radio-card::before {
+    /* Grain overlay */
+    .nr-wrap::after {
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 20px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
       pointer-events: none;
+      z-index: 1;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
     }
 
-    .radio-card:hover { transform: translateY(-3px); }
-    .radio-card:hover::before { opacity: 1; }
+    /* Station accent CSS variable */
+    .nr-wrap { --na: #FB923C; }
 
-    .radio-card.alpha { --rc: #00D4FF; }
-    .radio-card.theta { --rc: #A78BFA; }
-    .radio-card.delta { --rc: #34D399; }
+    /* ── Tabs ── */
+    .nr-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 24px 28px 0;
+      position: relative;
+      z-index: 2;
+    }
 
-    .radio-card:hover { border-color: var(--rc); }
-    .radio-card::before { box-shadow: inset 0 0 60px -20px var(--rc); }
-
-    .radio-greek {
+    .nr-tab {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 8px 18px;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 64px;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--rc);
-      opacity: 0.12;
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      user-select: none;
-      letter-spacing: -2px;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(245,230,208,0.35);
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
     }
 
-    .radio-badge {
+    .nr-tab.active {
+      background: rgba(255,255,255,0.07);
+      border-color: var(--na);
+      color: var(--na);
+    }
+
+    .nr-tab:hover:not(.active) {
+      color: rgba(245,230,208,0.6);
+      border-color: rgba(255,255,255,0.14);
+    }
+
+    /* ── Body: 3 columns ── */
+    .nr-body {
+      display: grid;
+      grid-template-columns: 1fr 220px 1fr;
+      align-items: center;
+      gap: 40px;
+      padding: 36px 44px 44px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Left: info ── */
+    .nr-info { display: flex; flex-direction: column; gap: 6px; }
+
+    .nr-live {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
+      font-weight: 700;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--rc);
-      margin-bottom: 14px;
-    }
-
-    .radio-badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--rc);
-      animation: radio-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes radio-pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
-
-    .radio-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--nira-text);
+      color: var(--na);
       margin-bottom: 6px;
-      letter-spacing: -0.5px;
     }
 
-    .radio-desc {
+    .nr-live-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--na);
+      animation: nrDot 2s ease-in-out infinite;
+    }
+
+    @keyframes nrDot {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.25; }
+    }
+
+    .nr-greek {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 88px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--na);
+      letter-spacing: -5px;
+    }
+
+    .nr-mood {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #F5E6D0;
+      letter-spacing: -0.4px;
+      margin-top: -6px;
+    }
+
+    .nr-desc {
       font-size: 13px;
-      color: rgba(232,236,240,0.45);
-      margin-bottom: 20px;
-      line-height: 1.5;
+      color: #7A6850;
+      line-height: 1.55;
+      max-width: 260px;
+      margin-top: 2px;
     }
 
-    .radio-embed {
-      border-radius: 12px;
-      overflow: hidden;
-      width: 100%;
+    .nr-source {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(122,104,80,0.55);
+      margin-top: 12px;
     }
 
-    .radio-embed iframe {
-      display: block;
-      width: 100%;
+    /* ── Center: Cassette ── */
+    .nr-cassette-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .cassette {
+      width: 200px;
+      height: 130px;
+      background: #2C2016;
+      border-radius: 10px;
+      border: 2px solid #3D2E1A;
+      position: relative;
+      box-shadow:
+        0 2px 0 #0E0A06,
+        0 10px 28px rgba(0,0,0,0.65),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    /* Top notch */
+    .cassette::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: 50%;
+      transform: translateX(-50%);
+      width: 46px; height: 7px;
+      background: #18120C;
+      border-radius: 0 0 4px 4px;
+    }
+
+    /* Bottom teeth strip */
+    .cassette::after {
+      content: '';
+      position: absolute;
+      bottom: 5px; left: 10px; right: 10px;
+      height: 9px;
+      background: repeating-linear-gradient(
+        90deg,
+        #3D2E1A 0px, #3D2E1A 7px,
+        transparent 7px, transparent 11px
+      );
+      border-radius: 2px;
+    }
+
+    .cassette-label {
+      position: absolute;
+      top: 9px; left: 12px; right: 12px;
+      height: 36px;
+      background: linear-gradient(135deg, #2A1E10, #1C1408);
+      border-radius: 4px;
+      border: 1px solid #4A3820;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cassette-label-greek {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--na);
+      opacity: 0.6;
+      letter-spacing: -1px;
+    }
+
+    .cassette-window {
+      position: absolute;
+      top: 51px; left: 16px; right: 16px;
+      height: 56px;
+      background: #0E0A06;
+      border-radius: 4px;
+      border: 1px solid #3D2E1A;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px 14px;
+    }
+
+    .cassette-reel {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: #1A1208;
+      border: 2px solid #4A3820;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Hub */
+    .cassette-reel::before {
+      content: '';
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: #2C2016;
+      border: 1.5px solid #5A4428;
+      position: absolute;
+      z-index: 2;
+    }
+
+    /* Spokes via conic-gradient */
+    .cassette-reel::after {
+      content: '';
+      position: absolute;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #3D2E1A 0deg,   #3D2E1A 18deg,
+        transparent 18deg, transparent 42deg,
+        #3D2E1A 42deg,  #3D2E1A 60deg,
+        transparent 60deg, transparent 84deg,
+        #3D2E1A 84deg,  #3D2E1A 102deg,
+        transparent 102deg, transparent 126deg,
+        #3D2E1A 126deg, #3D2E1A 144deg,
+        transparent 144deg, transparent 168deg,
+        #3D2E1A 168deg, #3D2E1A 186deg,
+        transparent 186deg, transparent 210deg,
+        #3D2E1A 210deg, #3D2E1A 228deg,
+        transparent 228deg, transparent 252deg,
+        #3D2E1A 252deg, #3D2E1A 270deg,
+        transparent 270deg, transparent 294deg,
+        #3D2E1A 294deg, #3D2E1A 312deg,
+        transparent 312deg, transparent 336deg,
+        #3D2E1A 336deg, #3D2E1A 354deg,
+        transparent 354deg, transparent 360deg
+      );
+    }
+
+    .nr-wrap.nr-playing .cassette-reel.left  { animation: reelSpin 3s linear infinite; }
+    .nr-wrap.nr-playing .cassette-reel.right { animation: reelSpin 3.4s linear infinite reverse; }
+
+    @keyframes reelSpin { to { transform: rotate(360deg); } }
+
+    /* Play button */
+    .nr-play-btn {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--na);
       border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 4px 18px color-mix(in srgb, var(--na) 45%, transparent);
+    }
+
+    .nr-play-btn:hover  { opacity: 0.85; transform: scale(1.06); }
+    .nr-play-btn:active { transform: scale(0.95); }
+    .nr-play-btn svg    { width: 18px; height: 18px; fill: #18120C; }
+
+    /* ── Right: waveform + volume ── */
+    .nr-right {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .nr-waveform {
+      width: 100%;
+      height: 80px;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .nr-vol-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nr-vol-row svg { width: 13px; height: 13px; fill: #7A6850; flex-shrink: 0; }
+
+    .nr-volume {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      appearance: none;
+      outline: none;
+      cursor: pointer;
+      accent-color: var(--na);
+    }
+
+    .nr-volume::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--na);
+      cursor: pointer;
+    }
+
+    .nr-status {
+      font-size: 10px;
+      color: rgba(122,104,80,0.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     /* ════════════════════════════════════════
@@ -1655,12 +1883,17 @@
       .studio-card:first-child { border-radius: 20px 20px 0 0; }
       .studio-card:last-child  { border-radius: 0 0 20px 20px; }
 
-      .radio-grid {
+      .nr-body {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 28px;
+        padding: 24px 20px 32px;
       }
 
-      .radio-greek { font-size: 48px; }
+      .nr-tabs { padding: 20px 20px 0; }
+
+      .nr-cassette-wrap { order: -1; }
+
+      .nr-greek { font-size: 64px; }
 
       .contact-box {
         grid-template-columns: 1fr;
@@ -2022,55 +2255,64 @@
     <p class="section-label">Nira Radio</p>
     <h2 class="section-title">Sintoniza tu estado.</h2>
 
-    <div class="radio-grid">
+    <div class="nr-wrap" id="nrWrap">
 
-      <!-- Alpha -->
-      <div class="radio-card alpha">
-        <span class="radio-greek">α</span>
-        <div class="radio-badge">Transmitiendo</div>
-        <div class="radio-name">Alpha</div>
-        <div class="radio-desc">Foco profundo. Para cuando construyes algo que importa.</div>
-        <div class="radio-embed">
-          <iframe
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWZeKCadgRdKQ?utm_source=generator&theme=0"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
-          </iframe>
-        </div>
+      <!-- Tabs de estación -->
+      <div class="nr-tabs">
+        <button class="nr-tab active" data-idx="0">α &nbsp;Alpha</button>
+        <button class="nr-tab" data-idx="1">θ &nbsp;Theta</button>
+        <button class="nr-tab" data-idx="2">δ &nbsp;Delta</button>
       </div>
 
-      <!-- Theta -->
-      <div class="radio-card theta">
-        <span class="radio-greek">θ</span>
-        <div class="radio-badge">Transmitiendo</div>
-        <div class="radio-name">Theta</div>
-        <div class="radio-desc">Flujo creativo. Las ideas emergen cuando la mente viaja.</div>
-        <div class="radio-embed">
-          <iframe
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWXLeA8Omikj7?utm_source=generator&theme=0"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
-          </iframe>
+      <!-- Cuerpo del player -->
+      <div class="nr-body">
+
+        <!-- Izquierda: info de estación -->
+        <div class="nr-info">
+          <div class="nr-live">
+            <span class="nr-live-dot"></span>
+            <span id="nrLiveLabel">En vivo</span>
+          </div>
+          <div class="nr-greek" id="nrGreek">α</div>
+          <div class="nr-mood" id="nrMood">Foco profundo</div>
+          <div class="nr-desc" id="nrDesc">Para cuando construyes algo que importa.</div>
+          <div class="nr-source" id="nrSource">Drone Zone · Soma.fm</div>
         </div>
+
+        <!-- Centro: cassette + play -->
+        <div class="nr-cassette-wrap">
+          <div class="cassette">
+            <div class="cassette-label">
+              <span class="cassette-label-greek" id="nrCassetteGreek">α</span>
+            </div>
+            <div class="cassette-window">
+              <div class="cassette-reel left"></div>
+              <div class="cassette-reel right"></div>
+            </div>
+          </div>
+
+          <button class="nr-play-btn" id="nrPlayBtn" aria-label="Play / Pause">
+            <!-- Play icon -->
+            <svg id="nrIconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <!-- Pause icon (oculto) -->
+            <svg id="nrIconPause" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+          </button>
+        </div>
+
+        <!-- Derecha: visualizador + volumen -->
+        <div class="nr-right">
+          <canvas class="nr-waveform" id="nrWaveform" height="80"></canvas>
+          <div class="nr-vol-row">
+            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            <input type="range" class="nr-volume" id="nrVolume" min="0" max="1" step="0.02" value="0.75">
+          </div>
+          <div class="nr-status" id="nrStatus">Presiona play para sintonizar</div>
+        </div>
+
       </div>
 
-      <!-- Delta -->
-      <div class="radio-card delta">
-        <span class="radio-greek">δ</span>
-        <div class="radio-badge">Transmitiendo</div>
-        <div class="radio-name">Delta</div>
-        <div class="radio-desc">Descanso activo. El cerebro también procesa en silencio.</div>
-        <div class="radio-embed">
-          <iframe
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator&theme=0"
-            height="152"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
-          </iframe>
-        </div>
-      </div>
+      <!-- Audio element oculto -->
+      <audio id="nrAudio" crossorigin="anonymous" preload="none"></audio>
 
     </div>
   </section>
@@ -2236,6 +2478,180 @@
         hamburger.focus();
       }
     });
+
+    /* ─── Nira Radio — Cassette Player ─── */
+    (function() {
+      const STATIONS = [
+        {
+          greek: 'α', mood: 'Foco profundo',
+          desc: 'Para cuando construyes algo que importa.',
+          source: 'Drone Zone · Soma.fm',
+          stream: 'https://ice1.somafm.com/dronezone-128-mp3',
+          color: '#FB923C'
+        },
+        {
+          greek: 'θ', mood: 'Flujo creativo',
+          desc: 'Las ideas emergen cuando la mente viaja.',
+          source: 'Groove Salad · Soma.fm',
+          stream: 'https://ice1.somafm.com/groovesalad-128-mp3',
+          color: '#A78BFA'
+        },
+        {
+          greek: 'δ', mood: 'Descanso activo',
+          desc: 'El cerebro también procesa en silencio.',
+          source: 'Deep Space One · Soma.fm',
+          stream: 'https://ice1.somafm.com/deepspaceone-128-mp3',
+          color: '#2DD4BF'
+        }
+      ];
+
+      let currentIdx  = 0;
+      let isPlaying   = false;
+      let audioCtx    = null;
+      let analyser    = null;
+      let sourceNode  = null;
+      let rafId       = null;
+      let useFallback = false;
+      let fallbackT   = 0;
+
+      const wrap      = document.getElementById('nrWrap');
+      const audio     = document.getElementById('nrAudio');
+      const playBtn   = document.getElementById('nrPlayBtn');
+      const iconPlay  = document.getElementById('nrIconPlay');
+      const iconPause = document.getElementById('nrIconPause');
+      const canvas    = document.getElementById('nrWaveform');
+      const ctx       = canvas.getContext('2d');
+      const volSlider = document.getElementById('nrVolume');
+      const statusEl  = document.getElementById('nrStatus');
+      const tabs      = document.querySelectorAll('.nr-tab');
+
+      function applyStation(idx) {
+        const s = STATIONS[idx];
+        wrap.style.setProperty('--na', s.color);
+        document.getElementById('nrGreek').textContent       = s.greek;
+        document.getElementById('nrCassetteGreek').textContent = s.greek;
+        document.getElementById('nrMood').textContent        = s.mood;
+        document.getElementById('nrDesc').textContent        = s.desc;
+        document.getElementById('nrSource').textContent      = s.source;
+        tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+        currentIdx = idx;
+      }
+
+      function initAudioCtx() {
+        if (audioCtx) return;
+        try {
+          audioCtx   = new (window.AudioContext || window.webkitAudioContext)();
+          analyser   = audioCtx.createAnalyser();
+          analyser.fftSize = 256;
+          sourceNode = audioCtx.createMediaElementSource(audio);
+          sourceNode.connect(analyser);
+          analyser.connect(audioCtx.destination);
+        } catch(e) {
+          useFallback = true;
+        }
+      }
+
+      function drawWave() {
+        const W = canvas.width, H = canvas.height;
+        const color = STATIONS[currentIdx].color;
+        ctx.clearRect(0, 0, W, H);
+
+        if (!useFallback && analyser) {
+          const buf = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteFrequencyData(buf);
+          const barW = (W / buf.length) * 2.5;
+          let x = 0;
+          buf.forEach((v, i) => {
+            if (i % 2 !== 0) return;
+            const h = (v / 255) * H;
+            ctx.fillStyle = color + Math.floor((v / 255) * 220 + 35).toString(16).padStart(2,'0');
+            ctx.beginPath();
+            ctx.roundRect(x, H - h, Math.max(barW - 2, 1), h, 2);
+            ctx.fill();
+            x += barW;
+          });
+        } else {
+          // Fallback: onda cosmétic animada
+          fallbackT += isPlaying ? 0.04 : 0.008;
+          const bars = 48;
+          const bw   = W / bars;
+          for (let i = 0; i < bars; i++) {
+            const amp = isPlaying
+              ? (Math.sin(fallbackT * 1.8 + i * 0.45) * 0.4 + 0.55) * H * 0.7
+              : (Math.sin(i * 0.6) * 0.1 + 0.12) * H;
+            const alpha = Math.floor((amp / H) * 180 + 40).toString(16).padStart(2,'0');
+            ctx.fillStyle = color + alpha;
+            ctx.beginPath();
+            ctx.roundRect(i * bw + 1, H - amp, bw - 2, amp, 2);
+            ctx.fill();
+          }
+        }
+        rafId = requestAnimationFrame(drawWave);
+      }
+
+      function resizeCanvas() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = 80;
+      }
+
+      async function togglePlay() {
+        if (!isPlaying) {
+          // Cambiar source solo si necesario
+          if (audio.src !== STATIONS[currentIdx].stream) {
+            audio.src = STATIONS[currentIdx].stream;
+          }
+          initAudioCtx();
+          if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+          audio.volume = parseFloat(volSlider.value);
+          statusEl.textContent = 'Conectando…';
+          try {
+            await audio.play();
+            isPlaying = true;
+            wrap.classList.add('nr-playing');
+            iconPlay.style.display  = 'none';
+            iconPause.style.display = '';
+            statusEl.textContent    = STATIONS[currentIdx].source;
+            if (!rafId) drawWave();
+          } catch(e) {
+            statusEl.textContent = 'Error al conectar. Intenta de nuevo.';
+          }
+        } else {
+          audio.pause();
+          isPlaying = false;
+          wrap.classList.remove('nr-playing');
+          iconPlay.style.display  = '';
+          iconPause.style.display = 'none';
+          statusEl.textContent    = 'Pausado';
+        }
+      }
+
+      // Cambiar estación
+      tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => {
+          const wasPlaying = isPlaying;
+          if (isPlaying) { audio.pause(); isPlaying = false; }
+          applyStation(i);
+          audio.src = '';
+          wrap.classList.remove('nr-playing');
+          iconPlay.style.display  = '';
+          iconPause.style.display = 'none';
+          statusEl.textContent = 'Presiona play para sintonizar';
+          if (wasPlaying) setTimeout(() => togglePlay(), 150);
+        });
+      });
+
+      playBtn.addEventListener('click', togglePlay);
+
+      volSlider.addEventListener('input', () => {
+        audio.volume = parseFloat(volSlider.value);
+      });
+
+      // Init
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      applyStation(0);
+      drawWave();
+    })();
 
     /* ─── Formulario conversacional ─── */
     (function() {
