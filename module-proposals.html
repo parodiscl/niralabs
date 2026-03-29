@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nira Labs — Propuestas Módulo Showroom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0A0F1C;
+      --surface:   #111827;
+      --border:    rgba(255,255,255,0.06);
+      --text:      #E8ECF0;
+      --muted:     #6B7280;
+      --cyan:      #00D4FF;
+      --violet:    #A78BFA;
+      --pink:      #F472B6;
+      --emerald:   #34D399;
+      --radius-lg: 20px;
+      --radius-sm: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.2;
+    }
+
+    /* ── Sticky Header ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 15, 28, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-header__brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .site-header__brand span {
+      color: var(--cyan);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(167, 139, 250, 0.12);
+      border: 1px solid rgba(167, 139, 250, 0.25);
+      color: var(--violet);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--violet);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ── Intro ── */
+    .intro {
+      max-width: 780px;
+      margin: 64px auto 80px;
+      padding: 0 40px;
+      text-align: center;
+    }
+
+    .intro__eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+
+    .intro h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .intro p {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── Section Wrapper ── */
+    .proposal-section {
+      margin-bottom: 120px;
+      padding: 0 40px;
+    }
+
+    .section-header {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .section-header__left {}
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .section-header p {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 420px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+      max-width: 1200px;
+      margin: 0 auto 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
+    }
+
+    /* ════════════════════════════════════════
+       PROPUESTA A — BENTO SHOWROOM
+    ════════════════════════════════════════ */
+
+    .bento-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    /* Flowbit: full-width hero card */
+    .bento-hero {
+      grid-column: 1 / -1;
+      min-height: 600px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--cyan);
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      position: relative;
+      transition: box-shadow 0.35s ease;
+    }
+
+    .bento-hero:hover {
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.1), 0 0 120px rgba(0, 212, 255, 0.04);
+    }
+
+    .bento-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0,212,255,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .bento-hero__text {
+      padding: 56px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 20px;
+    }
+
+    .product-category::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+    }
+
+    .bento-hero__text h3 {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .bento-hero__text .product-desc {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 380px;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .feature-list li::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(0, 212, 255, 0.12);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .feature-list li::after {
+      content: '✓';
+      color: var(--cyan);
+      font-size: 10px;
+      position: absolute;
+      margin-left: -24px;
+      pointer-events: none;
+    }
+
+    .feature-list.pink li::before { background: rgba(244,114,182,0.12); border-color: rgba(244,114,182,0.3); }
+    .feature-list.pink li::after { color: var(--pink); }
+    .feature-list.emerald li::before { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.3); }
+    .feature-list.emerald li::after { color: var(--emerald); }
+
+    .platform-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .platform-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+
+    .bento-hero__visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,212,255,0.04) 0%, transparent 70%);
+    }
+
+    /* ── Flowbit Phone Mockup ── */
+    .phone-mockup {
+      width: 240px;
+      height: 480px;
+      background: #0d1117;
+      border-radius: 40px;
+      border: 2px solid #333;
+      padding: 32px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .phone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 5px;
+      background: #222;
+      border-radius: 100px;
+    }
+
+    .phone-screen-header {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .phone-screen-header span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .habit-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .habit-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .habit-name {
+      flex: 1;
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    .habit-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 1.5px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+
+    .habit-check.done {
+      background: rgba(0,212,255,0.15);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .habit-check.todo {
+      border-color: #333;
+      color: transparent;
+    }
+
+    .phone-progress-section {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--cyan), #00aadd);
+    }
+
+    /* Bento 2-col row */
+    .bento-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Portrait card */
+    .bento-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.35s ease, transform 0.25s ease;
+      min-height: 400px;
+    }
+
+    .bento-card--dance:hover {
+      box-shadow: 0 0 50px rgba(244,114,182,0.12);
+      border-top-color: rgba(244,114,182,0.5);
+    }
+
+    .bento-card--tripyo:hover {
+      box-shadow: 0 0 50px rgba(52,211,153,0.12);
+      border-top-color: rgba(52,211,153,0.5);
+    }
+
+    .bento-card--dance { border-top: 3px solid var(--pink); }
+    .bento-card--tripyo { border-top: 3px solid var(--emerald); }
+
+    .bento-card__visual {
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .bento-card__info {
+      padding: 28px 28px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bento-card__info .product-category {
+      margin-bottom: 12px;
+    }
+
+    .bento-card__info h3 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .bento-card__info .product-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    /* ── Dance Yo Game Screen ── */
+    .game-screen {
+      width: 100%;
+      height: 100%;
+      background: #1a0520;
+      position: relative;
+      overflow: hidden;
+      image-rendering: pixelated;
+    }
+
+    .game-bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #2d0a3e 0%, #1a0520 60%, #0d0112 100%);
+    }
+
+    .game-stars {
+      position: absolute;
+      inset: 0;
+    }
+
+    .game-star {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--pink);
+      animation: twinkle 2s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.1; }
+    }
+
+    .game-platform {
+      position: absolute;
+      background: var(--pink);
+      border-radius: 2px;
+    }
+
+    .game-platform::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .game-character {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+
+    .char-head {
+      width: 12px;
+      height: 12px;
+      background: #fff;
+    }
+
+    .char-body {
+      width: 10px;
+      height: 14px;
+      background: #ddd;
+    }
+
+    .char-legs {
+      width: 10px;
+      height: 8px;
+      background: #bbb;
+    }
+
+    .game-score {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--pink);
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .game-musical-note {
+      position: absolute;
+      color: var(--pink);
+      font-size: 14px;
+      opacity: 0.6;
+      animation: floatNote 3s ease-in-out infinite;
+    }
+
+    @keyframes floatNote {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+      50% { transform: translateY(-12px) rotate(8deg); opacity: 0.9; }
+      100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    }
+
+    /* ── Tripyo Map Mockup ── */
+    .map-mockup {
+      width: 100%;
+      height: 100%;
+      background: #0d1f1a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-grid {
+      position: absolute;
+      inset: 0;
+    }
+
+    .map-grid-line-h, .map-grid-line-v {
+      position: absolute;
+      background: rgba(52, 211, 153, 0.07);
+    }
+
+    .map-grid-line-h { height: 1px; left: 0; right: 0; }
+    .map-grid-line-v { width: 1px; top: 0; bottom: 0; }
+
+    .map-route {
+      position: absolute;
+      inset: 0;
+    }
+
+    .map-route svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .map-pin {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .map-pin__circle {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2.5px solid var(--emerald);
+      background: rgba(52,211,153,0.2);
+      position: relative;
+      z-index: 2;
+    }
+
+    .map-pin__circle::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: rgba(52,211,153,0.08);
+      animation: pinPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pinPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.6); opacity: 0; }
+    }
+
+    .map-pin__tail {
+      width: 2px;
+      height: 10px;
+      background: var(--emerald);
+    }
+
+    .map-pin--active .map-pin__circle {
+      background: var(--emerald);
+    }
+
+    .map-info-bubble {
+      position: absolute;
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 10px;
+      color: var(--text);
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    .map-info-bubble strong {
+      color: var(--emerald);
+      display: block;
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .map-label {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 10px;
+      color: rgba(52,211,153,0.5);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ════════════════════════════════════════
+       PROPUESTA B — SCROLL HORIZONTAL
+    ════════════════════════════════════════ */
+
+    .hscroll-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hscroll-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .scroll-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .scroll-btn:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .hscroll-track {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding-bottom: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .hscroll-track::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .hscroll-track::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.04);
+      border-radius: 100px;
+    }
+
+    .hscroll-track::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.12);
+      border-radius: 100px;
+    }
+
+    .hscroll-card {
+      width: 340px;
+      min-width: 340px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .hscroll-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .hscroll-card--flowbit { border-bottom: 3px solid var(--cyan); }
+    .hscroll-card--dance   { border-bottom: 3px solid var(--pink); }
+    .hscroll-card--tripyo  { border-bottom: 3px solid var(--emerald); }
+
+    .hscroll-card--flowbit:hover { box-shadow: 0 20px 60px rgba(0,212,255,0.15); }
+    .hscroll-card--dance:hover   { box-shadow: 0 20px 60px rgba(244,114,182,0.15); }
+    .hscroll-card--tripyo:hover  { box-shadow: 0 20px 60px rgba(52,211,153,0.15); }
+
+    .hscroll-visual {
+      height: 320px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .hscroll-visual--flowbit {
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,212,255,0.06) 0%, transparent 70%);
+    }
+    .hscroll-visual--dance {
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(244,114,182,0.06) 0%, transparent 70%);
+    }
+    .hscroll-visual--tripyo {
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(52,211,153,0.06) 0%, transparent 70%);
+    }
+
+    .phone-mockup--small {
+      width: 160px;
+      height: 300px;
+      background: #0d1117;
+      border-radius: 28px;
+      border: 2px solid #333;
+      padding: 22px 14px 18px;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    }
+
+    .phone-mockup--small::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 4px;
+      background: #222;
+      border-radius: 100px;
+    }
+
+    .hscroll-info {
+      padding: 24px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hscroll-info h3 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .hscroll-info .product-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .hscroll-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid;
+    }
+
+    .pill--cyan    { color: var(--cyan); border-color: rgba(0,212,255,0.25); background: rgba(0,212,255,0.06); }
+    .pill--pink    { color: var(--pink); border-color: rgba(244,114,182,0.25); background: rgba(244,114,182,0.06); }
+    .pill--emerald { color: var(--emerald); border-color: rgba(52,211,153,0.25); background: rgba(52,211,153,0.06); }
+
+    /* ════════════════════════════════════════
+       PROPUESTA C — CINEMATIC STACKED
+    ════════════════════════════════════════ */
+
+    .cinematic-section {
+      max-width: 100%;
+    }
+
+    .cinematic-row {
+      min-height: 480px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cinematic-row--reverse {
+      direction: rtl;
+    }
+
+    .cinematic-row--reverse > * {
+      direction: ltr;
+    }
+
+    .cinematic-row__content {
+      display: flex;
+      align-items: center;
+      padding: 64px clamp(40px, 5vw, 80px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .cinematic-row__content-inner {
+      max-width: 480px;
+    }
+
+    .cinematic-accent {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .cinematic-row__content h3 {
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .cinematic-row__content .product-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .feature-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 100px;
+      border: 1px solid;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      letter-spacing: -0.2px;
+    }
+
+    .cta-btn--cyan {
+      color: var(--cyan);
+      border-color: rgba(0,212,255,0.4);
+      background: rgba(0,212,255,0.06);
+    }
+
+    .cta-btn--cyan:hover {
+      background: rgba(0,212,255,0.14);
+      border-color: rgba(0,212,255,0.7);
+      box-shadow: 0 0 30px rgba(0,212,255,0.2);
+    }
+
+    .cta-btn--pink {
+      color: var(--pink);
+      border-color: rgba(244,114,182,0.4);
+      background: rgba(244,114,182,0.06);
+    }
+
+    .cta-btn--pink:hover {
+      background: rgba(244,114,182,0.14);
+      border-color: rgba(244,114,182,0.7);
+      box-shadow: 0 0 30px rgba(244,114,182,0.2);
+    }
+
+    .cta-btn--emerald {
+      color: var(--emerald);
+      border-color: rgba(52,211,153,0.4);
+      background: rgba(52,211,153,0.06);
+    }
+
+    .cta-btn--emerald:hover {
+      background: rgba(52,211,153,0.14);
+      border-color: rgba(52,211,153,0.7);
+      box-shadow: 0 0 30px rgba(52,211,153,0.2);
+    }
+
+    .cinematic-row__visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 48px;
+    }
+
+    .cinematic-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .cinematic-glow--cyan    { background: var(--cyan); }
+    .cinematic-glow--pink    { background: var(--pink); }
+    .cinematic-glow--emerald { background: var(--emerald); }
+
+    /* Cinematic row backgrounds */
+    .cinematic-row--flowbit {
+      background: linear-gradient(135deg, #0a0f1c 0%, #0d1520 50%, #0a1019 100%);
+      border-top: 1px solid rgba(0,212,255,0.08);
+      border-bottom: 1px solid rgba(0,212,255,0.08);
+    }
+
+    .cinematic-row--dance {
+      background: linear-gradient(135deg, #0f0a14 0%, #150c1a 50%, #0a0f1c 100%);
+      border-top: 1px solid rgba(244,114,182,0.08);
+      border-bottom: 1px solid rgba(244,114,182,0.08);
+    }
+
+    .cinematic-row--tripyo {
+      background: linear-gradient(135deg, #0a0f1a 0%, #0a1512 50%, #0a0f1c 100%);
+      border-top: 1px solid rgba(52,211,153,0.08);
+      border-bottom: 1px solid rgba(52,211,153,0.08);
+    }
+
+    /* Large phone for cinematic */
+    .phone-mockup--large {
+      width: 200px;
+      height: 400px;
+      background: #0d1117;
+      border-radius: 36px;
+      border: 2px solid #2a2a2a;
+      padding: 28px 16px 22px;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03), 0 0 60px rgba(0,212,255,0.08);
+      z-index: 2;
+    }
+
+    .phone-mockup--large::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 4px;
+      background: #1e1e1e;
+      border-radius: 100px;
+    }
+
+    /* Game screen large */
+    .game-screen--large {
+      width: 260px;
+      height: 200px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid rgba(244,114,182,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(244,114,182,0.1);
+      z-index: 2;
+    }
+
+    /* Map mockup large */
+    .map-mockup--large {
+      width: 280px;
+      height: 220px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(52,211,153,0.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(52,211,153,0.08);
+      z-index: 2;
+    }
+
+    /* ════════════════════════════════════════
+       PROPUESTA D — EDITORIAL LISTA
+    ════════════════════════════════════════ */
+
+    .editorial-list {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .editorial-item {
+      border-top: 1px solid var(--border);
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .editorial-item:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .editorial-item:hover {
+      background: rgba(255,255,255,0.015);
+    }
+
+    /* Collapsed state */
+    .editorial-collapsed {
+      display: grid;
+      grid-template-columns: 100px 1fr auto auto;
+      align-items: center;
+      gap: 32px;
+      padding: 20px 40px 20px 0;
+      min-height: 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .editorial-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: rgba(107, 114, 128, 0.25);
+      line-height: 1;
+      transition: color 0.3s ease;
+      padding-left: 0;
+      letter-spacing: -2px;
+    }
+
+    .editorial-item.active .editorial-number {
+      color: rgba(107, 114, 128, 0.6);
+    }
+
+    .editorial-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .editorial-meta h3 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      transition: color 0.2s ease;
+    }
+
+    .editorial-meta .tagline {
+      font-size: 13px;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .editorial-category-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    .editorial-category-pill--cyan    { color: var(--cyan); border-color: rgba(0,212,255,0.25); background: rgba(0,212,255,0.06); }
+    .editorial-category-pill--pink    { color: var(--pink); border-color: rgba(244,114,182,0.25); background: rgba(244,114,182,0.06); }
+    .editorial-category-pill--emerald { color: var(--emerald); border-color: rgba(52,211,153,0.25); background: rgba(52,211,153,0.06); }
+
+    .editorial-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    /* Expanded panel */
+    .editorial-expanded {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .editorial-item.active .editorial-expanded {
+      max-height: 500px;
+    }
+
+    .editorial-expanded-inner {
+      display: grid;
+      grid-template-columns: 100px 1fr 320px;
+      gap: 40px;
+      padding: 0 0 48px;
+      align-items: start;
+    }
+
+    .editorial-expanded-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 120px;
+      font-weight: 700;
+      color: rgba(107, 114, 128, 0.06);
+      line-height: 0.85;
+      letter-spacing: -8px;
+      margin-top: -20px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .editorial-expanded-content {
+      padding-top: 0;
+    }
+
+    .editorial-expanded-content .product-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 24px;
+      max-width: 440px;
+    }
+
+    .editorial-features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .editorial-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .editorial-feature-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .editorial-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .editorial-expanded-visual {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 0;
+      height: 100%;
+      min-height: 240px;
+    }
+
+    .editorial-visual-container {
+      border-radius: 14px;
+      overflow: hidden;
+      width: 100%;
+      height: 240px;
+    }
+
+    /* Expand toggle button */
+    .expand-icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 3;
+    }
+
+    .expand-icon svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--muted);
+      transition: transform 0.3s ease, stroke 0.2s ease;
+    }
+
+    .editorial-item.active .expand-icon {
+      background: rgba(255,255,255,0.07);
+    }
+
+    .editorial-item.active .expand-icon svg {
+      transform: rotate(45deg);
+    }
+
+    .editorial-item--flowbit.active .expand-icon svg { stroke: var(--cyan); }
+    .editorial-item--dance.active .expand-icon svg   { stroke: var(--pink); }
+    .editorial-item--tripyo.active .expand-icon svg  { stroke: var(--emerald); }
+
+    /* ── Floating Bottom Nav ── */
+    .floating-nav {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      background: rgba(17, 24, 39, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 8px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .floating-nav__label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      padding: 0 10px 0 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .floating-nav a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 100px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      letter-spacing: -0.3px;
+    }
+
+    .floating-nav a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .floating-nav a.active {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+
+    /* ── Utilities ── */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    @media (max-width: 900px) {
+      .site-header { padding: 0 20px; }
+      .proposal-section { padding: 0 20px; }
+      .bento-hero { grid-template-columns: 1fr; }
+      .bento-hero__visual { min-height: 300px; }
+      .bento-row { grid-template-columns: 1fr; }
+      .cinematic-row { grid-template-columns: 1fr; }
+      .cinematic-row--reverse { direction: ltr; }
+      .cinematic-row__visual { min-height: 280px; }
+      .editorial-collapsed { grid-template-columns: 60px 1fr; }
+      .editorial-category-pill, .editorial-thumb { display: none; }
+      .editorial-expanded-inner { grid-template-columns: 60px 1fr; }
+      .editorial-expanded-visual { display: none; }
+      .editorial-expanded-num { font-size: 80px; }
+    }
+
+    @media (max-width: 600px) {
+      .intro { padding: 0 20px; }
+      .section-header { flex-direction: column; gap: 8px; }
+      .section-header p { text-align: left; }
+      .floating-nav__label { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══ STICKY HEADER ══ -->
+  <header class="site-header">
+    <div class="site-header__brand">
+      <span>Nira</span> Labs — Propuestas Módulo Showroom
+    </div>
+    <div class="badge">Revisión interna</div>
+  </header>
+
+  <!-- ══ INTRO ══ -->
+  <section class="intro">
+    <p class="intro__eyebrow">Design Review · 2026</p>
+    <h1>4 Propuestas para el Módulo Showroom</h1>
+    <p>Este documento presenta cuatro layouts alternativos para el módulo de presentación de productos de Nira Labs. Cada propuesta explora una estrategia de presentación diferente: desde un bento grid modular hasta una lista editorial interactiva. Todos usan contenido real y los tokens de marca del sitio.</p>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PROPUESTA A — BENTO SHOWROOM
+  ══════════════════════════════════════════════ -->
+  <section class="proposal-section" id="A">
+    <div class="section-header">
+      <div class="section-header__left">
+        <p class="section-label">Propuesta A</p>
+        <h2>Bento Showroom</h2>
+      </div>
+      <p>Grid asimétrico: Flowbit ocupa el ancho completo con mockup inline. Dance Yo y Tripyo en fila de dos columnas inferiores.</p>
+    </div>
+
+    <div class="bento-grid">
+
+      <!-- Flowbit hero card -->
+      <div class="bento-hero">
+        <div class="bento-hero__text">
+          <div class="product-category">Productividad</div>
+          <h3>Flowbit</h3>
+          <p class="product-desc">Seguimiento de hábitos sin fricción. Sin gamificación agresiva, sin notificaciones invasivas. Solo tú y lo que quieres construir.</p>
+          <ul class="feature-list">
+            <li>Check-in diario en 10 segundos</li>
+            <li>Rachas y tendencias</li>
+            <li>Datos 100% locales</li>
+            <li>Diseño que desaparece</li>
+          </ul>
+          <div class="platform-tags">
+            <span class="platform-tag">iOS</span>
+            <span class="platform-tag">Android</span>
+          </div>
+        </div>
+        <div class="bento-hero__visual">
+          <!-- Flowbit Phone Mockup -->
+          <div class="phone-mockup">
+            <div class="phone-screen-header">
+              Today
+              <span>Lunes, 28 Mar</span>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#00D4FF"></div>
+              <span class="habit-name">Meditación</span>
+              <div class="habit-check done">✓</div>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#34D399"></div>
+              <span class="habit-name">Ejercicio</span>
+              <div class="habit-check done">✓</div>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#A78BFA"></div>
+              <span class="habit-name">Lectura</span>
+              <div class="habit-check todo"></div>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#F472B6"></div>
+              <span class="habit-name">Diario</span>
+              <div class="habit-check todo"></div>
+            </div>
+            <div class="phone-progress-section">
+              <div class="progress-label">
+                <span>Racha</span>
+                <span style="color:var(--cyan)">14 días 🔥</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:75%"></div>
+              </div>
+              <div class="progress-label">
+                <span>Hoy</span>
+                <span style="color:var(--cyan)">2 / 4</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:50%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-col row -->
+      <div class="bento-row">
+
+        <!-- Dance Yo -->
+        <div class="bento-card bento-card--dance">
+          <div class="bento-card__visual" style="background:#1a0520;">
+            <!-- Dance Yo Game Screen -->
+            <div class="game-screen" style="width:100%;height:100%;position:absolute;inset:0;">
+              <div class="game-bg-gradient"></div>
+              <div class="game-stars">
+                <div class="game-star" style="width:2px;height:2px;top:8%;left:10%;animation-delay:0s;"></div>
+                <div class="game-star" style="width:3px;height:3px;top:15%;left:40%;animation-delay:0.4s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:5%;left:70%;animation-delay:0.8s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:25%;left:85%;animation-delay:1.2s;"></div>
+                <div class="game-star" style="width:3px;height:3px;top:35%;left:20%;animation-delay:0.3s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:20%;left:55%;animation-delay:0.9s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:12%;left:90%;animation-delay:1.5s;"></div>
+                <div class="game-star" style="width:3px;height:3px;top:40%;left:75%;animation-delay:0.6s;"></div>
+              </div>
+              <!-- Platforms -->
+              <div class="game-platform" style="width:80px;height:10px;bottom:30%;left:10%;"></div>
+              <div class="game-platform" style="width:60px;height:10px;bottom:50%;left:35%;"></div>
+              <div class="game-platform" style="width:90px;height:10px;bottom:40%;left:60%;"></div>
+              <div class="game-platform" style="width:120px;height:10px;bottom:15%;left:20%;opacity:0.6;"></div>
+              <!-- Character -->
+              <div class="game-character" style="left:38%;bottom:calc(50% + 34px);">
+                <div class="char-head"></div>
+                <div class="char-body"></div>
+                <div class="char-legs"></div>
+              </div>
+              <!-- Musical notes -->
+              <div class="game-musical-note" style="top:30%;left:25%;animation-delay:0s;">♪</div>
+              <div class="game-musical-note" style="top:20%;left:50%;animation-delay:0.7s;">♫</div>
+              <div class="game-musical-note" style="top:45%;left:70%;animation-delay:1.4s;">♩</div>
+              <!-- Score -->
+              <div class="game-score">8420</div>
+            </div>
+          </div>
+          <div class="bento-card__info">
+            <div class="product-category" style="color:var(--pink);">
+              <span style="background:var(--pink);"></span>
+              Juego
+            </div>
+            <h3>Dance Yo</h3>
+            <p class="product-desc">Un plataformero 2D de ritmo donde tus movimientos crean la música. Corre, salta y baila a través de mundos generados por IA.</p>
+            <ul class="feature-list pink">
+              <li>Niveles generativos al ritmo de tu música</li>
+              <li>4 mundos únicos</li>
+              <li>Multijugador local</li>
+              <li>Controles táctiles precisos</li>
+            </ul>
+            <div class="platform-tags">
+              <span class="platform-tag">iOS</span>
+              <span class="platform-tag">Android</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tripyo -->
+        <div class="bento-card bento-card--tripyo">
+          <div class="bento-card__visual">
+            <!-- Tripyo Map Mockup -->
+            <div class="map-mockup" style="width:100%;height:100%;position:absolute;inset:0;">
+              <div class="map-grid">
+                <div class="map-grid-line-h" style="top:20%"></div>
+                <div class="map-grid-line-h" style="top:40%"></div>
+                <div class="map-grid-line-h" style="top:60%"></div>
+                <div class="map-grid-line-h" style="top:80%"></div>
+                <div class="map-grid-line-v" style="left:20%"></div>
+                <div class="map-grid-line-v" style="left:40%"></div>
+                <div class="map-grid-line-v" style="left:60%"></div>
+                <div class="map-grid-line-v" style="left:80%"></div>
+              </div>
+              <div class="map-label">TRIPYO MAP</div>
+              <!-- Route SVG -->
+              <div class="map-route">
+                <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+                  <path d="M 70 160 Q 120 130 150 100 Q 180 70 220 60" stroke="rgba(52,211,153,0.4)" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+                </svg>
+              </div>
+              <!-- Pins -->
+              <div class="map-pin map-pin--active" style="left:19%;top:60%;">
+                <div class="map-pin__circle"></div>
+                <div class="map-pin__tail"></div>
+              </div>
+              <div class="map-pin" style="left:45%;top:35%;">
+                <div class="map-pin__circle"></div>
+                <div class="map-pin__tail"></div>
+              </div>
+              <div class="map-pin" style="left:69%;top:18%;">
+                <div class="map-pin__circle" style="border-color:rgba(52,211,153,0.5);"></div>
+                <div class="map-pin__tail" style="background:rgba(52,211,153,0.4);"></div>
+              </div>
+              <!-- Info bubble -->
+              <div class="map-info-bubble" style="left:26%;top:48%;">
+                <strong>Punto de partida</strong>
+                Plaza Mayor, Madrid
+              </div>
+            </div>
+          </div>
+          <div class="bento-card__info">
+            <div class="product-category" style="color:var(--emerald);">
+              <span style="background:var(--emerald);"></span>
+              Viajes
+            </div>
+            <h3>Tripyo</h3>
+            <p class="product-desc">Tu compañero de viaje inteligente. Planifica itinerarios, descubre lugares fuera del mapa y navega sin conexión.</p>
+            <ul class="feature-list emerald">
+              <li>Mapas offline</li>
+              <li>Constructor de itinerarios IA</li>
+              <li>Recomendaciones locales</li>
+              <li>Integración con calendarios</li>
+            </ul>
+            <div class="platform-tags">
+              <span class="platform-tag">iOS</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /bento-row -->
+    </div><!-- /bento-grid -->
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       PROPUESTA B — SCROLL HORIZONTAL
+  ══════════════════════════════════════════════ -->
+  <section class="proposal-section" id="B">
+    <div class="section-header">
+      <div class="section-header__left">
+        <p class="section-label">Propuesta B</p>
+        <h2>Scroll Horizontal</h2>
+      </div>
+      <p>Tres tarjetas de ancho fijo con scroll horizontal y snap. Cada card dedica el 60% al visual y el 40% a la información. Botones de navegación incluidos.</p>
+    </div>
+
+    <div class="hscroll-wrapper">
+      <div class="hscroll-controls">
+        <button class="scroll-btn" id="scrollLeft" aria-label="Scroll izquierda">&#8592;</button>
+        <button class="scroll-btn" id="scrollRight" aria-label="Scroll derecha">&#8594;</button>
+      </div>
+      <div class="hscroll-track" id="hscrollTrack">
+
+        <!-- Flowbit -->
+        <div class="hscroll-card hscroll-card--flowbit">
+          <div class="hscroll-visual hscroll-visual--flowbit">
+            <div class="phone-mockup--small">
+              <div class="phone-screen-header" style="font-size:13px;margin-bottom:12px;">
+                Today <span style="font-size:9px;">Lunes</span>
+              </div>
+              <div class="habit-row" style="padding:5px 0;">
+                <div class="habit-dot" style="background:#00D4FF;width:7px;height:7px;"></div>
+                <span class="habit-name" style="font-size:10px;">Meditación</span>
+                <div class="habit-check done" style="width:15px;height:15px;font-size:8px;border-radius:4px;">✓</div>
+              </div>
+              <div class="habit-row" style="padding:5px 0;">
+                <div class="habit-dot" style="background:#34D399;width:7px;height:7px;"></div>
+                <span class="habit-name" style="font-size:10px;">Ejercicio</span>
+                <div class="habit-check done" style="width:15px;height:15px;font-size:8px;border-radius:4px;">✓</div>
+              </div>
+              <div class="habit-row" style="padding:5px 0;">
+                <div class="habit-dot" style="background:#A78BFA;width:7px;height:7px;"></div>
+                <span class="habit-name" style="font-size:10px;">Lectura</span>
+                <div class="habit-check todo" style="width:15px;height:15px;border-radius:4px;"></div>
+              </div>
+              <div class="habit-row" style="padding:5px 0;border:none;">
+                <div class="habit-dot" style="background:#F472B6;width:7px;height:7px;"></div>
+                <span class="habit-name" style="font-size:10px;">Diario</span>
+                <div class="habit-check todo" style="width:15px;height:15px;border-radius:4px;"></div>
+              </div>
+              <div class="phone-progress-section">
+                <div class="progress-label" style="font-size:8px;">
+                  <span>Racha</span><span style="color:var(--cyan)">14d</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="hscroll-info">
+            <div class="product-category" style="font-size:10px;margin-bottom:0;">Productividad</div>
+            <h3>Flowbit</h3>
+            <p class="product-desc">Seguimiento de hábitos sin fricción. Sin gamificación agresiva, sin notificaciones invasivas.</p>
+            <div class="hscroll-pills">
+              <span class="pill pill--cyan">iOS</span>
+              <span class="pill pill--cyan">Android</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dance Yo -->
+        <div class="hscroll-card hscroll-card--dance">
+          <div class="hscroll-visual hscroll-visual--dance" style="background:#1a0520;overflow:hidden;">
+            <div class="game-screen" style="position:absolute;inset:0;">
+              <div class="game-bg-gradient"></div>
+              <div class="game-stars">
+                <div class="game-star" style="width:2px;height:2px;top:10%;left:15%;"></div>
+                <div class="game-star" style="width:3px;height:3px;top:20%;left:60%;animation-delay:0.5s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:8%;left:80%;animation-delay:1s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:35%;left:30%;animation-delay:1.5s;"></div>
+              </div>
+              <div class="game-platform" style="width:70px;height:9px;bottom:28%;left:8%;"></div>
+              <div class="game-platform" style="width:55px;height:9px;bottom:48%;left:32%;"></div>
+              <div class="game-platform" style="width:80px;height:9px;bottom:38%;left:58%;"></div>
+              <div class="game-character" style="left:35%;bottom:calc(48% + 32px);">
+                <div class="char-head"></div>
+                <div class="char-body"></div>
+                <div class="char-legs"></div>
+              </div>
+              <div class="game-musical-note" style="top:25%;left:20%;animation-delay:0s;font-size:18px;">♪</div>
+              <div class="game-musical-note" style="top:40%;left:65%;animation-delay:1s;font-size:14px;">♫</div>
+              <div class="game-score">12880</div>
+            </div>
+          </div>
+          <div class="hscroll-info">
+            <div class="product-category" style="font-size:10px;margin-bottom:0;color:var(--pink);">
+              <span style="background:var(--pink);"></span>Juego
+            </div>
+            <h3 style="color:var(--text);">Dance Yo</h3>
+            <p class="product-desc">Plataformero 2D de ritmo donde tus movimientos crean la música. Mundos generados por IA.</p>
+            <div class="hscroll-pills">
+              <span class="pill pill--pink">iOS</span>
+              <span class="pill pill--pink">Android</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tripyo -->
+        <div class="hscroll-card hscroll-card--tripyo">
+          <div class="hscroll-visual hscroll-visual--tripyo" style="overflow:hidden;">
+            <div class="map-mockup" style="position:absolute;inset:0;border-radius:0;">
+              <div class="map-grid">
+                <div class="map-grid-line-h" style="top:20%"></div>
+                <div class="map-grid-line-h" style="top:40%"></div>
+                <div class="map-grid-line-h" style="top:60%"></div>
+                <div class="map-grid-line-h" style="top:80%"></div>
+                <div class="map-grid-line-v" style="left:25%"></div>
+                <div class="map-grid-line-v" style="left:50%"></div>
+                <div class="map-grid-line-v" style="left:75%"></div>
+              </div>
+              <div class="map-label">TRIPYO</div>
+              <div class="map-route">
+                <svg viewBox="0 0 340 320" preserveAspectRatio="none">
+                  <path d="M 80 240 Q 140 200 170 150 Q 200 100 250 80" stroke="rgba(52,211,153,0.4)" stroke-width="2.5" fill="none" stroke-dasharray="8 5"/>
+                </svg>
+              </div>
+              <div class="map-pin map-pin--active" style="left:20%;top:68%;">
+                <div class="map-pin__circle"></div>
+                <div class="map-pin__tail"></div>
+              </div>
+              <div class="map-pin" style="left:47%;top:42%;">
+                <div class="map-pin__circle"></div>
+                <div class="map-pin__tail"></div>
+              </div>
+              <div class="map-pin" style="left:70%;top:22%;">
+                <div class="map-pin__circle" style="border-color:rgba(52,211,153,0.4);"></div>
+                <div class="map-pin__tail" style="background:rgba(52,211,153,0.4);"></div>
+              </div>
+              <div class="map-info-bubble" style="left:28%;top:55%;font-size:9px;">
+                <strong>Inicio</strong>BCN
+              </div>
+            </div>
+          </div>
+          <div class="hscroll-info">
+            <div class="product-category" style="font-size:10px;margin-bottom:0;color:var(--emerald);">
+              <span style="background:var(--emerald);"></span>Viajes
+            </div>
+            <h3 style="color:var(--text);">Tripyo</h3>
+            <p class="product-desc">Compañero de viaje inteligente. Planifica itinerarios y navega sin conexión.</p>
+            <div class="hscroll-pills">
+              <span class="pill pill--emerald">iOS</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /hscroll-track -->
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       PROPUESTA C — CINEMATIC STACKED
+  ══════════════════════════════════════════════ -->
+  <section class="proposal-section" id="C" style="padding:0;">
+    <div style="padding: 0 40px;">
+      <div class="section-header" style="margin-bottom:48px;">
+        <div class="section-header__left">
+          <p class="section-label">Propuesta C</p>
+          <h2>Cinematic Stacked</h2>
+        </div>
+        <p>Filas de ancho completo con layout alternado. Tipografía grande, acento de color por producto y mockup prominente con glow animado.</p>
+      </div>
+    </div>
+
+    <!-- Row 1: Flowbit -->
+    <div class="cinematic-row cinematic-row--flowbit">
+      <div class="cinematic-row__content">
+        <div class="cinematic-row__content-inner">
+          <div class="cinematic-accent" style="color:var(--cyan);">Productividad · iOS & Android</div>
+          <h3>Flowbit</h3>
+          <p class="product-desc">Seguimiento de hábitos sin fricción. Sin gamificación agresiva, sin notificaciones invasivas. Solo tú y lo que quieres construir.</p>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--cyan);"></div>
+              Check-in en 10 seg
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--cyan);"></div>
+              Rachas y tendencias
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--cyan);"></div>
+              Datos 100% locales
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--cyan);"></div>
+              Diseño que desaparece
+            </div>
+          </div>
+          <a href="#" class="cta-btn cta-btn--cyan">Ver Flowbit →</a>
+        </div>
+      </div>
+      <div class="cinematic-row__visual">
+        <div class="cinematic-glow cinematic-glow--cyan"></div>
+        <div class="phone-mockup--large">
+          <div class="phone-screen-header">
+            Today
+            <span>28 de Marzo</span>
+          </div>
+          <div class="habit-row">
+            <div class="habit-dot" style="background:#00D4FF"></div>
+            <span class="habit-name">Meditación</span>
+            <div class="habit-check done">✓</div>
+          </div>
+          <div class="habit-row">
+            <div class="habit-dot" style="background:#34D399"></div>
+            <span class="habit-name">Ejercicio</span>
+            <div class="habit-check done">✓</div>
+          </div>
+          <div class="habit-row">
+            <div class="habit-dot" style="background:#A78BFA"></div>
+            <span class="habit-name">Lectura</span>
+            <div class="habit-check todo"></div>
+          </div>
+          <div class="habit-row">
+            <div class="habit-dot" style="background:#F472B6"></div>
+            <span class="habit-name">Diario</span>
+            <div class="habit-check todo"></div>
+          </div>
+          <div class="phone-progress-section">
+            <div class="progress-label">
+              <span>Racha activa</span>
+              <span style="color:var(--cyan)">14 días</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:75%"></div>
+            </div>
+            <div class="progress-label">
+              <span>Hoy</span>
+              <span style="color:var(--cyan)">2/4</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:50%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Dance Yo (reversed) -->
+    <div class="cinematic-row cinematic-row--dance cinematic-row--reverse">
+      <div class="cinematic-row__content">
+        <div class="cinematic-row__content-inner">
+          <div class="cinematic-accent" style="color:var(--pink);">Juego · iOS & Android</div>
+          <h3>Dance Yo</h3>
+          <p class="product-desc">Un plataformero 2D de ritmo donde tus movimientos crean la música. Corre, salta y baila a través de mundos generados por IA.</p>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--pink);"></div>
+              Niveles generativos
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--pink);"></div>
+              4 mundos únicos
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--pink);"></div>
+              Multijugador local
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--pink);"></div>
+              Controles táctiles
+            </div>
+          </div>
+          <a href="#" class="cta-btn cta-btn--pink">Ver Dance Yo →</a>
+        </div>
+      </div>
+      <div class="cinematic-row__visual">
+        <div class="cinematic-glow cinematic-glow--pink"></div>
+        <div class="game-screen--large">
+          <div class="game-bg-gradient"></div>
+          <div class="game-stars">
+            <div class="game-star" style="width:2px;height:2px;top:6%;left:12%;animation-delay:0s;"></div>
+            <div class="game-star" style="width:3px;height:3px;top:18%;left:48%;animation-delay:0.5s;"></div>
+            <div class="game-star" style="width:2px;height:2px;top:8%;left:75%;animation-delay:1s;"></div>
+            <div class="game-star" style="width:2px;height:2px;top:30%;left:90%;animation-delay:1.5s;"></div>
+            <div class="game-star" style="width:3px;height:3px;top:22%;left:25%;animation-delay:0.3s;"></div>
+          </div>
+          <div class="game-platform" style="width:70px;height:10px;bottom:28%;left:5%;"></div>
+          <div class="game-platform" style="width:55px;height:10px;bottom:50%;left:30%;"></div>
+          <div class="game-platform" style="width:80px;height:10px;bottom:38%;left:58%;"></div>
+          <div class="game-platform" style="width:100px;height:10px;bottom:12%;left:15%;opacity:0.5;"></div>
+          <div class="game-character" style="left:32%;bottom:calc(50% + 34px);">
+            <div class="char-head"></div>
+            <div class="char-body"></div>
+            <div class="char-legs"></div>
+          </div>
+          <div class="game-musical-note" style="top:20%;left:15%;animation-delay:0s;font-size:20px;">♪</div>
+          <div class="game-musical-note" style="top:35%;left:55%;animation-delay:0.8s;font-size:16px;">♫</div>
+          <div class="game-musical-note" style="top:15%;left:78%;animation-delay:1.6s;font-size:12px;">♩</div>
+          <div class="game-score">24,160</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Tripyo -->
+    <div class="cinematic-row cinematic-row--tripyo">
+      <div class="cinematic-row__content">
+        <div class="cinematic-row__content-inner">
+          <div class="cinematic-accent" style="color:var(--emerald);">Viajes · iOS</div>
+          <h3>Tripyo</h3>
+          <p class="product-desc">Tu compañero de viaje inteligente. Planifica itinerarios, descubre lugares fuera del mapa y navega sin conexión.</p>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--emerald);"></div>
+              Mapas offline
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--emerald);"></div>
+              Itinerarios IA
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--emerald);"></div>
+              Recomendaciones locales
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot" style="background:var(--emerald);"></div>
+              Calendarios integrados
+            </div>
+          </div>
+          <a href="#" class="cta-btn cta-btn--emerald">Ver Tripyo →</a>
+        </div>
+      </div>
+      <div class="cinematic-row__visual">
+        <div class="cinematic-glow cinematic-glow--emerald"></div>
+        <div class="map-mockup--large">
+          <div class="map-mockup" style="border-radius:0;">
+            <div class="map-grid">
+              <div class="map-grid-line-h" style="top:20%"></div>
+              <div class="map-grid-line-h" style="top:40%"></div>
+              <div class="map-grid-line-h" style="top:60%"></div>
+              <div class="map-grid-line-h" style="top:80%"></div>
+              <div class="map-grid-line-v" style="left:20%"></div>
+              <div class="map-grid-line-v" style="left:40%"></div>
+              <div class="map-grid-line-v" style="left:60%"></div>
+              <div class="map-grid-line-v" style="left:80%"></div>
+            </div>
+            <div class="map-label">TRIPYO · OFFLINE MAP</div>
+            <div class="map-route">
+              <svg viewBox="0 0 280 220" preserveAspectRatio="none">
+                <path d="M 60 170 Q 100 140 140 110 Q 180 80 220 55" stroke="rgba(52,211,153,0.45)" stroke-width="2" fill="none" stroke-dasharray="7 4"/>
+              </svg>
+            </div>
+            <div class="map-pin map-pin--active" style="left:18%;top:68%;">
+              <div class="map-pin__circle"></div>
+              <div class="map-pin__tail"></div>
+            </div>
+            <div class="map-pin" style="left:46%;top:44%;">
+              <div class="map-pin__circle"></div>
+              <div class="map-pin__tail"></div>
+            </div>
+            <div class="map-pin" style="left:73%;top:22%;">
+              <div class="map-pin__circle" style="border-color:rgba(52,211,153,0.45);"></div>
+              <div class="map-pin__tail" style="background:rgba(52,211,153,0.45);"></div>
+            </div>
+            <div class="map-info-bubble" style="left:27%;top:52%;">
+              <strong>Inicio de ruta</strong>Madrid Centro
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 80px;"></div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       PROPUESTA D — EDITORIAL LISTA
+  ══════════════════════════════════════════════ -->
+  <section class="proposal-section" id="D">
+    <div class="section-header">
+      <div class="section-header__left">
+        <p class="section-label">Propuesta D</p>
+        <h2>Editorial Lista</h2>
+      </div>
+      <p>Lista numerada tipográfica. En reposo: filas compactas. Al hacer clic, cada ítem se expande revelando descripción completa, features y visual. Solo uno expandido a la vez.</p>
+    </div>
+
+    <div class="editorial-list">
+
+      <!-- Item 01: Flowbit -->
+      <div class="editorial-item editorial-item--flowbit" data-index="0">
+        <div class="editorial-collapsed">
+          <div class="editorial-number">01</div>
+          <div class="editorial-meta">
+            <h3>Flowbit</h3>
+            <p class="tagline">Seguimiento de hábitos sin fricción</p>
+          </div>
+          <span class="editorial-category-pill editorial-category-pill--cyan">Productividad</span>
+          <div class="editorial-thumb" style="background:linear-gradient(135deg,#0d1117,#0a1520);">
+            <!-- Mini phone thumb -->
+            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:8px;">
+              <div style="width:28px;height:44px;border:1.5px solid #333;border-radius:8px;background:#0a0e18;display:flex;flex-direction:column;padding:4px 3px;gap:2px;">
+                <div style="height:2px;background:var(--cyan);border-radius:1px;width:80%;"></div>
+                <div style="height:2px;background:#34D399;border-radius:1px;width:70%;"></div>
+                <div style="height:2px;background:#A78BFA;border-radius:1px;width:60%;"></div>
+                <div style="height:2px;background:#F472B6;border-radius:1px;width:75%;"></div>
+                <div style="flex:1;"></div>
+                <div style="height:2px;background:var(--cyan);border-radius:1px;width:75%;opacity:0.4;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="expand-icon">
+            <svg viewBox="0 0 12 12" fill="none" stroke-width="1.5">
+              <line x1="6" y1="2" x2="6" y2="10"/>
+              <line x1="2" y1="6" x2="10" y2="6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="editorial-expanded">
+          <div class="editorial-expanded-inner">
+            <div class="editorial-expanded-num">01</div>
+            <div class="editorial-expanded-content">
+              <p class="product-desc">Seguimiento de hábitos sin fricción. Sin gamificación agresiva, sin notificaciones invasivas. Solo tú y lo que quieres construir. Un diseño que se aparta del camino.</p>
+              <div class="editorial-features-grid">
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--cyan);"></div>
+                  Check-in diario en 10 segundos
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--cyan);"></div>
+                  Rachas y tendencias
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--cyan);"></div>
+                  Datos 100% locales
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--cyan);"></div>
+                  Diseño que desaparece
+                </div>
+              </div>
+              <div class="editorial-actions">
+                <a href="#" class="cta-btn cta-btn--cyan">App Store →</a>
+                <a href="#" class="cta-btn" style="color:var(--muted);border-color:var(--border);background:transparent;">Google Play →</a>
+              </div>
+            </div>
+            <div class="editorial-expanded-visual">
+              <div class="editorial-visual-container" style="background:radial-gradient(ellipse 80% 70% at 50% 40%,rgba(0,212,255,0.08) 0%,transparent 70%),#0d1117;display:flex;align-items:center;justify-content:center;">
+                <div class="phone-mockup" style="transform:scale(0.85);transform-origin:center;">
+                  <div class="phone-screen-header">Today<span>28 de Marzo</span></div>
+                  <div class="habit-row"><div class="habit-dot" style="background:#00D4FF"></div><span class="habit-name">Meditación</span><div class="habit-check done">✓</div></div>
+                  <div class="habit-row"><div class="habit-dot" style="background:#34D399"></div><span class="habit-name">Ejercicio</span><div class="habit-check done">✓</div></div>
+                  <div class="habit-row"><div class="habit-dot" style="background:#A78BFA"></div><span class="habit-name">Lectura</span><div class="habit-check todo"></div></div>
+                  <div class="habit-row"><div class="habit-dot" style="background:#F472B6"></div><span class="habit-name">Diario</span><div class="habit-check todo"></div></div>
+                  <div class="phone-progress-section">
+                    <div class="progress-label"><span>Racha</span><span style="color:var(--cyan)">14 días</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 02: Dance Yo -->
+      <div class="editorial-item editorial-item--dance" data-index="1">
+        <div class="editorial-collapsed">
+          <div class="editorial-number">02</div>
+          <div class="editorial-meta">
+            <h3>Dance Yo</h3>
+            <p class="tagline">El plataformero donde tus movimientos crean la música</p>
+          </div>
+          <span class="editorial-category-pill editorial-category-pill--pink">Juego</span>
+          <div class="editorial-thumb" style="background:#1a0520;overflow:hidden;position:relative;">
+            <div class="game-platform" style="width:30px;height:4px;bottom:40%;left:10%;"></div>
+            <div class="game-platform" style="width:22px;height:4px;bottom:58%;left:45%;"></div>
+            <div class="game-character" style="left:46%;bottom:calc(58% + 12px);transform:scale(0.5);transform-origin:bottom center;">
+              <div class="char-head"></div><div class="char-body"></div><div class="char-legs"></div>
+            </div>
+            <div style="position:absolute;top:5px;right:5px;font-size:8px;color:var(--pink);font-family:monospace;font-weight:700;">120</div>
+          </div>
+          <div class="expand-icon">
+            <svg viewBox="0 0 12 12" fill="none" stroke-width="1.5">
+              <line x1="6" y1="2" x2="6" y2="10"/>
+              <line x1="2" y1="6" x2="10" y2="6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="editorial-expanded">
+          <div class="editorial-expanded-inner">
+            <div class="editorial-expanded-num">02</div>
+            <div class="editorial-expanded-content">
+              <p class="product-desc">Un plataformero 2D de ritmo donde tus movimientos crean la música. Corre, salta y baila a través de mundos generados por IA que responden a cada uno de tus pasos.</p>
+              <div class="editorial-features-grid">
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--pink);"></div>
+                  Niveles generativos al ritmo de tu música
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--pink);"></div>
+                  4 mundos únicos
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--pink);"></div>
+                  Multijugador local
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--pink);"></div>
+                  Controles táctiles precisos
+                </div>
+              </div>
+              <div class="editorial-actions">
+                <a href="#" class="cta-btn cta-btn--pink">App Store →</a>
+                <a href="#" class="cta-btn" style="color:var(--muted);border-color:var(--border);background:transparent;">Google Play →</a>
+              </div>
+            </div>
+            <div class="editorial-expanded-visual">
+              <div class="editorial-visual-container" style="overflow:hidden;position:relative;">
+                <div class="game-screen" style="position:absolute;inset:0;">
+                  <div class="game-bg-gradient"></div>
+                  <div class="game-stars">
+                    <div class="game-star" style="width:2px;height:2px;top:8%;left:15%;"></div>
+                    <div class="game-star" style="width:3px;height:3px;top:20%;left:55%;animation-delay:0.5s;"></div>
+                    <div class="game-star" style="width:2px;height:2px;top:5%;left:80%;animation-delay:1s;"></div>
+                    <div class="game-star" style="width:2px;height:2px;top:32%;left:35%;animation-delay:1.5s;"></div>
+                  </div>
+                  <div class="game-platform" style="width:80px;height:10px;bottom:28%;left:5%;"></div>
+                  <div class="game-platform" style="width:60px;height:10px;bottom:50%;left:30%;"></div>
+                  <div class="game-platform" style="width:90px;height:10px;bottom:38%;left:58%;"></div>
+                  <div class="game-character" style="left:32%;bottom:calc(50% + 34px);">
+                    <div class="char-head"></div><div class="char-body"></div><div class="char-legs"></div>
+                  </div>
+                  <div class="game-musical-note" style="top:22%;left:18%;font-size:20px;">♪</div>
+                  <div class="game-musical-note" style="top:38%;left:62%;animation-delay:0.9s;font-size:16px;">♫</div>
+                  <div class="game-score">24,160</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 03: Tripyo -->
+      <div class="editorial-item editorial-item--tripyo" data-index="2">
+        <div class="editorial-collapsed">
+          <div class="editorial-number">03</div>
+          <div class="editorial-meta">
+            <h3>Tripyo</h3>
+            <p class="tagline">Tu compañero de viaje inteligente</p>
+          </div>
+          <span class="editorial-category-pill editorial-category-pill--emerald">Viajes</span>
+          <div class="editorial-thumb" style="background:#0d1f1a;overflow:hidden;position:relative;">
+            <div style="position:absolute;inset:0;">
+              <div style="position:absolute;height:1px;background:rgba(52,211,153,0.1);top:33%;left:0;right:0;"></div>
+              <div style="position:absolute;height:1px;background:rgba(52,211,153,0.1);top:66%;left:0;right:0;"></div>
+              <div style="position:absolute;width:1px;background:rgba(52,211,153,0.1);left:33%;top:0;bottom:0;"></div>
+              <div style="position:absolute;width:1px;background:rgba(52,211,153,0.1);left:66%;top:0;bottom:0;"></div>
+              <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 60 60">
+                <path d="M 12 48 Q 28 36 36 24 Q 44 12 52 10" stroke="rgba(52,211,153,0.4)" stroke-width="1.5" fill="none" stroke-dasharray="3 2"/>
+              </svg>
+              <div style="position:absolute;left:16%;top:72%;width:7px;height:7px;border-radius:50%;border:1.5px solid var(--emerald);background:rgba(52,211,153,0.2);"></div>
+              <div style="position:absolute;left:55%;top:36%;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--emerald);background:rgba(52,211,153,0.15);"></div>
+              <div style="position:absolute;left:80%;top:14%;width:5px;height:5px;border-radius:50%;border:1px solid rgba(52,211,153,0.4);"></div>
+            </div>
+          </div>
+          <div class="expand-icon">
+            <svg viewBox="0 0 12 12" fill="none" stroke-width="1.5">
+              <line x1="6" y1="2" x2="6" y2="10"/>
+              <line x1="2" y1="6" x2="10" y2="6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="editorial-expanded">
+          <div class="editorial-expanded-inner">
+            <div class="editorial-expanded-num">03</div>
+            <div class="editorial-expanded-content">
+              <p class="product-desc">Tu compañero de viaje inteligente. Planifica itinerarios, descubre lugares fuera del mapa y navega sin conexión. Porque los mejores viajes suceden cuando te alejas del camino trillado.</p>
+              <div class="editorial-features-grid">
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--emerald);"></div>
+                  Mapas offline
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--emerald);"></div>
+                  Constructor de itinerarios IA
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--emerald);"></div>
+                  Recomendaciones locales
+                </div>
+                <div class="editorial-feature-item">
+                  <div class="editorial-feature-dot" style="background:var(--emerald);"></div>
+                  Integración con calendarios
+                </div>
+              </div>
+              <div class="editorial-actions">
+                <a href="#" class="cta-btn cta-btn--emerald">App Store →</a>
+              </div>
+            </div>
+            <div class="editorial-expanded-visual">
+              <div class="editorial-visual-container" style="overflow:hidden;position:relative;">
+                <div class="map-mockup" style="border-radius:0;position:absolute;inset:0;">
+                  <div class="map-grid">
+                    <div class="map-grid-line-h" style="top:20%"></div>
+                    <div class="map-grid-line-h" style="top:40%"></div>
+                    <div class="map-grid-line-h" style="top:60%"></div>
+                    <div class="map-grid-line-h" style="top:80%"></div>
+                    <div class="map-grid-line-v" style="left:25%"></div>
+                    <div class="map-grid-line-v" style="left:50%"></div>
+                    <div class="map-grid-line-v" style="left:75%"></div>
+                  </div>
+                  <div class="map-label">TRIPYO · OFFLINE MAP</div>
+                  <div class="map-route">
+                    <svg viewBox="0 0 320 240" preserveAspectRatio="none">
+                      <path d="M 70 190 Q 120 160 155 120 Q 190 80 240 60" stroke="rgba(52,211,153,0.45)" stroke-width="2.5" fill="none" stroke-dasharray="8 5"/>
+                    </svg>
+                  </div>
+                  <div class="map-pin map-pin--active" style="left:18%;top:72%;">
+                    <div class="map-pin__circle"></div>
+                    <div class="map-pin__tail"></div>
+                  </div>
+                  <div class="map-pin" style="left:45%;top:46%;">
+                    <div class="map-pin__circle"></div>
+                    <div class="map-pin__tail"></div>
+                  </div>
+                  <div class="map-pin" style="left:72%;top:22%;">
+                    <div class="map-pin__circle" style="border-color:rgba(52,211,153,0.4);"></div>
+                    <div class="map-pin__tail" style="background:rgba(52,211,153,0.4);"></div>
+                  </div>
+                  <div class="map-info-bubble" style="left:26%;top:56%;font-size:9.5px;">
+                    <strong>Origen</strong>Madrid Centro
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /editorial-list -->
+  </section>
+
+  <!-- Bottom spacer for floating nav -->
+  <div style="height: 80px;"></div>
+
+  <!-- ══ FLOATING BOTTOM NAV ══ -->
+  <nav class="floating-nav" aria-label="Navegación de propuestas">
+    <span class="floating-nav__label">Ir a</span>
+    <div class="nav-divider"></div>
+    <a href="#A" data-section="A">A</a>
+    <a href="#B" data-section="B">B</a>
+    <a href="#C" data-section="C">C</a>
+    <a href="#D" data-section="D">D</a>
+  </nav>
+
+  <script>
+    // ── Horizontal scroll buttons ──
+    const track = document.getElementById('hscrollTrack');
+    const btnLeft = document.getElementById('scrollLeft');
+    const btnRight = document.getElementById('scrollRight');
+
+    if (track && btnLeft && btnRight) {
+      btnLeft.addEventListener('click', () => {
+        track.scrollBy({ left: -356, behavior: 'smooth' });
+      });
+      btnRight.addEventListener('click', () => {
+        track.scrollBy({ left: 356, behavior: 'smooth' });
+      });
+    }
+
+    // ── Editorial accordion ──
+    const editorialItems = document.querySelectorAll('.editorial-item');
+
+    editorialItems.forEach(item => {
+      const collapsed = item.querySelector('.editorial-collapsed');
+      collapsed.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+
+        // Close all
+        editorialItems.forEach(i => i.classList.remove('active'));
+
+        // Open clicked if it wasn't open
+        if (!isActive) {
+          item.classList.add('active');
+          // Scroll into view after transition starts
+          setTimeout(() => {
+            item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 50);
+        }
+      });
+    });
+
+    // ── Floating nav active state ──
+    const sections = ['A', 'B', 'C', 'D'];
+    const navLinks = document.querySelectorAll('.floating-nav a[data-section]');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.section === id);
+          });
+        }
+      });
+    }, {
+      threshold: 0.25,
+      rootMargin: '-60px 0px -30% 0px'
+    });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>

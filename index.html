@@ -584,140 +584,551 @@
     /* ════════════════════════════════════════
        PRODUCTOS
     ════════════════════════════════════════ */
-    .product-card {
-      background: var(--nira-surface);
-      border: 1px solid var(--nira-border);
-      border-radius: 20px;
-      padding: 48px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
+
+    /* Override section max-width for bento grid */
+    #productos {
+      max-width: 1280px;
+      padding-left: 40px;
+      padding-right: 40px;
     }
 
-    .product-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 32px;
-      font-weight: 600;
-      letter-spacing: -1px;
-      margin-bottom: 4px;
-      background: linear-gradient(
-        90deg,
-        #00D4FF 0%,
-        #FFFFFF 18%,
-        #A78BFA 36%,
-        #F472B6 54%,
-        #FFFFFF 72%,
-        #34D399 100%
-      );
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradientFlow 5s ease-in-out infinite alternate;
+    /* ── Bento Grid ── */
+    .bento-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    /* Flowbit: full-width hero card */
+    .bento-hero {
+      grid-column: 1 / -1;
+      min-height: 600px;
+      border-radius: 20px;
+      border: 1px solid var(--nira-border);
+      border-top: 3px solid var(--nira-cyan);
+      background: var(--nira-surface);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      position: relative;
+      transition: box-shadow 0.35s ease;
+    }
+
+    .bento-hero:hover {
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.1), 0 0 120px rgba(0, 212, 255, 0.04);
+    }
+
+    .bento-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0,212,255,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .bento-hero__text {
+      padding: 56px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .product-category {
-      font-size: 12px;
-      font-weight: 400;
-      color: var(--nira-muted);
-      letter-spacing: 0.08em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
+      color: var(--nira-cyan);
       margin-bottom: 20px;
     }
 
-    .product-desc {
-      font-size: 15px;
+    .product-category::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--nira-cyan);
+    }
+
+    .bento-hero__text h3 {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      color: var(--nira-text);
+    }
+
+    .bento-hero__text .product-desc {
+      font-size: 17px;
       color: var(--nira-muted);
       line-height: 1.7;
       margin-bottom: 32px;
-      font-weight: 300;
+      max-width: 380px;
     }
 
-    .product-features {
+    .feature-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      margin-bottom: 36px;
     }
 
-    .product-features li {
+    .feature-list li {
       display: flex;
       align-items: center;
       gap: 10px;
       font-size: 14px;
-      color: rgba(232,236,240,0.55);
+      color: var(--nira-muted);
     }
 
-    .product-features li::before {
+    .feature-list li::before {
       content: '';
-      width: 4px;
-      height: 4px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      background: var(--nira-emerald);
+      background: rgba(0, 212, 255, 0.12);
+      border: 1px solid rgba(0, 212, 255, 0.3);
       flex-shrink: 0;
-    }
-
-    .product-visual {
-      border-radius: 14px;
-      overflow: hidden;
       position: relative;
-      min-height: 380px;
-      flex: 1;
     }
 
-    .product-visual video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 14px;
-    }
-
-    .product-visual::after {
-      content: '';
+    .feature-list li::after {
+      content: '✓';
+      color: var(--nira-cyan);
+      font-size: 10px;
       position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, rgba(16,20,32,0.45) 0%, transparent 40%);
-      border-radius: 14px;
+      margin-left: -24px;
       pointer-events: none;
     }
 
-    /* Ilustración abstracta para Flowbit */
-    .flowbit-visual-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 32px;
-      width: 100%;
-    }
+    .product-category--pink { color: var(--nira-pink); }
+    .product-category--pink::before { background: var(--nira-pink); }
+    .product-category--emerald { color: var(--nira-emerald); }
+    .product-category--emerald::before { background: var(--nira-emerald); }
 
-    .flowbit-row {
+    .feature-list.pink li::before { background: rgba(244,114,182,0.12); border-color: rgba(244,114,182,0.3); }
+    .feature-list.pink li::after { color: var(--nira-pink); }
+    .feature-list.emerald li::before { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.3); }
+    .feature-list.emerald li::after { color: var(--nira-emerald); }
+
+    .platform-tags {
       display: flex;
       gap: 8px;
-      align-items: center;
+      flex-wrap: wrap;
     }
 
-    .flowbit-day {
+    .platform-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--nira-border);
+      color: var(--nira-muted);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+
+    .bento-hero__visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,212,255,0.04) 0%, transparent 70%);
+    }
+
+    /* ── Flowbit Phone Mockup ── */
+    .phone-mockup {
+      width: 240px;
+      height: 480px;
+      background: #0d1117;
+      border-radius: 40px;
+      border: 2px solid #333;
+      padding: 32px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .phone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 5px;
+      background: #222;
+      border-radius: 100px;
+    }
+
+    .phone-screen-header {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 10px;
-      color: rgba(232,236,240,0.2);
-      width: 24px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--nira-cyan);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .phone-screen-header span {
+      display: block;
+      font-size: 11px;
+      color: var(--nira-muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .habit-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .habit-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       flex-shrink: 0;
     }
 
-    .flowbit-bar-wrap {
+    .habit-name {
       flex: 1;
-      height: 6px;
-      background: rgba(255,255,255,0.05);
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    .habit-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 1.5px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+
+    .habit-check.done {
+      background: rgba(0,212,255,0.15);
+      border-color: var(--nira-cyan);
+      color: var(--nira-cyan);
+    }
+
+    .habit-check.todo {
+      border-color: #333;
+      color: transparent;
+    }
+
+    .phone-progress-section {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--nira-muted);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
       border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--nira-cyan), #00aadd);
+    }
+
+    /* Bento 2-col row */
+    .bento-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Portrait card */
+    .bento-card {
+      border-radius: 20px;
+      border: 1px solid var(--nira-border);
+      background: var(--nira-surface);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.35s ease, transform 0.25s ease;
+      min-height: 400px;
+    }
+
+    .bento-card--dance:hover {
+      box-shadow: 0 0 50px rgba(244,114,182,0.12);
+      border-top-color: rgba(244,114,182,0.5);
+    }
+
+    .bento-card--tripyo:hover {
+      box-shadow: 0 0 50px rgba(52,211,153,0.12);
+      border-top-color: rgba(52,211,153,0.5);
+    }
+
+    .bento-card--dance { border-top: 3px solid var(--nira-pink); }
+    .bento-card--tripyo { border-top: 3px solid var(--nira-emerald); }
+
+    .bento-card__visual {
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .bento-card__info {
+      padding: 28px 28px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bento-card__info .product-category {
+      margin-bottom: 12px;
+    }
+
+    .bento-card__info h3 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .bento-card__info .product-desc {
+      font-size: 14px;
+      color: var(--nira-muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    /* ── Dance Yo Game Screen ── */
+    .game-screen {
+      width: 100%;
+      height: 100%;
+      background: #1a0520;
+      position: relative;
+      overflow: hidden;
+      image-rendering: pixelated;
+    }
+
+    .game-bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #2d0a3e 0%, #1a0520 60%, #0d0112 100%);
+    }
+
+    .game-stars {
+      position: absolute;
+      inset: 0;
+    }
+
+    .game-star {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--nira-pink);
+      animation: twinkle 2s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.1; }
+    }
+
+    .game-platform {
+      position: absolute;
+      background: var(--nira-pink);
+      border-radius: 2px;
+    }
+
+    .game-platform::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .game-character {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+
+    .char-head {
+      width: 12px;
+      height: 12px;
+      background: #fff;
+    }
+
+    .char-body {
+      width: 10px;
+      height: 14px;
+      background: #ddd;
+    }
+
+    .char-legs {
+      width: 10px;
+      height: 8px;
+      background: #bbb;
+    }
+
+    .game-score {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--nira-pink);
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .game-musical-note {
+      position: absolute;
+      color: var(--nira-pink);
+      font-size: 14px;
+      opacity: 0.6;
+      animation: floatNote 3s ease-in-out infinite;
+    }
+
+    @keyframes floatNote {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+      50% { transform: translateY(-12px) rotate(8deg); opacity: 0.9; }
+      100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    }
+
+    /* ── Tripyo Map Mockup ── */
+    .map-mockup {
+      width: 100%;
+      height: 100%;
+      background: #0d1f1a;
+      position: relative;
       overflow: hidden;
     }
 
-    .flowbit-bar {
+    .map-grid {
+      position: absolute;
+      inset: 0;
+    }
+
+    .map-grid-line-h, .map-grid-line-v {
+      position: absolute;
+      background: rgba(52, 211, 153, 0.07);
+    }
+
+    .map-grid-line-h { height: 1px; left: 0; right: 0; }
+    .map-grid-line-v { width: 1px; top: 0; bottom: 0; }
+
+    .map-route {
+      position: absolute;
+      inset: 0;
+    }
+
+    .map-route svg {
+      width: 100%;
       height: 100%;
-      border-radius: 100px;
-      transition: width 0.3s ease;
+    }
+
+    .map-pin {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .map-pin__circle {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2.5px solid var(--nira-emerald);
+      background: rgba(52,211,153,0.2);
+      position: relative;
+      z-index: 2;
+    }
+
+    .map-pin__circle::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: rgba(52,211,153,0.08);
+      animation: pinPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pinPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.6); opacity: 0; }
+    }
+
+    .map-pin__tail {
+      width: 2px;
+      height: 10px;
+      background: var(--nira-emerald);
+    }
+
+    .map-pin--active .map-pin__circle {
+      background: var(--nira-emerald);
+    }
+
+    .map-info-bubble {
+      position: absolute;
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 10px;
+      color: var(--nira-text);
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    .map-info-bubble strong {
+      color: var(--nira-emerald);
+      display: block;
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .map-label {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 10px;
+      color: rgba(52,211,153,0.5);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .store-buttons {
@@ -1017,15 +1428,21 @@
         display: flex;
       }
 
-      .product-card {
-        grid-template-columns: 1fr;
-        padding: 32px 28px;
-        gap: 32px;
+      #productos {
+        padding-left: 20px;
+        padding-right: 20px;
       }
 
-      .product-visual {
-        aspect-ratio: 16/9;
-        max-height: 200px;
+      .bento-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .bento-hero__visual {
+        min-height: 300px;
+      }
+
+      .bento-row {
+        grid-template-columns: 1fr;
       }
 
       .studio-grid {
@@ -1163,40 +1580,194 @@
        PRODUCTOS
   ══════════════════════════════ -->
   <section class="section" id="productos">
-    <p class="section-label">Productos</p>
+    <p class="section-label">Showroom</p>
     <h2 class="section-title">Lo que construimos.</h2>
 
-    <div class="product-card">
-      <div>
-        <p class="product-category">Hábitos — iOS &amp; Android</p>
-        <h3 class="product-name">Flowbit</h3>
-        <p class="product-desc">Seguimiento de hábitos sin fricción. Sin gamificación agresiva, sin notificaciones invasivas. Solo tú y lo que quieres construir.</p>
+    <div class="bento-grid">
 
-        <ul class="product-features" style="margin-bottom: 36px;">
-          <li>Seguimiento diario en menos de 10 segundos</li>
-          <li>Rachas y tendencias en una sola vista</li>
-          <li>Sin cuenta, sin nube — datos locales</li>
-          <li>Diseño que desaparece mientras usas la app</li>
-        </ul>
-
-        <div class="store-buttons">
-          <a href="#" class="store-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
-            </svg>
-            App Store
-          </a>
-          <a href="#" class="store-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 3l14 9-14 9V3z"/>
-            </svg>
-            Google Play
-          </a>
+      <!-- Flowbit hero card -->
+      <div class="bento-hero">
+        <div class="bento-hero__text">
+          <div class="product-category">Productividad</div>
+          <h3>Flowbit</h3>
+          <p class="product-desc">Seguimiento de hábitos sin fricción. Sin gamificación agresiva, sin notificaciones invasivas. Solo tú y lo que quieres construir.</p>
+          <ul class="feature-list">
+            <li>Check-in diario en 10 segundos</li>
+            <li>Rachas y tendencias</li>
+            <li>Datos 100% locales</li>
+            <li>Diseño que desaparece</li>
+          </ul>
+          <div class="platform-tags">
+            <span class="platform-tag">iOS</span>
+            <span class="platform-tag">Android</span>
+          </div>
+        </div>
+        <div class="bento-hero__visual">
+          <!-- Flowbit Phone Mockup -->
+          <div class="phone-mockup">
+            <div class="phone-screen-header">
+              Today
+              <span>Lunes, 28 Mar</span>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#00D4FF"></div>
+              <span class="habit-name">Meditación</span>
+              <div class="habit-check done">✓</div>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#34D399"></div>
+              <span class="habit-name">Ejercicio</span>
+              <div class="habit-check done">✓</div>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#A78BFA"></div>
+              <span class="habit-name">Lectura</span>
+              <div class="habit-check todo"></div>
+            </div>
+            <div class="habit-row">
+              <div class="habit-dot" style="background:#F472B6"></div>
+              <span class="habit-name">Diario</span>
+              <div class="habit-check todo"></div>
+            </div>
+            <div class="phone-progress-section">
+              <div class="progress-label">
+                <span>Racha</span>
+                <span style="color:var(--nira-cyan)">14 días 🔥</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:75%"></div>
+              </div>
+              <div class="progress-label">
+                <span>Hoy</span>
+                <span style="color:var(--nira-cyan)">2 / 4</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:50%"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-    </div>
+      <!-- 2-col row -->
+      <div class="bento-row">
+
+        <!-- Dance Yo -->
+        <div class="bento-card bento-card--dance">
+          <div class="bento-card__visual" style="background:#1a0520;">
+            <!-- Dance Yo Game Screen -->
+            <div class="game-screen" style="width:100%;height:100%;position:absolute;inset:0;">
+              <div class="game-bg-gradient"></div>
+              <div class="game-stars">
+                <div class="game-star" style="width:2px;height:2px;top:8%;left:10%;animation-delay:0s;"></div>
+                <div class="game-star" style="width:3px;height:3px;top:15%;left:40%;animation-delay:0.4s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:5%;left:70%;animation-delay:0.8s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:25%;left:85%;animation-delay:1.2s;"></div>
+                <div class="game-star" style="width:3px;height:3px;top:35%;left:20%;animation-delay:0.3s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:20%;left:55%;animation-delay:0.9s;"></div>
+                <div class="game-star" style="width:2px;height:2px;top:12%;left:90%;animation-delay:1.5s;"></div>
+                <div class="game-star" style="width:3px;height:3px;top:40%;left:75%;animation-delay:0.6s;"></div>
+              </div>
+              <!-- Platforms -->
+              <div class="game-platform" style="width:80px;height:10px;bottom:30%;left:10%;"></div>
+              <div class="game-platform" style="width:60px;height:10px;bottom:50%;left:35%;"></div>
+              <div class="game-platform" style="width:90px;height:10px;bottom:40%;left:60%;"></div>
+              <div class="game-platform" style="width:120px;height:10px;bottom:15%;left:20%;opacity:0.6;"></div>
+              <!-- Character -->
+              <div class="game-character" style="left:38%;bottom:calc(50% + 34px);">
+                <div class="char-head"></div>
+                <div class="char-body"></div>
+                <div class="char-legs"></div>
+              </div>
+              <!-- Musical notes -->
+              <div class="game-musical-note" style="top:30%;left:25%;animation-delay:0s;">♪</div>
+              <div class="game-musical-note" style="top:20%;left:50%;animation-delay:0.7s;">♫</div>
+              <div class="game-musical-note" style="top:45%;left:70%;animation-delay:1.4s;">♩</div>
+              <!-- Score -->
+              <div class="game-score">8420</div>
+            </div>
+          </div>
+          <div class="bento-card__info">
+            <div class="product-category product-category--pink">
+              Juego
+            </div>
+            <h3>Dance Yo</h3>
+            <p class="product-desc">Un plataformero 2D de ritmo donde tus movimientos crean la música. Corre, salta y baila a través de mundos generados por IA.</p>
+            <ul class="feature-list pink">
+              <li>Niveles generativos al ritmo de tu música</li>
+              <li>4 mundos únicos</li>
+              <li>Multijugador local</li>
+              <li>Controles táctiles precisos</li>
+            </ul>
+            <div class="platform-tags">
+              <span class="platform-tag">iOS</span>
+              <span class="platform-tag">Android</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tripyo -->
+        <div class="bento-card bento-card--tripyo">
+          <div class="bento-card__visual">
+            <!-- Tripyo Map Mockup -->
+            <div class="map-mockup" style="width:100%;height:100%;position:absolute;inset:0;">
+              <div class="map-grid">
+                <div class="map-grid-line-h" style="top:20%"></div>
+                <div class="map-grid-line-h" style="top:40%"></div>
+                <div class="map-grid-line-h" style="top:60%"></div>
+                <div class="map-grid-line-h" style="top:80%"></div>
+                <div class="map-grid-line-v" style="left:20%"></div>
+                <div class="map-grid-line-v" style="left:40%"></div>
+                <div class="map-grid-line-v" style="left:60%"></div>
+                <div class="map-grid-line-v" style="left:80%"></div>
+              </div>
+              <div class="map-label">TRIPYO MAP</div>
+              <!-- Route SVG -->
+              <div class="map-route">
+                <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+                  <path d="M 70 160 Q 120 130 150 100 Q 180 70 220 60" stroke="rgba(52,211,153,0.4)" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+                </svg>
+              </div>
+              <!-- Pins -->
+              <div class="map-pin map-pin--active" style="left:19%;top:60%;">
+                <div class="map-pin__circle"></div>
+                <div class="map-pin__tail"></div>
+              </div>
+              <div class="map-pin" style="left:45%;top:35%;">
+                <div class="map-pin__circle"></div>
+                <div class="map-pin__tail"></div>
+              </div>
+              <div class="map-pin" style="left:69%;top:18%;">
+                <div class="map-pin__circle" style="border-color:rgba(52,211,153,0.5);"></div>
+                <div class="map-pin__tail" style="background:rgba(52,211,153,0.4);"></div>
+              </div>
+              <!-- Info bubble -->
+              <div class="map-info-bubble" style="left:26%;top:48%;">
+                <strong>Punto de partida</strong>
+                Plaza Mayor, Madrid
+              </div>
+            </div>
+          </div>
+          <div class="bento-card__info">
+            <div class="product-category product-category--emerald">
+              Viajes
+            </div>
+            <h3>Tripyo</h3>
+            <p class="product-desc">Tu compañero de viaje inteligente. Planifica itinerarios, descubre lugares fuera del mapa y navega sin conexión.</p>
+            <ul class="feature-list emerald">
+              <li>Mapas offline</li>
+              <li>Constructor de itinerarios IA</li>
+              <li>Recomendaciones locales</li>
+              <li>Integración con calendarios</li>
+            </ul>
+            <div class="platform-tags">
+              <span class="platform-tag">iOS</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /bento-row -->
+    </div><!-- /bento-grid -->
   </section>
 
   <div class="section-divider"></div>
