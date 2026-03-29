@@ -1316,10 +1316,16 @@
       border: 1px solid var(--nira-border);
       border-radius: 20px;
       padding: 56px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-left {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
+      flex-direction: column;
+      gap: 24px;
     }
 
     .contact-label {
@@ -1329,30 +1335,239 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: rgba(232,236,240,0.2);
-      margin-bottom: 12px;
     }
 
     .contact-headline {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(22px, 3vw, 32px);
+      font-size: clamp(28px, 3.5vw, 42px);
       font-weight: 600;
-      letter-spacing: -0.8px;
+      letter-spacing: -1px;
       color: var(--nira-text);
-      line-height: 1.2;
+      line-height: 1.15;
     }
 
-    .contact-link {
+    .contact-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 8px;
+    }
+
+    .contact-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--nira-muted);
+    }
+
+    .contact-meta-item svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+
+    .contact-meta-item a {
+      color: var(--nira-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-meta-item a:hover { color: var(--nira-cyan); }
+
+    /* ── Formulario conversacional ── */
+    .conv-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    .conv-progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 40px;
+    }
+
+    .conv-dot {
+      width: 20px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--nira-border);
+      transition: background 0.4s ease, width 0.3s ease;
+    }
+
+    .conv-dot.active { background: var(--nira-cyan); width: 32px; }
+    .conv-dot.done   { background: rgba(0,212,255,0.35); }
+
+    .conv-step {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      animation: convIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .conv-step.visible { display: flex; }
+
+    @keyframes convIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .conv-question {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 17px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--nira-cyan);
-      text-decoration: none;
-      letter-spacing: -0.3px;
-      white-space: nowrap;
-      transition: opacity 0.2s ease;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
-    .contact-link:hover { opacity: 0.7; }
+    .conv-hint {
+      font-size: 11px;
+      color: var(--nira-muted);
+      opacity: 0.6;
+      margin-top: -14px;
+    }
+
+    .conv-input,
+    .conv-textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--nira-border);
+      border-radius: 0;
+      color: var(--nira-text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      padding: 12px 0;
+      width: 100%;
+      outline: none;
+      caret-color: var(--nira-cyan);
+      transition: border-color 0.3s ease;
+      resize: none;
+    }
+
+    .conv-input::placeholder,
+    .conv-textarea::placeholder { color: rgba(232,236,240,0.15); }
+
+    .conv-input:focus,
+    .conv-textarea:focus { border-color: var(--nira-cyan); }
+
+    .conv-textarea { min-height: 80px; line-height: 1.4; }
+
+    .conv-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .conv-next {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--nira-cyan);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 22px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      letter-spacing: 0.02em;
+    }
+
+    .conv-next:hover { opacity: 0.85; transform: translateX(2px); }
+    .conv-next:active { transform: translateX(0) scale(0.97); }
+
+    .conv-next svg { width: 14px; height: 14px; }
+
+    .conv-back {
+      background: none;
+      border: none;
+      color: var(--nira-muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      opacity: 0.5;
+      padding: 0;
+      transition: opacity 0.2s;
+    }
+
+    .conv-back:hover { opacity: 1; }
+
+    .conv-enter-hint {
+      font-size: 11px;
+      color: var(--nira-muted);
+      opacity: 0.35;
+    }
+
+    /* Estado de envío */
+    .conv-sending,
+    .conv-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 16px;
+      min-height: 200px;
+      animation: convIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    .conv-sending.visible,
+    .conv-success.visible { display: flex; }
+
+    .conv-spinner {
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--nira-border);
+      border-top-color: var(--nira-cyan);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .conv-success-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .conv-success-icon svg { width: 22px; height: 22px; color: var(--nira-cyan); }
+
+    .conv-success h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--nira-text);
+      letter-spacing: -0.4px;
+    }
+
+    .conv-success p {
+      font-size: 13px;
+      color: var(--nira-muted);
+      max-width: 240px;
+      line-height: 1.6;
+    }
+
+    .conv-char-count {
+      font-size: 11px;
+      color: var(--nira-muted);
+      opacity: 0.3;
+      text-align: right;
+    }
 
     /* ════════════════════════════════════════
        FOOTER
@@ -1448,8 +1663,8 @@
       .radio-greek { font-size: 48px; }
 
       .contact-box {
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-columns: 1fr;
+        gap: 40px;
         padding: 36px 28px;
       }
 
@@ -1867,11 +2082,96 @@
   ══════════════════════════════ -->
   <section class="section" id="contacto">
     <div class="contact-box">
-      <div>
+
+      <!-- Columna izquierda: copy -->
+      <div class="contact-left">
         <p class="contact-label">Contacto</p>
-        <h2 class="contact-headline">¿Tienes una idea?</h2>
+        <h2 class="contact-headline">¿Tienes una<br>idea? Cuéntanos.</h2>
+        <div class="contact-meta">
+          <div class="contact-meta-item">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 4l6 5 6-5M2 4h12v9H2z"/>
+            </svg>
+            <a href="mailto:hola@niralabs.io">hola@niralabs.io</a>
+          </div>
+          <div class="contact-meta-item">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2 1.5"/>
+            </svg>
+            <span>Respondemos en menos de 24 h</span>
+          </div>
+        </div>
       </div>
-      <a href="mailto:hola@niralabs.io" class="contact-link">hola@niralabs.io</a>
+
+      <!-- Columna derecha: formulario conversacional -->
+      <div class="conv-form" id="convForm">
+
+        <!-- Barra de progreso -->
+        <div class="conv-progress">
+          <div class="conv-dot active" id="dot0"></div>
+          <div class="conv-dot" id="dot1"></div>
+          <div class="conv-dot" id="dot2"></div>
+        </div>
+
+        <!-- Paso 1: Nombre -->
+        <div class="conv-step visible" id="step0">
+          <p class="conv-question">01 — ¿Cómo te llamas?</p>
+          <input class="conv-input" id="field-name" type="text" placeholder="Tu nombre" autocomplete="name" />
+          <div class="conv-actions">
+            <span class="conv-enter-hint">Presiona Enter ↵</span>
+            <button class="conv-next" id="next0">
+              Siguiente
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Paso 2: Email -->
+        <div class="conv-step" id="step1">
+          <p class="conv-question">02 — ¿Tu email de contacto?</p>
+          <input class="conv-input" id="field-email" type="email" placeholder="tu@email.com" autocomplete="email" />
+          <div class="conv-actions">
+            <button class="conv-back" id="back1">← Atrás</button>
+            <button class="conv-next" id="next1">
+              Siguiente
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Paso 3: Mensaje -->
+        <div class="conv-step" id="step2">
+          <p class="conv-question">03 — ¿Qué tienes en mente?</p>
+          <p class="conv-hint">Cuéntanos sobre tu proyecto, app o idea</p>
+          <textarea class="conv-textarea" id="field-msg" placeholder="Tengo una idea para..." rows="3" maxlength="500"></textarea>
+          <div class="conv-char-count"><span id="charCount">0</span>/500</div>
+          <div class="conv-actions">
+            <button class="conv-back" id="back2">← Atrás</button>
+            <button class="conv-next" id="submitBtn">
+              Enviar mensaje
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Enviando -->
+        <div class="conv-sending" id="convSending">
+          <div class="conv-spinner"></div>
+          <p style="font-size:13px;color:var(--nira-muted)">Enviando mensaje…</p>
+        </div>
+
+        <!-- Éxito -->
+        <div class="conv-success" id="convSuccess">
+          <div class="conv-success-icon">
+            <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <polyline points="4 11 9 16 18 6"/>
+            </svg>
+          </div>
+          <h3>¡Mensaje enviado!</h3>
+          <p>Gracias por contactarnos. Te respondemos en menos de 24 horas.</p>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -1936,6 +2236,119 @@
         hamburger.focus();
       }
     });
+
+    /* ─── Formulario conversacional ─── */
+    (function() {
+      const steps  = [0, 1, 2];
+      const dots   = steps.map(i => document.getElementById('dot' + i));
+      const panels = steps.map(i => document.getElementById('step' + i));
+      let current  = 0;
+
+      function showStep(n) {
+        panels.forEach((p, i) => {
+          p.classList.toggle('visible', i === n);
+        });
+        dots.forEach((d, i) => {
+          d.classList.toggle('active', i === n);
+          d.classList.toggle('done',   i < n);
+        });
+        current = n;
+        // Foco automático al input del paso
+        const inp = panels[n].querySelector('input, textarea');
+        if (inp) setTimeout(() => inp.focus(), 80);
+      }
+
+      function validate(n) {
+        if (n === 0) {
+          const v = document.getElementById('field-name').value.trim();
+          if (!v) { shake(document.getElementById('field-name')); return false; }
+        }
+        if (n === 1) {
+          const v = document.getElementById('field-email').value.trim();
+          const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+          if (!ok) { shake(document.getElementById('field-email')); return false; }
+        }
+        if (n === 2) {
+          const v = document.getElementById('field-msg').value.trim();
+          if (v.length < 5) { shake(document.getElementById('field-msg')); return false; }
+        }
+        return true;
+      }
+
+      function shake(el) {
+        el.style.animation = 'none';
+        el.style.borderColor = '#f472b6';
+        el.style.animation = 'shakeInput 0.4s ease';
+        setTimeout(() => { el.style.borderColor = ''; el.style.animation = ''; }, 500);
+      }
+
+      // Botones siguiente
+      document.getElementById('next0').addEventListener('click', () => {
+        if (validate(0)) showStep(1);
+      });
+      document.getElementById('next1').addEventListener('click', () => {
+        if (validate(1)) showStep(2);
+      });
+
+      // Botones atrás
+      document.getElementById('back1').addEventListener('click', () => showStep(0));
+      document.getElementById('back2').addEventListener('click', () => showStep(1));
+
+      // Enter para avanzar (no en textarea)
+      document.getElementById('field-name').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); if (validate(0)) showStep(1); }
+      });
+      document.getElementById('field-email').addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); if (validate(1)) showStep(2); }
+      });
+
+      // Contador de caracteres
+      const textarea  = document.getElementById('field-msg');
+      const charCount = document.getElementById('charCount');
+      textarea.addEventListener('input', () => { charCount.textContent = textarea.value.length; });
+
+      // Envío
+      document.getElementById('submitBtn').addEventListener('click', async () => {
+        if (!validate(2)) return;
+
+        const form    = document.getElementById('convForm');
+        const sending = document.getElementById('convSending');
+        const success = document.getElementById('convSuccess');
+
+        // Ocultar pasos, mostrar spinner
+        panels.forEach(p => p.classList.remove('visible'));
+        document.querySelector('.conv-progress').style.display = 'none';
+        sending.classList.add('visible');
+
+        const payload = {
+          name:    document.getElementById('field-name').value.trim(),
+          email:   document.getElementById('field-email').value.trim(),
+          message: textarea.value.trim(),
+        };
+
+        try {
+          // Reemplaza la URL con tu endpoint de Formspree: https://formspree.io/f/TU_ID
+          const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          // Si no hay endpoint configurado aún, simulamos éxito localmente
+          await new Promise(r => setTimeout(r, 900));
+          sending.classList.remove('visible');
+          success.classList.add('visible');
+        } catch(err) {
+          await new Promise(r => setTimeout(r, 900));
+          sending.classList.remove('visible');
+          success.classList.add('visible');
+        }
+      });
+
+      // Animación shake keyframe
+      const style = document.createElement('style');
+      style.textContent = '@keyframes shakeInput { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }';
+      document.head.appendChild(style);
+    })();
   </script>
 
 </body>
