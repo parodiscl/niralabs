@@ -1205,11 +1205,23 @@
     ════════════════════════════════════════ */
     .nr-wrap {
       position: relative;
-      background: #18120C;
+      background: var(--nira-surface);
       border-radius: 24px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.07);
+      border: 1px solid var(--nira-border);
       margin-top: 48px;
+    }
+
+    /* Glow accent en el borde superior */
+    .nr-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--na), transparent);
+      opacity: 0.6;
+      z-index: 3;
+      transition: background 0.4s ease;
     }
 
     /* Grain overlay */
@@ -1219,13 +1231,13 @@
       inset: 0;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.035;
+      opacity: 0.025;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 180px 180px;
     }
 
-    /* Station accent CSS variable */
-    .nr-wrap { --na: #FB923C; }
+    /* Station accent CSS variable — inicia en cyan */
+    .nr-wrap { --na: #00D4FF; }
 
     /* ── Tabs ── */
     .nr-tabs {
@@ -1237,14 +1249,14 @@
     }
 
     .nr-tab {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
+      background: transparent;
+      border: 1px solid var(--nira-border);
       border-radius: 8px;
       padding: 8px 18px;
       font-family: 'Space Grotesk', sans-serif;
       font-size: 11px;
       font-weight: 600;
-      color: rgba(245,230,208,0.35);
+      color: var(--nira-muted);
       cursor: pointer;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -1252,14 +1264,14 @@
     }
 
     .nr-tab.active {
-      background: rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.05);
       border-color: var(--na);
       color: var(--na);
     }
 
     .nr-tab:hover:not(.active) {
-      color: rgba(245,230,208,0.6);
-      border-color: rgba(255,255,255,0.14);
+      color: var(--nira-text);
+      border-color: rgba(255,255,255,0.15);
     }
 
     /* ── Body: 3 columns ── */
@@ -1313,14 +1325,14 @@
       font-family: 'Space Grotesk', sans-serif;
       font-size: 20px;
       font-weight: 600;
-      color: #F5E6D0;
+      color: var(--nira-text);
       letter-spacing: -0.4px;
       margin-top: -6px;
     }
 
     .nr-desc {
       font-size: 13px;
-      color: #7A6850;
+      color: var(--nira-muted);
       line-height: 1.55;
       max-width: 260px;
       margin-top: 2px;
@@ -1331,7 +1343,7 @@
       font-weight: 500;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(122,104,80,0.55);
+      color: rgba(107,114,128,0.55);
       margin-top: 12px;
     }
 
@@ -1346,14 +1358,14 @@
     .cassette {
       width: 200px;
       height: 130px;
-      background: #2C2016;
+      background: #161E2E;
       border-radius: 10px;
-      border: 2px solid #3D2E1A;
+      border: 2px solid rgba(255,255,255,0.08);
       position: relative;
       box-shadow:
-        0 2px 0 #0E0A06,
-        0 10px 28px rgba(0,0,0,0.65),
-        inset 0 1px 0 rgba(255,255,255,0.04);
+        0 2px 0 rgba(0,0,0,0.5),
+        0 10px 28px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.05);
     }
 
     /* Top notch */
@@ -1363,7 +1375,7 @@
       top: -2px; left: 50%;
       transform: translateX(-50%);
       width: 46px; height: 7px;
-      background: #18120C;
+      background: var(--nira-surface);
       border-radius: 0 0 4px 4px;
     }
 
@@ -1375,7 +1387,7 @@
       height: 9px;
       background: repeating-linear-gradient(
         90deg,
-        #3D2E1A 0px, #3D2E1A 7px,
+        rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 7px,
         transparent 7px, transparent 11px
       );
       border-radius: 2px;
@@ -1385,12 +1397,23 @@
       position: absolute;
       top: 9px; left: 12px; right: 12px;
       height: 36px;
-      background: linear-gradient(135deg, #2A1E10, #1C1408);
+      background: linear-gradient(135deg, #1A2540, #0F1829);
       border-radius: 4px;
-      border: 1px solid #4A3820;
+      border: 1px solid rgba(255,255,255,0.08);
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Línea de color accent en la label */
+    .cassette-label::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--na);
+      opacity: 0.5;
     }
 
     .cassette-label-greek {
@@ -1398,7 +1421,7 @@
       font-size: 16px;
       font-weight: 700;
       color: var(--na);
-      opacity: 0.6;
+      opacity: 0.7;
       letter-spacing: -1px;
     }
 
@@ -1406,9 +1429,9 @@
       position: absolute;
       top: 51px; left: 16px; right: 16px;
       height: 56px;
-      background: #0E0A06;
+      background: var(--nira-base);
       border-radius: 4px;
-      border: 1px solid #3D2E1A;
+      border: 1px solid rgba(255,255,255,0.06);
       display: flex;
       align-items: center;
       justify-content: space-around;
@@ -1418,8 +1441,8 @@
     .cassette-reel {
       width: 38px; height: 38px;
       border-radius: 50%;
-      background: #1A1208;
-      border: 2px solid #4A3820;
+      background: #0D1424;
+      border: 2px solid rgba(255,255,255,0.1);
       position: relative;
       display: flex;
       align-items: center;
@@ -1431,8 +1454,8 @@
       content: '';
       width: 11px; height: 11px;
       border-radius: 50%;
-      background: #2C2016;
-      border: 1.5px solid #5A4428;
+      background: #161E2E;
+      border: 1.5px solid rgba(255,255,255,0.15);
       position: absolute;
       z-index: 2;
     }
@@ -1444,23 +1467,23 @@
       width: 26px; height: 26px;
       border-radius: 50%;
       background: conic-gradient(
-        #3D2E1A 0deg,   #3D2E1A 18deg,
+        rgba(255,255,255,0.1) 0deg,   rgba(255,255,255,0.1) 18deg,
         transparent 18deg, transparent 42deg,
-        #3D2E1A 42deg,  #3D2E1A 60deg,
+        rgba(255,255,255,0.1) 42deg,  rgba(255,255,255,0.1) 60deg,
         transparent 60deg, transparent 84deg,
-        #3D2E1A 84deg,  #3D2E1A 102deg,
+        rgba(255,255,255,0.1) 84deg,  rgba(255,255,255,0.1) 102deg,
         transparent 102deg, transparent 126deg,
-        #3D2E1A 126deg, #3D2E1A 144deg,
+        rgba(255,255,255,0.1) 126deg, rgba(255,255,255,0.1) 144deg,
         transparent 144deg, transparent 168deg,
-        #3D2E1A 168deg, #3D2E1A 186deg,
+        rgba(255,255,255,0.1) 168deg, rgba(255,255,255,0.1) 186deg,
         transparent 186deg, transparent 210deg,
-        #3D2E1A 210deg, #3D2E1A 228deg,
+        rgba(255,255,255,0.1) 210deg, rgba(255,255,255,0.1) 228deg,
         transparent 228deg, transparent 252deg,
-        #3D2E1A 252deg, #3D2E1A 270deg,
+        rgba(255,255,255,0.1) 252deg, rgba(255,255,255,0.1) 270deg,
         transparent 270deg, transparent 294deg,
-        #3D2E1A 294deg, #3D2E1A 312deg,
+        rgba(255,255,255,0.1) 294deg, rgba(255,255,255,0.1) 312deg,
         transparent 312deg, transparent 336deg,
-        #3D2E1A 336deg, #3D2E1A 354deg,
+        rgba(255,255,255,0.1) 336deg, rgba(255,255,255,0.1) 354deg,
         transparent 354deg, transparent 360deg
       );
     }
@@ -1486,7 +1509,7 @@
 
     .nr-play-btn:hover  { opacity: 0.85; transform: scale(1.06); }
     .nr-play-btn:active { transform: scale(0.95); }
-    .nr-play-btn svg    { width: 18px; height: 18px; fill: #18120C; }
+    .nr-play-btn svg    { width: 18px; height: 18px; fill: var(--nira-base); }
 
     /* ── Right: waveform + volume ── */
     .nr-right {
@@ -1508,7 +1531,7 @@
       gap: 10px;
     }
 
-    .nr-vol-row svg { width: 13px; height: 13px; fill: #7A6850; flex-shrink: 0; }
+    .nr-vol-row svg { width: 13px; height: 13px; fill: var(--nira-muted); flex-shrink: 0; }
 
     .nr-volume {
       flex: 1;
@@ -1531,7 +1554,7 @@
 
     .nr-status {
       font-size: 10px;
-      color: rgba(122,104,80,0.5);
+      color: rgba(107,114,128,0.55);
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
@@ -2487,7 +2510,7 @@
           desc: 'Para cuando construyes algo que importa.',
           source: 'Drone Zone · Soma.fm',
           stream: 'https://ice1.somafm.com/dronezone-128-mp3',
-          color: '#FB923C'
+          color: '#00D4FF'
         },
         {
           greek: 'θ', mood: 'Flujo creativo',
@@ -2501,7 +2524,7 @@
           desc: 'El cerebro también procesa en silencio.',
           source: 'Deep Space One · Soma.fm',
           stream: 'https://ice1.somafm.com/deepspaceone-128-mp3',
-          color: '#2DD4BF'
+          color: '#34D399'
         }
       ];
 
