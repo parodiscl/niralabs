@@ -207,6 +207,59 @@ function injectStyles() {
     .sp.active .sp-rule  { opacity:0.35; }
     .sp.active .sp-body  { opacity:1;    transform:translateY(0); }
 
+    /* Intro cinematic */
+    .intro-crawl {
+      position:fixed; left:50%; top:50%;
+      transform:translate(-50%,-50%);
+      text-align:center; z-index:100;
+      pointer-events:none;
+      display:flex; flex-direction:column;
+      align-items:center; gap:0;
+    }
+    .intro-crawl.hidden { pointer-events:none; }
+
+    .ic-label {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:9px; font-weight:600;
+      letter-spacing:0.38em; text-transform:uppercase;
+      color:rgba(0,212,255,0.85);
+      opacity:0; will-change:opacity,transform;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .ic-rule {
+      width:1px; height:32px;
+      background:linear-gradient(to bottom, transparent, rgba(0,212,255,0.35), transparent);
+      margin:16px auto; opacity:0;
+      transition: opacity 0.5s ease;
+    }
+    .ic-main {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(11px,1.3vw,14px); font-weight:300;
+      letter-spacing:0.06em; line-height:2.0;
+      color:rgba(232,236,240,0.72);
+      max-width:320px; opacity:0;
+      transform:translateY(8px);
+      will-change:opacity,transform;
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .ic-main strong {
+      font-weight:700; color:rgba(232,236,240,1.0);
+      letter-spacing:0.14em;
+    }
+    .ic-rule2 {
+      width:1px; height:32px;
+      background:linear-gradient(to bottom, transparent, rgba(0,212,255,0.35), transparent);
+      margin:16px auto; opacity:0;
+      transition: opacity 0.5s ease;
+    }
+    .ic-sub {
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:clamp(9px,0.9vw,11px); font-weight:300;
+      letter-spacing:0.2em; text-transform:uppercase;
+      color:rgba(232,236,240,0.32); opacity:0;
+      transition: opacity 0.6s ease;
+    }
+
     /* Scroll hint */
     .scroll-hint {
       position:absolute; bottom:48px; left:50%;
@@ -483,6 +536,68 @@ export function init(stage) {
   /* ── STAGE HEIGHT ─────────────────────────────────── */
   stage.style.height = `${(STORY.length + 3) * 100}vh`; // 700vh
 
+  /* ── DOM: INTRO CINEMATIC ────────────────────────── */
+  const intro = document.createElement('div');
+  intro.className = 'intro-crawl';
+  intro.innerHTML = `
+    <span class="ic-label">AÑO 2157 — BORDE DEL SISTEMA</span>
+    <div class="ic-rule"></div>
+    <p class="ic-main">
+      Nira Labs construyó algo<br>
+      que no sabía cómo apagar.<br><br>
+      Lo llamaron <strong>DERIVA</strong>.
+    </p>
+    <div class="ic-rule2"></div>
+    <span class="ic-sub">Experimento 01 — Nira Labs</span>
+  `;
+  // Append a body para evitar que el canvas WebGL (capa GPU) lo tape
+  document.body.appendChild(intro);
+
+  // Helper: inline style — gana sobre cualquier regla CSS
+  const icItems = ['.ic-label','.ic-rule','.ic-main','.ic-rule2','.ic-sub'];
+
+  const icFadeIn = (sel, delay) => setTimeout(() => {
+    const el = intro.querySelector(sel);
+    if (!el) return;
+    el.style.transition = `opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1)`;
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, delay);
+
+  const icFadeOut = () => {
+    icItems.forEach(sel => {
+      const el = intro.querySelector(sel);
+      if (!el) return;
+      el.style.transition = 'opacity 0.7s ease';
+      el.style.opacity = '0';
+    });
+  };
+
+  // Staggered fade in
+  const showTimers = [
+    icFadeIn('.ic-label',  300),
+    icFadeIn('.ic-rule',   650),
+    icFadeIn('.ic-main',   950),
+    icFadeIn('.ic-rule2', 1300),
+    icFadeIn('.ic-sub',   1600),
+  ];
+
+  // Auto hide a los 7s (suficiente tiempo para leer)
+  const hideTimer = setTimeout(icFadeOut, 7000);
+
+  // Desaparece en el primer scroll — pero solo después de 2s
+  let introDismissed = false;
+  let scrollDismissReady = false;
+  setTimeout(() => { scrollDismissReady = true; }, 2000);
+
+  const dismissIntro = () => {
+    if (introDismissed) return;
+    introDismissed = true;
+    showTimers.forEach(clearTimeout);
+    clearTimeout(hideTimer);
+    icFadeOut();
+  };
+
   /* ── MOUSE PARALLAX ──────────────────────────────── */
   let mouseX = 0, mouseY = 0;
   let smoothMX = 0, smoothMY = 0;
@@ -497,6 +612,7 @@ export function init(stage) {
   let scrollY = 0;
   const onScroll = () => {
     scrollY = window.scrollY;
+    if (scrollDismissReady && scrollY > 20) dismissIntro();
     if (scrollY > 60) hint.style.opacity = '0';
   };
   window.addEventListener('scroll', onScroll, { passive:true });
@@ -598,6 +714,9 @@ export function init(stage) {
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('resize', onResize);
     window.removeEventListener('mousemove', onMouseMove);
+    showTimers.forEach(clearTimeout);
+    clearTimeout(hideTimer);
+    if (intro.parentNode) intro.parentNode.removeChild(intro);
     renderer.dispose();
     rgeo.dispose(); sgeo.dispose(); dustGeo.dispose();
     rockMat.dispose(); starMat.dispose(); dustMat.dispose();
