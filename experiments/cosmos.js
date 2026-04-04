@@ -72,23 +72,17 @@ const ROCK_VERT = `
   }
 `;
 const ROCK_FRAG = `
-  uniform vec3  uGlow;
-  uniform vec3  uGlow2;
-  uniform float uTime;
-  uniform float uProgress;
-  varying vec3  vNormal;
-  varying vec3  vWorldPos;
+  varying vec3 vNormal;
+  varying vec3 vWorldPos;
   void main() {
     vec3  view    = normalize(cameraPosition - vWorldPos);
     float NdotV   = abs(dot(view, vNormal));
-    float fresnel = pow(1.0 - NdotV, 2.0);
-    float rim     = pow(1.0 - NdotV, 5.0);
-    float pulse   = 0.88 + 0.12 * sin(uTime * 0.7 + vWorldPos.z * 0.015);
-    vec3 base = vec3(0.15, 0.16, 0.24);
-    vec3 lit  = mix(base, uGlow * 0.4, 0.35);
-    vec3 col  = mix(lit,  uGlow,  fresnel * 0.85);
-         col  = mix(col,  uGlow2, rim    * 0.6);
-    col *= pulse * (1.0 + uProgress * 0.45);
+    vec3  lightDir = normalize(vec3(-0.4, 0.7, 0.5));
+    float diffuse  = 0.30 + 0.45 * max(0.0, dot(normalize(vNormal), lightDir));
+    float rim      = pow(1.0 - NdotV, 3.0);
+    vec3  base     = vec3(0.15, 0.17, 0.21);
+    vec3  col      = base * diffuse;
+          col     += vec3(0.30, 0.34, 0.45) * rim * 0.50;
     gl_FragColor = vec4(col, 1.0);
   }
 `;
@@ -344,15 +338,15 @@ export function init(stage) {
 
   /* ── ASTEROIDES ───────────────────────────────────── */
   // 3 geometrías distintas → formas variadas
-  const N_A = mobile ? 45  : 100; // redondeadas (IcosahedronGeometry detail 1)
-  const N_B = mobile ? 30  : 65;  // angulares   (IcosahedronGeometry detail 0)
-  const N_C = mobile ? 25  : 55;  // facetadas   (DodecahedronGeometry)
+  const N_A = mobile ? 10 : 22;  // suaves  (IcosahedronGeometry detail 2)
+  const N_B = mobile ? 7  : 15;  // medias  (IcosahedronGeometry detail 1)
+  const N_C = mobile ? 5  : 10;  // angulares (IcosahedronGeometry detail 0)
 
   function makeRockGeo(base, disp) {
     const p = base.attributes.position;
     for (let i = 0; i < p.count; i++) {
       const v = new THREE.Vector3().fromBufferAttribute(p, i);
-      v.normalize().multiplyScalar(0.42 + Math.random() * disp);
+      v.normalize().multiplyScalar(0.60 + Math.random() * disp);
       p.setXYZ(i, v.x, v.y, v.z);
     }
     p.needsUpdate = true;
@@ -360,18 +354,13 @@ export function init(stage) {
     return base;
   }
 
-  const geoA = makeRockGeo(new THREE.IcosahedronGeometry(1, 1), 0.75);
-  const geoB = makeRockGeo(new THREE.IcosahedronGeometry(1, 0), 1.00);
-  const geoC = makeRockGeo(new THREE.DodecahedronGeometry(1, 0), 0.62);
+  const geoA = makeRockGeo(new THREE.IcosahedronGeometry(1, 2), 0.32); // suave
+  const geoB = makeRockGeo(new THREE.IcosahedronGeometry(1, 1), 0.48); // medio
+  const geoC = makeRockGeo(new THREE.IcosahedronGeometry(1, 0), 0.68); // angular
 
   const rockMat = new THREE.ShaderMaterial({
     vertexShader: ROCK_VERT, fragmentShader: ROCK_FRAG,
-    uniforms: {
-      uGlow:    { value: new THREE.Color('#00D4FF') },
-      uGlow2:   { value: new THREE.Color('#A78BFA') },
-      uTime:    { value: 0 },
-      uProgress:{ value: 0 },
-    },
+    uniforms: {},
   });
 
   const meshA = new THREE.InstancedMesh(geoA, rockMat, N_A);
@@ -387,17 +376,19 @@ export function init(stage) {
 
   [[N_A, 0], [N_B, 1], [N_C, 2]].forEach(([cnt, mi]) => {
     for (let ii = 0; ii < cnt; ii++) {
-      const isFast   = Math.random() < 0.18; // vuelan hacia cámara
-      const isMedium = !isFast && Math.random() < 0.20;
-      const isBig    = Math.random() < 0.20;
+      const isFast   = Math.random() < 0.15; // vuelan hacia cámara
+      const isMedium = !isFast && Math.random() < 0.18;
       const inPath   = Math.random() < 0.50; // cerca del eje de vuelo
 
-      // Elongación distinta por tipo → parece roca real
-      const ex = mi === 1 ? (0.35 + Math.random() * 0.55) : (0.60 + Math.random() * 0.70);
-      const ey = mi === 0 ? (0.65 + Math.random() * 0.65) : (0.50 + Math.random() * 1.00);
-      const ez = mi === 2 ? (0.35 + Math.random() * 1.10) : (0.60 + Math.random() * 0.70);
+      // Elongación orgánica → parece roca real
+      const ex = 0.55 + Math.random() * 0.80;
+      const ey = 0.50 + Math.random() * 0.90;
+      const ez = 0.55 + Math.random() * 0.75;
 
-      const baseS = isBig ? (28 + Math.random() * 52) : (2 + Math.random() * 13);
+      const r = Math.random();
+      const baseS = r < 0.12 ? (12 + Math.random() * 14)  // pocas grandes
+                  : r < 0.40 ? (5  + Math.random() * 8)   // medianas
+                  :            (2.0 + Math.random() * 4);  // mayoría pequeñas
       const vz    = isFast   ? (1.2 + Math.random() * 2.0)
                   : isMedium ? (0.3 + Math.random() * 0.7)
                   : 0;
@@ -552,8 +543,6 @@ export function init(stage) {
     starMat.uniforms.uTime.value     = t;
     starMat.uniforms.uProgress.value = smoothP;
     dustMat.uniforms.uProgress.value = smoothP;
-    rockMat.uniforms.uTime.value     = t;
-    rockMat.uniforms.uProgress.value = smoothP;
     nebMats.forEach(m => { m.uniforms.uTime.value = t; });
 
     // Cámara: vuelo + drift + parallax de mouse + roll dramático
@@ -578,12 +567,6 @@ export function init(stage) {
 
     // Nebulae billboard
     nebMeshes.forEach(m => m.lookAt(camera.position));
-
-    // Glow dinámico
-    const hue1 = (smoothP * 0.6 + 0.55) % 1;
-    const hue2 = (hue1 + 0.33) % 1;
-    rockMat.uniforms.uGlow.value.setHSL(hue1, 0.95, 0.62);
-    rockMat.uniforms.uGlow2.value.setHSL(hue2, 0.90, 0.58);
 
     // Rotar y mover rocas
     rd.forEach(d => {
