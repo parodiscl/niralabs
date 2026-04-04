@@ -282,58 +282,42 @@ function makeSprite(lines, { canvasW=512, canvasH=64, font='500 14px sans-serif'
 }
 
 function buildIntro(scene) {
-  // Cámara arranca en z=60, mirando hacia -z
-  // Sprites en z≈44-48: 12-16 unidades delante de la cámara
-  // Con FOV 80°, viewport height a dist=14 = 2*14*tan(40°) ≈ 23.5 unidades
   const items = [];
 
-  const add = ({ lines, cw, ch, font, color, spacing, align }, y, z, sx, sy, delay) => {
+  // sprites arrancan DEBAJO de su y final → flotan hacia arriba al aparecer
+  const DRIFT = 2.0;
+
+  const add = ({ lines, cw=512, ch=64, font, color, spacing='0px', align='center' }, y, z, sx, sy, delay) => {
     const { sprite, mat, tex } = makeSprite(lines, { canvasW:cw, canvasH:ch, font, color, spacing, align });
-    sprite.position.set(0, y, z);
+    sprite.position.set(0, y - DRIFT, z);
     sprite.scale.set(sx, sy, 1);
     scene.add(sprite);
-    items.push({ mat, tex, sprite, targetOpacity: 0, delay });
+    items.push({ mat, tex, sprite, targetOpacity:0, targetY:y, delay });
   };
 
-  // AÑO 2157 — grande, cyan, más cerca de la cámara
-  add({ lines:'AÑO 2157', cw:512, ch:128,
-        font:'800 96px "Space Grotesk",sans-serif',
-        color:'rgba(0,212,255,1.0)', spacing:'-3px' },
-      3.8, 48, 24, 6.0, 0);
+  // Eyebrow — muy pequeño, gris claro
+  add({ lines:'experimento 01  ·  nira labs', cw:512, ch:28,
+        font:'300 9px "Space Grotesk",sans-serif',
+        color:'rgba(255,255,255,0.28)', spacing:'4px' },
+      5.6, 47, 16, 0.55, 0);
 
-  // BORDE DEL SISTEMA — pequeño, debajo del año
-  add({ lines:'BORDE DEL SISTEMA', cw:512, ch:36,
-        font:'500 11px "Space Grotesk",sans-serif',
-        color:'rgba(0,212,255,0.6)', spacing:'5px' },
-      0.8, 47.5, 20, 1.4, 350);
+  // Hero: Deriva — peso 300, grande, blanco puro
+  add({ lines:'Deriva', cw:512, ch:148,
+        font:'300 108px "IBM Plex Sans",sans-serif',
+        color:'rgba(255,255,255,1.0)' },
+      1.0, 47, 22, 7.0, 180);
 
-  // Separador
-  add({ lines:'──────────────', cw:256, ch:16,
-        font:'300 9px monospace', color:'rgba(0,212,255,0.22)' },
-      -0.5, 47, 7, 0.4, 600);
+  // 2157 — fantasmal, casi invisible
+  add({ lines:'2157', cw:256, ch:56,
+        font:'300 36px "IBM Plex Sans",sans-serif',
+        color:'rgba(255,255,255,0.13)', spacing:'8px' },
+      -4.0, 46.5, 10, 2.5, 650);
 
-  // Copy principal
-  add({ lines:['Nira Labs construyó algo', 'que no sabía cómo apagar.'],
-        cw:512, ch:72, font:'300 18px "Space Grotesk",sans-serif',
-        color:'rgba(232,236,240,0.78)', spacing:'0.3px' },
-      -3.0, 46, 18, 3.2, 900);
-
-  // DERIVA — bold, blanco, algo más lejos (crea profundidad)
-  add({ lines:'D  E  R  I  V  A', cw:512, ch:60,
-        font:'800 30px "Space Grotesk",sans-serif',
-        color:'rgba(255,255,255,1.0)', spacing:'6px' },
-      -6.0, 45, 18, 2.6, 1350);
-
-  // Segundo separador
-  add({ lines:'──────────────', cw:256, ch:16,
-        font:'300 9px monospace', color:'rgba(0,212,255,0.18)' },
-      -7.8, 44.5, 7, 0.4, 1600);
-
-  // Subtítulo
-  add({ lines:'EXPERIMENTO  01  ·  NIRA LABS', cw:512, ch:24,
-        font:'400 9px "Space Grotesk",sans-serif',
-        color:'rgba(232,236,240,0.25)', spacing:'3px' },
-      -8.9, 44, 16, 0.8, 1900);
+  // Body — 2 líneas, gris medio
+  add({ lines:['construimos lo que no sabíamos', 'cómo detener.'],
+        cw:512, ch:64, font:'300 13px "IBM Plex Sans",sans-serif',
+        color:'rgba(255,255,255,0.40)' },
+      -8.0, 46, 17, 2.8, 1050);
 
   return items;
 }
@@ -661,12 +645,12 @@ export function init(stage) {
     }
     rocks.instanceMatrix.needsUpdate = true;
 
-    // Intro sprites: lerp opacity
+    // Intro sprites: lerp opacity + drift Y ascendente
     introItems.forEach(item => {
       const delta = item.targetOpacity - item.mat.opacity;
-      if (Math.abs(delta) > 0.003) {
-        item.mat.opacity += delta * 0.07;
-      }
+      if (Math.abs(delta) > 0.003) item.mat.opacity += delta * 0.065;
+      const dy = item.targetY - item.sprite.position.y;
+      if (Math.abs(dy) > 0.002) item.sprite.position.y += dy * 0.038;
     });
 
     renderer.render(scene, camera);
