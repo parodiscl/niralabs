@@ -372,12 +372,14 @@ export function init(stage) {
     },
   });
 
-  const rockMeshes = [geoA, geoB, geoC].map(g => {
-    const m = new THREE.InstancedMesh(g, rockMat, [N_A, N_B, N_C][[geoA,geoB,geoC].indexOf(g)]);
+  const meshA = new THREE.InstancedMesh(geoA, rockMat, N_A);
+  const meshB = new THREE.InstancedMesh(geoB, rockMat, N_B);
+  const meshC = new THREE.InstancedMesh(geoC, rockMat, N_C);
+  [meshA, meshB, meshC].forEach(m => {
     m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     scene.add(m);
-    return m;
   });
+  const rockMeshes = [meshA, meshB, meshC];
 
   const rd = [], dummy = new THREE.Object3D();
 
