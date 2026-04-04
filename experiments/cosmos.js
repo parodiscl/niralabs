@@ -157,11 +157,6 @@ function injectStyles() {
       align-items:center; justify-content:center;
       z-index:10; pointer-events:none; padding:0 32px;
     }
-    .sp-intro {
-      position:fixed !important;
-      top:0; z-index:20;
-      transition: opacity 1s ease;
-    }
     .sp-label {
       font-family:'Space Grotesk',sans-serif;
       font-size:10px; font-weight:600;
@@ -422,26 +417,15 @@ export function init(stage) {
 
   /* ── INTRO HTML ───────────────────────────────────── */
   const introEl = document.createElement('div');
-  introEl.className = 'sp sp-intro';
+  introEl.className = 'sp';
+  introEl.style.top = '0';
   introEl.innerHTML = `
     <p class="sp-label">EXPERIMENTO 01</p>
     <h2 class="sp-title">Deriva<br>2157</h2>
     <div class="sp-rule"></div>
     <p class="sp-body">Construimos lo que no sabíamos<br>cómo detener.</p>
   `;
-  document.body.appendChild(introEl);
-
-  let introActive = true;
-  let introHideTimer;
-  const showTimer = setTimeout(() => introEl.classList.add('active'), 700);
-
-  const doHideIntro = () => {
-    introActive = false;
-    introEl.classList.remove('active');
-    introEl.style.opacity = '0';
-  };
-
-  introHideTimer = setTimeout(doHideIntro, 9000);
+  stage.appendChild(introEl);
 
   /* ── SCROLL HINT ──────────────────────────────────── */
   const hint = document.createElement('div');
@@ -467,6 +451,7 @@ export function init(stage) {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => e.target.classList.toggle('active', e.isIntersecting));
   }, { threshold: 0.25 });
+  io.observe(introEl);
   panels.forEach(p => io.observe(p));
 
   /* ── END SCREEN ───────────────────────────────────── */
@@ -501,16 +486,9 @@ export function init(stage) {
 
   /* ── SCROLL ───────────────────────────────────────── */
   let scrollY = 0;
-  let scrollDismissReady = false;
-  setTimeout(() => { scrollDismissReady = true; }, 2000);
 
   const onScroll = () => {
     scrollY = window.scrollY;
-    if (scrollDismissReady && scrollY > 20 && introActive) {
-      clearTimeout(introHideTimer);
-      clearTimeout(showTimer);
-      doHideIntro();
-    }
     if (scrollY > 60) hint.style.opacity = '0';
   };
   window.addEventListener('scroll', onScroll, { passive:true });
@@ -605,8 +583,6 @@ export function init(stage) {
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('resize', onResize);
     window.removeEventListener('mousemove', onMouseMove);
-    clearTimeout(showTimer);
-    clearTimeout(introHideTimer);
     renderer.dispose();
     rgeo.dispose(); sgeo.dispose(); dustGeo.dispose();
     rockMat.dispose(); starMat.dispose(); dustMat.dispose();
