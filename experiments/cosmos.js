@@ -61,7 +61,6 @@ const DUST_FRAG = `
 `;
 
 const ROCK_VERT = `
-  attribute mat4 instanceMatrix;
   varying vec3 vNormal;
   varying vec3 vWorldPos;
   void main() {
