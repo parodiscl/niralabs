@@ -61,12 +61,15 @@ const DUST_FRAG = `
 `;
 
 const ROCK_VERT = `
+  attribute mat4 instanceMatrix;
   varying vec3 vNormal;
   varying vec3 vWorldPos;
   void main() {
-    vNormal   = normalize(normalMatrix * normal);
-    vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    mat4 iMV = modelViewMatrix * instanceMatrix;
+    mat4 iM  = modelMatrix    * instanceMatrix;
+    vNormal   = normalize(mat3(iM) * normal);
+    vWorldPos = (iM * vec4(position, 1.0)).xyz;
+    gl_Position = projectionMatrix * iMV * vec4(position, 1.0);
   }
 `;
 const ROCK_FRAG = `
