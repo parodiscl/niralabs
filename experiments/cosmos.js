@@ -341,17 +341,26 @@ export function init(stage) {
   scene.add(new THREE.Points(dustGeo, dustMat));
 
   /* ── ASTEROIDES ───────────────────────────────────── */
-  const N_ROCKS = mobile ? 140 : 280;
+  // 3 geometrías distintas → formas variadas
+  const N_A = mobile ? 45  : 100; // redondeadas (IcosahedronGeometry detail 1)
+  const N_B = mobile ? 30  : 65;  // angulares   (IcosahedronGeometry detail 0)
+  const N_C = mobile ? 25  : 55;  // facetadas   (DodecahedronGeometry)
 
-  const rgeo = new THREE.IcosahedronGeometry(1, 1);
-  const rpos = rgeo.attributes.position;
-  for (let i = 0; i < rpos.count; i++) {
-    const v = new THREE.Vector3().fromBufferAttribute(rpos, i);
-    v.normalize().multiplyScalar(0.58 + Math.random() * 0.68);
-    rpos.setXYZ(i, v.x, v.y, v.z);
+  function makeRockGeo(base, disp) {
+    const p = base.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const v = new THREE.Vector3().fromBufferAttribute(p, i);
+      v.normalize().multiplyScalar(0.42 + Math.random() * disp);
+      p.setXYZ(i, v.x, v.y, v.z);
+    }
+    p.needsUpdate = true;
+    base.computeVertexNormals();
+    return base;
   }
-  rpos.needsUpdate = true;
-  rgeo.computeVertexNormals();
+
+  const geoA = makeRockGeo(new THREE.IcosahedronGeometry(1, 1), 0.75);
+  const geoB = makeRockGeo(new THREE.IcosahedronGeometry(1, 0), 1.00);
+  const geoC = makeRockGeo(new THREE.DodecahedronGeometry(1, 0), 0.62);
 
   const rockMat = new THREE.ShaderMaterial({
     vertexShader: ROCK_VERT, fragmentShader: ROCK_FRAG,
@@ -363,35 +372,55 @@ export function init(stage) {
     },
   });
 
-  const rocks  = new THREE.InstancedMesh(rgeo, rockMat, N_ROCKS);
-  rocks.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-  scene.add(rocks);
+  const rockMeshes = [geoA, geoB, geoC].map(g => {
+    const m = new THREE.InstancedMesh(g, rockMat, [N_A, N_B, N_C][[geoA,geoB,geoC].indexOf(g)]);
+    m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    scene.add(m);
+    return m;
+  });
 
   const rd = [], dummy = new THREE.Object3D();
-  for (let i = 0; i < N_ROCKS; i++) {
-    // 25% de rocas cercanas grandes — más presencia
-    const close = i < N_ROCKS * 0.25;
-    const d = {
-      x: (Math.random() - 0.5) * 520,
-      y: (Math.random() - 0.5) * 260,
-      z: close ? (-15 - Math.random() * 220) : (-25 - Math.random() * 820),
-      scale: close ? (20 + Math.random() * 36) : (1.5 + Math.random() * 15),
-      rx: Math.random() * Math.PI * 2,
-      ry: Math.random() * Math.PI * 2,
-      rz: Math.random() * Math.PI * 2,
-      vx: (Math.random() - 0.5) * 0.0022,
-      vy: (Math.random() - 0.5) * 0.0013,
-      vz: (Math.random() - 0.5) * 0.0017,
-      close,
-    };
-    rd.push(d);
-    dummy.position.set(d.x, d.y, d.z);
-    dummy.scale.setScalar(d.scale);
-    dummy.rotation.set(d.rx, d.ry, d.rz);
-    dummy.updateMatrix();
-    rocks.setMatrixAt(i, dummy.matrix);
-  }
-  rocks.instanceMatrix.needsUpdate = true;
+
+  [[N_A, 0], [N_B, 1], [N_C, 2]].forEach(([cnt, mi]) => {
+    for (let ii = 0; ii < cnt; ii++) {
+      const isFast   = Math.random() < 0.18; // vuelan hacia cámara
+      const isMedium = !isFast && Math.random() < 0.20;
+      const isBig    = Math.random() < 0.20;
+      const inPath   = Math.random() < 0.50; // cerca del eje de vuelo
+
+      // Elongación distinta por tipo → parece roca real
+      const ex = mi === 1 ? (0.35 + Math.random() * 0.55) : (0.60 + Math.random() * 0.70);
+      const ey = mi === 0 ? (0.65 + Math.random() * 0.65) : (0.50 + Math.random() * 1.00);
+      const ez = mi === 2 ? (0.35 + Math.random() * 1.10) : (0.60 + Math.random() * 0.70);
+
+      const baseS = isBig ? (28 + Math.random() * 52) : (2 + Math.random() * 13);
+      const vz    = isFast   ? (1.2 + Math.random() * 2.0)
+                  : isMedium ? (0.3 + Math.random() * 0.7)
+                  : 0;
+
+      const d = {
+        mi, ii,
+        x: (Math.random() - 0.5) * (inPath ? 200 : 520),
+        y: (Math.random() - 0.5) * (inPath ? 130 : 300),
+        z: 50 - Math.random() * 1000, // todo el recorrido de vuelo
+        baseS, ex, ey, ez,
+        rx: Math.random() * Math.PI * 2,
+        ry: Math.random() * Math.PI * 2,
+        rz: Math.random() * Math.PI * 2,
+        vrx: (Math.random() - 0.5) * 0.004,
+        vry: (Math.random() - 0.5) * 0.003,
+        vrz: (Math.random() - 0.5) * 0.0018,
+        vz,
+      };
+      rd.push(d);
+      dummy.position.set(d.x, d.y, d.z);
+      dummy.scale.set(d.baseS * d.ex, d.baseS * d.ey, d.baseS * d.ez);
+      dummy.rotation.set(d.rx, d.ry, d.rz);
+      dummy.updateMatrix();
+      rockMeshes[mi].setMatrixAt(ii, dummy.matrix);
+    }
+  });
+  rockMeshes.forEach(m => m.instanceMatrix.needsUpdate = true);
 
   /* ── NEBULAE (billboard) ──────────────────────────── */
   const nebMats = [], nebMeshes = [];
@@ -552,18 +581,25 @@ export function init(stage) {
     rockMat.uniforms.uGlow.value.setHSL(hue1, 0.95, 0.62);
     rockMat.uniforms.uGlow2.value.setHSL(hue2, 0.90, 0.58);
 
-    // Rotar rocas
-    for (let i = 0; i < N_ROCKS; i++) {
-      const d  = rd[i];
-      const sp = d.close ? (1.0 + smoothP * 2.8) : 1.0;
-      d.rx += d.vx * sp; d.ry += d.vy * sp; d.rz += d.vz * sp;
+    // Rotar y mover rocas
+    rd.forEach(d => {
+      d.rx += d.vrx; d.ry += d.vry; d.rz += d.vrz;
+      if (d.vz) {
+        d.z += d.vz;
+        // Cuando pasa la cámara, resetear adelante en el recorrido
+        if (d.z > camera.position.z + 40) {
+          d.z = camera.position.z - 750 - Math.random() * 250;
+          d.x = (Math.random() - 0.5) * 340;
+          d.y = (Math.random() - 0.5) * 220;
+        }
+      }
       dummy.position.set(d.x, d.y, d.z);
-      dummy.scale.setScalar(d.scale);
+      dummy.scale.set(d.baseS * d.ex, d.baseS * d.ey, d.baseS * d.ez);
       dummy.rotation.set(d.rx, d.ry, d.rz);
       dummy.updateMatrix();
-      rocks.setMatrixAt(i, dummy.matrix);
-    }
-    rocks.instanceMatrix.needsUpdate = true;
+      rockMeshes[d.mi].setMatrixAt(d.ii, dummy.matrix);
+    });
+    rockMeshes.forEach(m => m.instanceMatrix.needsUpdate = true);
 
     renderer.render(scene, camera);
   }
@@ -584,7 +620,8 @@ export function init(stage) {
     window.removeEventListener('resize', onResize);
     window.removeEventListener('mousemove', onMouseMove);
     renderer.dispose();
-    rgeo.dispose(); sgeo.dispose(); dustGeo.dispose();
+    geoA.dispose(); geoB.dispose(); geoC.dispose();
+    sgeo.dispose(); dustGeo.dispose();
     rockMat.dispose(); starMat.dispose(); dustMat.dispose();
     nebMats.forEach(m => m.dispose());
   };
