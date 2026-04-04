@@ -157,6 +157,11 @@ function injectStyles() {
       align-items:center; justify-content:center;
       z-index:10; pointer-events:none; padding:0 32px;
     }
+    .sp-intro {
+      position:fixed !important;
+      top:0; z-index:20;
+      transition: opacity 1s ease;
+    }
     .sp-label {
       font-family:'Space Grotesk',sans-serif;
       font-size:10px; font-weight:600;
@@ -251,76 +256,7 @@ function injectStyles() {
   document.head.appendChild(s);
 }
 
-/* ═══════════════════════════════════════════════════════
-   INTRO 3D — canvas textures como sprites en la escena
-═══════════════════════════════════════════════════════ */
-function makeSprite(lines, { canvasW=512, canvasH=64, font='500 14px sans-serif',
-    color='rgba(232,236,240,0.9)', spacing='0px', align='center' } = {}) {
-  const canvas = document.createElement('canvas');
-  canvas.width  = canvasW;
-  canvas.height = canvasH;
-  const ctx = canvas.getContext('2d');
-  if ('letterSpacing' in ctx) ctx.letterSpacing = spacing;
-  ctx.clearRect(0, 0, canvasW, canvasH);
-  ctx.font = font;
-  ctx.fillStyle = color;
-  ctx.textAlign = align;
-  ctx.textBaseline = 'middle';
-  if (Array.isArray(lines)) {
-    const step = canvasH / lines.length;
-    lines.forEach((l, i) => ctx.fillText(l, canvasW / 2, step * (i + 0.5)));
-  } else {
-    ctx.fillText(lines, canvasW / 2, canvasH / 2);
-  }
-  const tex = new THREE.CanvasTexture(canvas);
-  const mat = new THREE.SpriteMaterial({
-    map: tex, transparent: true, opacity: 0,
-    depthWrite: false, blending: THREE.AdditiveBlending,
-  });
-  const sprite = new THREE.Sprite(mat);
-  return { sprite, mat, tex };
-}
-
-function buildIntro(scene) {
-  const items = [];
-
-  // sprites arrancan DEBAJO de su y final → flotan hacia arriba al aparecer
-  const DRIFT = 2.0;
-
-  const add = ({ lines, cw=512, ch=64, font, color, spacing='0px', align='center' }, y, z, sx, sy, delay) => {
-    const { sprite, mat, tex } = makeSprite(lines, { canvasW:cw, canvasH:ch, font, color, spacing, align });
-    sprite.position.set(0, y - DRIFT, z);
-    sprite.scale.set(sx, sy, 1);
-    scene.add(sprite);
-    items.push({ mat, tex, sprite, targetOpacity:0, targetY:y, delay });
-  };
-
-  // Eyebrow — muy pequeño, gris claro
-  add({ lines:'experimento 01  ·  nira labs', cw:512, ch:28,
-        font:'300 9px "Space Grotesk",sans-serif',
-        color:'rgba(255,255,255,0.28)', spacing:'4px' },
-      5.6, 47, 16, 0.55, 0);
-
-  // Hero: Deriva — peso 300, grande, blanco puro
-  add({ lines:'Deriva', cw:512, ch:148,
-        font:'300 108px "IBM Plex Sans",sans-serif',
-        color:'rgba(255,255,255,1.0)' },
-      1.0, 47, 22, 7.0, 180);
-
-  // 2157 — fantasmal, casi invisible
-  add({ lines:'2157', cw:256, ch:56,
-        font:'300 36px "IBM Plex Sans",sans-serif',
-        color:'rgba(255,255,255,0.13)', spacing:'8px' },
-      -4.0, 46.5, 10, 2.5, 650);
-
-  // Body — 2 líneas, gris medio
-  add({ lines:['construimos lo que no sabíamos', 'cómo detener.'],
-        cw:512, ch:64, font:'300 13px "IBM Plex Sans",sans-serif',
-        color:'rgba(255,255,255,0.40)' },
-      -8.0, 46, 17, 2.8, 1050);
-
-  return items;
-}
+/* (intro handled as HTML overlay in init) */
 
 /* ═══════════════════════════════════════════════════════
    INIT
@@ -484,19 +420,25 @@ export function init(stage) {
     nebMeshes.push(m);
   });
 
-  /* ── INTRO 3D ─────────────────────────────────────── */
-  const introItems = buildIntro(scene);
+  /* ── INTRO HTML ───────────────────────────────────── */
+  const introEl = document.createElement('div');
+  introEl.className = 'sp sp-intro';
+  introEl.innerHTML = `
+    <p class="sp-label">EXPERIMENTO 01</p>
+    <h2 class="sp-title">Deriva<br>2157</h2>
+    <div class="sp-rule"></div>
+    <p class="sp-body">Construimos lo que no sabíamos<br>cómo detener.</p>
+  `;
+  document.body.appendChild(introEl);
+
   let introActive = true;
   let introHideTimer;
-
-  // Staggered fade in
-  const showTimers = introItems.map(item =>
-    setTimeout(() => { item.targetOpacity = 1.0; }, 700 + item.delay)
-  );
+  const showTimer = setTimeout(() => introEl.classList.add('active'), 700);
 
   const doHideIntro = () => {
     introActive = false;
-    introItems.forEach(item => { item.targetOpacity = 0; });
+    introEl.classList.remove('active');
+    introEl.style.opacity = '0';
   };
 
   introHideTimer = setTimeout(doHideIntro, 9000);
@@ -566,7 +508,7 @@ export function init(stage) {
     scrollY = window.scrollY;
     if (scrollDismissReady && scrollY > 20 && introActive) {
       clearTimeout(introHideTimer);
-      showTimers.forEach(clearTimeout);
+      clearTimeout(showTimer);
       doHideIntro();
     }
     if (scrollY > 60) hint.style.opacity = '0';
@@ -645,14 +587,6 @@ export function init(stage) {
     }
     rocks.instanceMatrix.needsUpdate = true;
 
-    // Intro sprites: lerp opacity + drift Y ascendente
-    introItems.forEach(item => {
-      const delta = item.targetOpacity - item.mat.opacity;
-      if (Math.abs(delta) > 0.003) item.mat.opacity += delta * 0.065;
-      const dy = item.targetY - item.sprite.position.y;
-      if (Math.abs(dy) > 0.002) item.sprite.position.y += dy * 0.038;
-    });
-
     renderer.render(scene, camera);
   }
 
@@ -671,9 +605,8 @@ export function init(stage) {
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('resize', onResize);
     window.removeEventListener('mousemove', onMouseMove);
-    showTimers.forEach(clearTimeout);
+    clearTimeout(showTimer);
     clearTimeout(introHideTimer);
-    introItems.forEach(({ mat, tex }) => { mat.dispose(); tex.dispose(); });
     renderer.dispose();
     rgeo.dispose(); sgeo.dispose(); dustGeo.dispose();
     rockMat.dispose(); starMat.dispose(); dustMat.dispose();
