@@ -445,9 +445,9 @@ export function init(stage) {
   introEl.style.top = '0';
   introEl.innerHTML = `
     <p class="sp-label">EXPERIMENTO 01</p>
-    <h2 class="sp-title">Deriva<br>2157</h2>
+    <h2 class="sp-title">Perdiendo<br>Señal</h2>
     <div class="sp-rule"></div>
-    <p class="sp-body">Construimos lo que no sabíamos<br>cómo detener.</p>
+    <p class="sp-body">El espacio entre ideas<br>es donde trabajamos.</p>
   `;
   stage.appendChild(introEl);
 
