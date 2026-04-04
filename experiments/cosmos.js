@@ -546,18 +546,18 @@ export function init(stage) {
     nebMats.forEach(m => { m.uniforms.uTime.value = t; });
 
     // Cámara: vuelo + drift + parallax de mouse + roll dramático
-    smoothMX += (mouseX - smoothMX) * 0.032;
-    smoothMY += (mouseY - smoothMY) * 0.032;
+    smoothMX += (mouseX - smoothMX) * 0.052;
+    smoothMY += (mouseY - smoothMY) * 0.042;
 
     if (!reduced) {
       camera.position.z = THREE.MathUtils.lerp(60, -900, smoothP);
-      camera.position.x = Math.sin(t * 0.048) * 18  + smoothP * -32;
+      camera.position.x = Math.sin(t * 0.048) * 18  + smoothP * -32 + smoothMX * -22;
       camera.position.y = Math.cos(t * 0.033) * 10  + smoothP *  12;
 
       // Parallax mouse — más agresivo
       const parallaxStr = 1.0 - smoothP * 0.25;
-      camera.rotation.y =  smoothMX * -0.32 * parallaxStr;
-      camera.rotation.x =  smoothMY *  0.20 * parallaxStr;
+      camera.rotation.y =  smoothMX * -0.68 * parallaxStr;
+      camera.rotation.x =  smoothMY *  0.38 * parallaxStr;
 
       // Roll: sutil → dramático
       const rollBase  = Math.sin(t * 0.04)  * 0.028;
