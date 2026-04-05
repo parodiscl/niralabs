@@ -1076,15 +1076,12 @@
     <div class="manifiesto-media fade-up" id="manifMedia" style="transition-delay:0.15s">
       <!-- Mobile: imagen 002 -->
       <img class="m-img" src="estudio/002.png" alt="Nira Labs — manifiesto visual" loading="lazy" width="1440" height="810">
-      <!-- Desktop: vtox loop -->
-      <video id="mvid1" class="m-vid v-active" autoplay muted playsinline preload="auto">
+      <!-- Desktop: vtox ping-pong (A/B always playing) -->
+      <video id="mvidA" class="m-vid v-active" autoplay muted playsinline preload="auto">
         <source src="estudio/vtox1.mp4" type="video/mp4">
       </video>
-      <video id="mvid2" class="m-vid" muted playsinline preload="auto">
+      <video id="mvidB" class="m-vid" autoplay muted playsinline preload="auto">
         <source src="estudio/vtox2.mp4" type="video/mp4">
-      </video>
-      <video id="mvid3" class="m-vid" muted playsinline preload="auto">
-        <source src="estudio/vtox3.mp4" type="video/mp4">
       </video>
     </div>
   </section>
@@ -1324,42 +1321,48 @@
       manifIO.observe(manifMedia);
     }
 
-    /* vtox crossfade loop — desktop only */
-    const mvids = [
-      document.getElementById('mvid1'),
-      document.getElementById('mvid2'),
-      document.getElementById('mvid3')
-    ].filter(Boolean);
-    let mIdx = 0;
-    let mSwitching = false;
+    /* vtox ping-pong — A y B siempre corren, solo alternamos opacidad */
+    const VTOX = ['estudio/vtox1.mp4', 'estudio/vtox2.mp4', 'estudio/vtox3.mp4'];
+    const mA = document.getElementById('mvidA');
+    const mB = document.getElementById('mvidB');
 
-    function mvSwitch() {
-      if (mSwitching) return;
-      mSwitching = true;
-      const prev = mvids[mIdx];
-      mIdx = (mIdx + 1) % mvids.length;
-      const curr = mvids[mIdx];
-      prev.classList.remove('v-active');
-      curr.currentTime = 0;
-      curr.play().catch(() => {});
-      curr.classList.add('v-active');
-      setTimeout(() => { mSwitching = false; }, 800);
-    }
+    if (isDesktop() && mA && mB) {
+      let mActive   = mA;
+      let mStandby  = mB;
+      let mSrcIdx   = 0; // índice del src actual en mActive
+      let mSwapping = false;
 
-    if (isDesktop() && mvids.length) {
-      mvids.forEach(v => {
-        /* timeupdate: switch 0.25s before end */
+      function loadStandby() {
+        const nextIdx = (mSrcIdx + 1) % VTOX.length;
+        mStandby.src = VTOX[nextIdx];
+        mStandby.load();
+        mStandby.play().catch(() => {});
+      }
+
+      function mvSwap() {
+        if (mSwapping) return;
+        mSwapping = true;
+        mSrcIdx = (mSrcIdx + 1) % VTOX.length;
+        mActive.classList.remove('v-active');
+        mStandby.classList.add('v-active');
+        const tmp = mActive; mActive = mStandby; mStandby = tmp;
+        loadStandby();
+        setTimeout(() => { mSwapping = false; }, 1000);
+      }
+
+      [mA, mB].forEach(v => {
         v.addEventListener('timeupdate', () => {
-          if (mvids[mIdx] !== v || mSwitching) return;
-          if (v.duration && v.currentTime >= v.duration - 0.25) mvSwitch();
+          if (v !== mActive || mSwapping) return;
+          if (v.duration && v.currentTime >= v.duration - 0.3) mvSwap();
         });
-        /* ended: safety net */
         v.addEventListener('ended', () => {
-          if (mvids[mIdx] === v) mvSwitch();
+          if (v === mActive) { mSwapping = false; mvSwap(); }
         });
       });
-      mvids[0].play().catch(() => {});
-      mvids.slice(1).forEach(v => v.load());
+
+      // Arrancar: A corre vtox1, B carga vtox2 en paralelo
+      mA.play().catch(() => {});
+      loadStandby();
     }
 
     /* ── Proceso paso images ── */
