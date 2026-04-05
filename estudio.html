@@ -1076,11 +1076,11 @@
     <div class="manifiesto-media fade-up" id="manifMedia" style="transition-delay:0.15s">
       <!-- Mobile: imagen 002 -->
       <img class="m-img" src="estudio/002.png" alt="Nira Labs — manifiesto visual" loading="lazy" width="1440" height="810">
-      <!-- Desktop: vtox ping-pong (A/B always playing) -->
-      <video id="mvidA" class="m-vid v-active" autoplay muted playsinline preload="auto">
+      <!-- Desktop: vtox ping-pong -->
+      <video id="mvidA" class="m-vid v-active" muted playsinline preload="auto">
         <source src="estudio/vtox1.mp4" type="video/mp4">
       </video>
-      <video id="mvidB" class="m-vid" autoplay muted playsinline preload="auto">
+      <video id="mvidB" class="m-vid" muted playsinline preload="auto">
         <source src="estudio/vtox2.mp4" type="video/mp4">
       </video>
     </div>
@@ -1321,48 +1321,56 @@
       manifIO.observe(manifMedia);
     }
 
-    /* vtox ping-pong — A y B siempre corren, solo alternamos opacidad */
+    /* vtox ping-pong — swap explícito al mostrar */
     const VTOX = ['estudio/vtox1.mp4', 'estudio/vtox2.mp4', 'estudio/vtox3.mp4'];
     const mA = document.getElementById('mvidA');
     const mB = document.getElementById('mvidB');
 
     if (isDesktop() && mA && mB) {
-      let mActive   = mA;
-      let mStandby  = mB;
-      let mSrcIdx   = 0; // índice del src actual en mActive
-      let mSwapping = false;
-
-      function loadStandby() {
-        const nextIdx = (mSrcIdx + 1) % VTOX.length;
-        mStandby.src = VTOX[nextIdx];
-        mStandby.load();
-        mStandby.play().catch(() => {});
-      }
+      let mActive  = mA;
+      let mStandby = mB;
+      let mSrcIdx  = 0;
+      let mBusy    = false;
 
       function mvSwap() {
-        if (mSwapping) return;
-        mSwapping = true;
-        mSrcIdx = (mSrcIdx + 1) % VTOX.length;
+        if (mBusy) return;
+        mBusy = true;
+
+        // Ocultar actual, mostrar standby
         mActive.classList.remove('v-active');
         mStandby.classList.add('v-active');
+
+        // Asegurar que el que se muestra está corriendo
+        mStandby.play().catch(() => {});
+
+        // Rotar roles
         const tmp = mActive; mActive = mStandby; mStandby = tmp;
-        loadStandby();
-        setTimeout(() => { mSwapping = false; }, 1000);
+
+        // Cargar el siguiente clip en el que quedó libre
+        mSrcIdx = (mSrcIdx + 1) % VTOX.length;
+        const nextSrc = VTOX[(mSrcIdx + 1) % VTOX.length];
+        mStandby.src = nextSrc;
+        mStandby.load();
+
+        setTimeout(() => { mBusy = false; }, 1200);
       }
 
-      [mA, mB].forEach(v => {
+      function watchActive(v) {
         v.addEventListener('timeupdate', () => {
-          if (v !== mActive || mSwapping) return;
+          if (v !== mActive || mBusy) return;
           if (v.duration && v.currentTime >= v.duration - 0.3) mvSwap();
         });
         v.addEventListener('ended', () => {
-          if (v === mActive) { mSwapping = false; mvSwap(); }
+          if (v === mActive) { mBusy = false; mvSwap(); }
         });
-      });
+      }
 
-      // Arrancar: A corre vtox1, B carga vtox2 en paralelo
+      watchActive(mA);
+      watchActive(mB);
+
+      // Arranque: A empieza vtox1, B pre-carga vtox2
       mA.play().catch(() => {});
-      loadStandby();
+      mB.load(); // solo carga, no reproduce aún
     }
 
     /* ── Proceso paso images ── */
