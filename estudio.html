@@ -264,6 +264,7 @@
       margin-bottom: -4vw;
     }
 
+    /* Image bg — mobile only */
     .hero-bg {
       position: absolute;
       inset: -15% 0;
@@ -271,6 +272,31 @@
       background-size: cover;
       background-position: center;
       will-change: transform;
+    }
+
+    /* Video bg — desktop only */
+    .hero-videos {
+      position: absolute;
+      inset: -12%;
+      display: none;
+      pointer-events: none;
+    }
+    .hero-vid {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+      will-change: transform, opacity;
+      transform: scale(1.12);
+    }
+    .hero-vid.v-active { opacity: 1; }
+
+    @media (min-width: 769px) {
+      .hero-bg { display: none; }
+      .hero-videos { display: block; }
     }
 
     .hero-overlay {
@@ -358,6 +384,8 @@
       letter-spacing: -0.04em;
       color: #fff;
       max-width: 14em;
+      /* SVG warp filter applied via JS on desktop */
+      will-change: filter;
     }
 
     /* Bottom-right status bar — like firstframe's SOUND / FULLSCREEN */
@@ -972,9 +1000,31 @@
     <a href="index.html#contacto">Contacto →</a>
   </div>
 
+  <!-- SVG warp filter for hero title -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="hero-warp" x="-25%" y="-25%" width="150%" height="150%">
+        <feTurbulence id="hero-turb" type="turbulence" baseFrequency="0.012 0.008" numOctaves="3" seed="8" result="turb"/>
+        <feDisplacementMap id="hero-disp" in="SourceGraphic" in2="turb" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
   <!-- ─────────────────── HERO ─────────────────── -->
   <section class="hero" aria-label="Hero">
+    <!-- Mobile fallback image -->
     <div class="hero-bg" id="heroBg" role="img" aria-label="Imagen héroe del estudio"></div>
+
+    <!-- Desktop videos -->
+    <div class="hero-videos" id="heroVideos">
+      <video id="heroVid1" class="hero-vid v-active" muted playsinline preload="auto">
+        <source src="estudio/vid_001.mp4" type="video/mp4">
+      </video>
+      <video id="heroVid2" class="hero-vid" muted playsinline preload="auto">
+        <source src="estudio/vid_002.mp4" type="video/mp4">
+      </video>
+    </div>
+
     <div class="hero-overlay"></div>
     <div class="grid-overlay" aria-hidden="true"></div>
 
@@ -1276,33 +1326,118 @@
       pasoIO.observe(el);
     });
 
-    /* ── Parallax ── */
+    /* ── Desktop-only: video crossfade + parallax X/Y + text warp ── */
+    const isDesktop = () => window.innerWidth >= 769;
+
+    /* ── Video crossfade ── */
+    const vid1 = document.getElementById('heroVid1');
+    const vid2 = document.getElementById('heroVid2');
+    let currentVid = 1;
+
+    function startVideos() {
+      if (!isDesktop() || !vid1) return;
+      vid1.play().catch(() => {});
+      vid2.load();
+    }
+
+    function crossfade() {
+      if (currentVid === 1) {
+        vid2.currentTime = 0;
+        vid2.play().catch(() => {});
+        vid1.classList.remove('v-active');
+        vid2.classList.add('v-active');
+        currentVid = 2;
+      } else {
+        vid1.currentTime = 0;
+        vid1.play().catch(() => {});
+        vid2.classList.remove('v-active');
+        vid1.classList.add('v-active');
+        currentVid = 1;
+      }
+    }
+
+    if (vid1) { vid1.addEventListener('ended', crossfade); }
+    if (vid2) { vid2.addEventListener('ended', crossfade); }
+    startVideos();
+
+    /* ── Video parallax X/Y (mouse tracking) ── */
+    let vx = 0, vy = 0, tvx = 0, tvy = 0;
+    const heroH1 = document.querySelector('.hero h1');
+
+    /* ── SVG text warp (dorianlods style) ── */
+    const turbEl = document.getElementById('hero-turb');
+    const dispEl = document.getElementById('hero-disp');
+    let dispScale = 0, targetDisp = 0;
+    let turbSeed = 8;
+    let lastMx = 0, lastMy = 0;
+
+    if (isDesktop() && heroH1) {
+      heroH1.style.filter = 'url(#hero-warp)';
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDesktop()) return;
+
+      /* Video parallax target */
+      const nx = e.clientX / window.innerWidth  - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+      tvx = nx * -36;
+      tvy = ny * -24;
+
+      /* Text warp: velocity-based */
+      const velX = e.clientX - lastMx;
+      const velY = e.clientY - lastMy;
+      const speed = Math.sqrt(velX * velX + velY * velY);
+      targetDisp = Math.min(speed * 1.8, 40);
+      turbSeed = (turbSeed + 0.5) % 200;
+      if (turbEl) turbEl.setAttribute('seed', turbSeed | 0);
+      lastMx = e.clientX;
+      lastMy = e.clientY;
+    }, { passive: true });
+
+    /* ── Unified rAF loop ── */
     const heroBg   = document.getElementById('heroBg');
     const collabImg = document.getElementById('collabImg');
 
-    function onScroll() {
+    function rAFLoop() {
       const sy = window.scrollY;
 
-      /* Hero parallax */
-      if (heroBg) {
+      /* Hero scroll parallax — mobile fallback image */
+      if (heroBg && !isDesktop()) {
         heroBg.style.transform = `translateY(${sy * 0.35}px)`;
+      }
+
+      /* Video parallax X+Y (desktop) */
+      if (isDesktop()) {
+        vx += (tvx - vx) * 0.055;
+        vy += (tvy - vy) * 0.055;
+        const activeVid = currentVid === 1 ? vid1 : vid2;
+        const inactiveVid = currentVid === 1 ? vid2 : vid1;
+        if (activeVid)   activeVid.style.transform   = `translate(${vx}px, ${vy}px) scale(1.12)`;
+        if (inactiveVid) inactiveVid.style.transform = `translate(${vx}px, ${vy}px) scale(1.12)`;
+
+        /* SVG warp decay */
+        dispScale += (targetDisp - dispScale) * 0.1;
+        targetDisp *= 0.86;
+        if (dispEl) dispEl.setAttribute('scale', dispScale.toFixed(2));
       }
 
       /* Collab parallax */
       if (collabImg) {
-        const wrap   = collabImg.closest('.collab-visual');
-        const rect   = wrap.getBoundingClientRect();
-        const viewH  = window.innerHeight;
+        const wrap  = collabImg.closest('.collab-visual');
+        const rect  = wrap.getBoundingClientRect();
+        const viewH = window.innerHeight;
         if (rect.bottom > 0 && rect.top < viewH) {
           const progress = (viewH - rect.top) / (viewH + rect.height);
           const offset   = (progress - 0.5) * 120;
           collabImg.style.transform = `translateY(${offset}px)`;
         }
       }
+
+      requestAnimationFrame(rAFLoop);
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    rAFLoop();
   </script>
 </body>
 </html>
