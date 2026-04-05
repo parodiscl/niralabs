@@ -469,22 +469,42 @@
     }
     .manifiesto h2 .accent { color: var(--cyan); }
 
-    /* Full-bleed image with diagonal overlap */
-    .manifiesto-img-wrap {
+    /* Full-bleed media — manifiesto */
+    .manifiesto-media {
       position: relative;
       overflow: hidden;
       width: 100%;
-      /* Overlaps into the white section via negative margin */
-    }
-    .manifiesto-img-wrap img {
-      width: 100%;
       height: clamp(340px, 60vh, 720px);
+    }
+
+    /* Mobile image */
+    .manifiesto-media .m-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
       display: block;
       transform: scale(1.08);
       transition: transform 1.4s var(--ease-out);
     }
-    .manifiesto-img-wrap.in img { transform: scale(1); }
+    .manifiesto-media.in .m-img { transform: scale(1); }
+
+    /* Desktop videos */
+    .manifiesto-media .m-vid {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      display: none;
+    }
+    .manifiesto-media .m-vid.v-active { opacity: 1; }
+
+    @media (min-width: 769px) {
+      .manifiesto-media .m-img  { display: none; }
+      .manifiesto-media .m-vid  { display: block; }
+    }
 
     /* ═══════════════════════════════════════════
        VALORES — WHITE SECTION
@@ -1003,7 +1023,7 @@
 
     <!-- Desktop videos -->
     <div class="hero-videos" id="heroVideos">
-      <video id="heroVid1" class="hero-vid v-active" muted playsinline preload="auto">
+      <video id="heroVid1" class="hero-vid v-active" autoplay muted playsinline preload="auto">
         <source src="estudio/vid_001.mp4" type="video/mp4">
       </video>
       <video id="heroVid2" class="hero-vid" muted playsinline preload="auto">
@@ -1053,14 +1073,19 @@
       <span class="r"><span>que se siente <span class="accent">inevitable.</span></span></span>
     </h2>
 
-    <div class="manifiesto-img-wrap fade-up" style="transition-delay:0.15s">
-      <img
-        src="estudio/manifiesto.png"
-        alt="Obsidian monolith with miniature figures — Nira Labs manifiesto"
-        loading="lazy"
-        width="1440"
-        height="810"
-      >
+    <div class="manifiesto-media fade-up" id="manifMedia" style="transition-delay:0.15s">
+      <!-- Mobile: imagen 002 -->
+      <img class="m-img" src="estudio/002.png" alt="Nira Labs — manifiesto visual" loading="lazy" width="1440" height="810">
+      <!-- Desktop: vtox loop -->
+      <video id="mvid1" class="m-vid v-active" autoplay muted playsinline preload="auto">
+        <source src="estudio/vtox1.mp4" type="video/mp4">
+      </video>
+      <video id="mvid2" class="m-vid" muted playsinline preload="auto">
+        <source src="estudio/vtox2.mp4" type="video/mp4">
+      </video>
+      <video id="mvid3" class="m-vid" muted playsinline preload="auto">
+        <source src="estudio/vtox3.mp4" type="video/mp4">
+      </video>
     </div>
   </section>
 
@@ -1285,9 +1310,9 @@
       if (!el.closest('.hero')) io.observe(el);
     });
 
-    /* ── Manifiesto image reveal ── */
-    const manifImgWrap = document.querySelector('.manifiesto-img-wrap');
-    if (manifImgWrap) {
+    /* ── Manifiesto media reveal + vtox loop ── */
+    const manifMedia = document.getElementById('manifMedia');
+    if (manifMedia) {
       const manifIO = new IntersectionObserver(entries => {
         entries.forEach(e => {
           if (e.isIntersecting) {
@@ -1296,7 +1321,34 @@
           }
         });
       }, { threshold: 0.15 });
-      manifIO.observe(manifImgWrap);
+      manifIO.observe(manifMedia);
+    }
+
+    /* vtox crossfade loop — desktop only */
+    const mvids = [
+      document.getElementById('mvid1'),
+      document.getElementById('mvid2'),
+      document.getElementById('mvid3')
+    ];
+    let mIdx = 0;
+
+    function mvCrossfade() {
+      const next = (mIdx + 1) % mvids.length;
+      mvids[next].currentTime = 0;
+      mvids[next].play().catch(() => {});
+      mvids[mIdx].classList.remove('v-active');
+      mvids[next].classList.add('v-active');
+      mIdx = next;
+    }
+
+    if (isDesktop()) {
+      mvids.forEach((v, i) => {
+        if (!v) return;
+        v.addEventListener('ended', mvCrossfade);
+      });
+      if (mvids[0]) mvids[0].play().catch(() => {});
+      if (mvids[1]) mvids[1].load();
+      if (mvids[2]) mvids[2].load();
     }
 
     /* ── Proceso paso images ── */
