@@ -1329,26 +1329,24 @@
       document.getElementById('mvid1'),
       document.getElementById('mvid2'),
       document.getElementById('mvid3')
-    ];
+    ].filter(Boolean);
     let mIdx = 0;
 
-    function mvCrossfade() {
-      const next = (mIdx + 1) % mvids.length;
-      mvids[next].currentTime = 0;
-      mvids[next].play().catch(() => {});
-      mvids[mIdx].classList.remove('v-active');
-      mvids[next].classList.add('v-active');
-      mIdx = next;
+    function mvNext() {
+      const prev = mvids[mIdx];
+      mIdx = (mIdx + 1) % mvids.length;
+      const curr = mvids[mIdx];
+      prev.classList.remove('v-active');
+      curr.currentTime = 0;
+      curr.play().catch(() => {});
+      curr.classList.add('v-active');
+      curr.addEventListener('ended', mvNext, { once: true });
     }
 
-    if (isDesktop()) {
-      mvids.forEach((v, i) => {
-        if (!v) return;
-        v.addEventListener('ended', mvCrossfade);
-      });
-      if (mvids[0]) mvids[0].play().catch(() => {});
-      if (mvids[1]) mvids[1].load();
-      if (mvids[2]) mvids[2].load();
+    if (isDesktop() && mvids.length) {
+      mvids[0].play().catch(() => {});
+      mvids[0].addEventListener('ended', mvNext, { once: true });
+      mvids.slice(1).forEach(v => v.load());
     }
 
     /* ── Proceso paso images ── */
@@ -1371,31 +1369,25 @@
     const vid2 = document.getElementById('heroVid2');
     let currentVid = 1;
 
-    function startVideos() {
-      if (!isDesktop() || !vid1) return;
-      vid1.play().catch(() => {});
-      vid2.load();
+    const heroVids = [vid1, vid2].filter(Boolean);
+    let hIdx = 0;
+
+    function heroNext() {
+      const prev = heroVids[hIdx];
+      hIdx = (hIdx + 1) % heroVids.length;
+      const curr = heroVids[hIdx];
+      prev.classList.remove('v-active');
+      curr.currentTime = 0;
+      curr.play().catch(() => {});
+      curr.classList.add('v-active');
+      curr.addEventListener('ended', heroNext, { once: true });
     }
 
-    function crossfade() {
-      if (currentVid === 1) {
-        vid2.currentTime = 0;
-        vid2.play().catch(() => {});
-        vid1.classList.remove('v-active');
-        vid2.classList.add('v-active');
-        currentVid = 2;
-      } else {
-        vid1.currentTime = 0;
-        vid1.play().catch(() => {});
-        vid2.classList.remove('v-active');
-        vid1.classList.add('v-active');
-        currentVid = 1;
-      }
+    if (isDesktop() && heroVids.length) {
+      heroVids[0].play().catch(() => {});
+      heroVids[0].addEventListener('ended', heroNext, { once: true });
+      heroVids.slice(1).forEach(v => v.load());
     }
-
-    if (vid1) { vid1.addEventListener('ended', crossfade); }
-    if (vid2) { vid2.addEventListener('ended', crossfade); }
-    startVideos();
 
     /* ── Scroll parallax ── */
     const heroBg    = document.getElementById('heroBg');
