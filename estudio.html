@@ -11,77 +11,85 @@
   <meta property="og:url" content="https://niralabs.io/estudio.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Estudio — Nira Labs">
-
   <link rel="canonical" href="https://niralabs.io/estudio.html">
   <link rel="icon" href="logo/nira-favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
   <style>
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        RESET
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { font-size: 16px; }
     img { display: block; max-width: 100%; }
     a { text-decoration: none; }
 
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        TOKENS
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     :root {
-      --bg:     #020408;
-      --bg-alt: #080c14;
-      --bg-white: #f5f5f0;
-      --text:   #E8ECF0;
-      --muted:  rgba(232,236,240,0.45);
-      --cyan:   #00D4FF;
-      --violet: #A78BFA;
-      --pink:   #F472B6;
-      --green:  #34D399;
-      --border: rgba(255,255,255,0.08);
+      --ink:      #020408;
+      --ink-alt:  #080c14;
+      --chalk:    #f2f1ed;
+      --text:     #E8ECF0;
+      --muted:    rgba(232,236,240,0.42);
+      --cyan:     #00D4FF;
+      --violet:   #A78BFA;
+      --pink:     #F472B6;
+      --green:    #34D399;
+      --border:   rgba(255,255,255,0.07);
 
-      --font-head: 'Space Grotesk', sans-serif;
-      --font-body: 'IBM Plex Sans', sans-serif;
-
-      --pad-section: clamp(80px, 10vw, 160px);
-      --pad-x: clamp(24px, 5vw, 80px);
+      --fh: 'Space Grotesk', sans-serif;
+      --fb: 'IBM Plex Sans', sans-serif;
+      --px: clamp(24px, 5vw, 88px);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        BASE
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     body {
-      background: var(--bg);
+      background: var(--ink);
       color: var(--text);
-      font-family: var(--font-body);
-      font-size: 16px;
+      font-family: var(--fb);
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
+       SCROLL PROGRESS
+    ═══════════════════════════════════════════ */
+    #progress {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      z-index: 200;
+      background: rgba(0,212,255,0.12);
+      pointer-events: none;
+    }
+    #progress-fill {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 0%;
+      background: linear-gradient(to bottom, var(--cyan), var(--violet));
+      transition: height 0.05s linear;
+    }
+
+    /* ═══════════════════════════════════════════
        WORDMARK
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .wm-nira { color: var(--text); }
     .wm-l    { color: var(--cyan); }
     .wm-a    { color: var(--violet); }
     .wm-b    { color: var(--pink); }
     .wm-s    { color: var(--green); }
 
-    .wordmark {
-      font-family: var(--font-head);
-      font-weight: 700;
-      font-size: 22px;
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        NAV
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -89,59 +97,69 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px var(--pad-x);
-      transition: background 0.3s, backdrop-filter 0.3s;
+      padding: 22px var(--px);
+      transition: background 0.4s, padding 0.4s;
     }
     .nav.scrolled {
-      background: rgba(2,4,8,0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(2,4,8,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+
+    .wordmark {
+      font-family: var(--fh);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: inherit;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 36px;
+      gap: 4px;
       list-style: none;
     }
     .nav-links a {
-      font-family: var(--font-head);
+      font-family: var(--fh);
       font-size: 13px;
       font-weight: 500;
-      letter-spacing: 0.04em;
-      color: rgba(232,236,240,0.6);
+      letter-spacing: 0.01em;
+      color: rgba(232,236,240,0.5);
+      padding: 8px 14px;
+      border-radius: 8px;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--text); }
-    .nav-links a.active { color: var(--cyan); }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
     .nav-cta {
-      font-family: var(--font-head);
+      font-family: var(--fh);
       font-size: 13px;
       font-weight: 600;
-      color: var(--bg) !important;
+      color: var(--ink) !important;
       background: var(--cyan);
       padding: 9px 20px;
-      border-radius: 4px;
+      border-radius: 6px;
       transition: opacity 0.2s !important;
     }
     .nav-cta:hover { opacity: 0.85; }
 
-    /* Hamburger */
     .nav-hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
-      padding: 4px;
+      padding: 6px;
       background: none;
       border: none;
     }
     .nav-hamburger span {
       display: block;
-      width: 24px;
-      height: 2px;
+      width: 22px; height: 2px;
       background: var(--text);
       transition: transform 0.3s, opacity 0.3s;
     }
@@ -149,473 +167,678 @@
     .nav-hamburger.open span:nth-child(2) { opacity: 0; }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* Fullscreen mobile menu */
     .nav-overlay {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 99;
-      background: var(--bg);
+      background: var(--ink);
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      gap: 40px;
+      padding: 0 var(--px);
+      gap: 0;
     }
     .nav-overlay.open { display: flex; }
     .nav-overlay a {
-      font-family: var(--font-head);
-      font-size: clamp(32px, 8vw, 56px);
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.02em;
+      font-family: var(--fh);
+      font-size: clamp(40px, 10vw, 72px);
+      font-weight: 800;
+      color: rgba(232,236,240,0.3);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
       transition: color 0.2s;
     }
-    .nav-overlay a:hover { color: var(--cyan); }
-    .nav-overlay a.active { color: var(--cyan); }
+    .nav-overlay a:last-child { border-bottom: none; }
+    .nav-overlay a:hover, .nav-overlay a.active { color: var(--cyan); }
 
-    /* ─────────────────────────────────────────
-       LABEL
-    ───────────────────────────────────────── */
-    .label {
-      display: inline-block;
-      font-family: var(--font-head);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--cyan);
+    /* ═══════════════════════════════════════════
+       TEXT REVEAL — clayboan style
+    ═══════════════════════════════════════════ */
+    .r {
+      display: block;
+      overflow: hidden;
+      line-height: 1.05;
+    }
+    .r > span {
+      display: block;
+      transform: translateY(108%);
+      transition: transform 1.1s var(--ease-out);
+    }
+    .r.in > span { transform: translateY(0); }
+
+    /* Stagger for multiple .r siblings */
+    .r:nth-child(2) > span { transition-delay: 0.08s; }
+    .r:nth-child(3) > span { transition-delay: 0.16s; }
+    .r:nth-child(4) > span { transition-delay: 0.24s; }
+
+    /* Fade-up variants */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+    }
+    .fade-up.in { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: 0.1s; }
+    .fade-up.d2 { transition-delay: 0.2s; }
+    .fade-up.d3 { transition-delay: 0.3s; }
+    .fade-up.d4 { transition-delay: 0.4s; }
+    .fade-up.d5 { transition-delay: 0.5s; }
+
+    /* Clip wipe — left to right */
+    .wipe {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1.2s var(--ease-out);
+    }
+    .wipe.in { clip-path: inset(0 0% 0 0); }
+
+    /* ═══════════════════════════════════════════
+       GRID OVERLAY — editorial / firstframe style
+    ═══════════════════════════════════════════ */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      /* 4-column grid lines */
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 25% 25%;
     }
 
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
+    /* ═══════════════════════════════════════════
+       HERO — fullscreen, title bottom-left
+    ═══════════════════════════════════════════ */
     .hero {
       position: relative;
       height: 100vh;
-      min-height: 600px;
+      min-height: 640px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      align-items: flex-end;
       overflow: hidden;
+      clip-path: polygon(0 0, 100% 0, 100% 94%, 0 100%);
+      margin-bottom: -4vw;
     }
 
     .hero-bg {
       position: absolute;
-      inset: 0;
+      inset: -15% 0;
       background-image: url('estudio/hero.png');
       background-size: cover;
       background-position: center;
-      z-index: 0;
+      will-change: transform;
     }
 
     .hero-overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(
-        to bottom,
-        rgba(2,4,8,0.30) 0%,
-        rgba(2,4,8,0.75) 100%
+        to top,
+        rgba(2,4,8,0.90) 0%,
+        rgba(2,4,8,0.35) 45%,
+        rgba(2,4,8,0.10) 100%
       );
-      z-index: 1;
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 0 var(--pad-x);
-      max-width: 1000px;
-    }
-
-    .hero-label {
-      margin-bottom: 28px;
-    }
-
-    .hero h1 {
-      font-family: var(--font-head);
-      font-size: clamp(52px, 9vw, 120px);
-      font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -0.03em;
-      color: #fff;
-    }
-
-    /* Texto rotado esquina inferior derecha */
-    .hero-location {
+    /* Top-left corner meta — like firstframe */
+    .hero-meta-tl {
       position: absolute;
-      bottom: 48px;
-      right: var(--pad-x);
-      z-index: 2;
-      font-family: var(--font-head);
-      font-size: 11px;
+      top: 92px;
+      left: var(--px);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+    }
+    .hero-meta-tl.in { opacity: 1; transform: translateY(0); }
+    .hero-meta-tl span {
+      font-family: var(--fh);
+      font-size: 10px;
       font-weight: 500;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: rgba(232,236,240,0.35);
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      user-select: none;
+      display: block;
     }
 
-    /* ─────────────────────────────────────────
-       SECCIÓN COMPARTIDA
-    ───────────────────────────────────────── */
-    .section {
+    /* Top-right counter */
+    .hero-counter {
+      position: absolute;
+      top: 92px;
+      right: var(--px);
+      z-index: 4;
+      font-family: var(--fh);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: rgba(232,236,240,0.25);
+      opacity: 0;
+      transition: opacity 0.7s ease 0.3s;
+    }
+    .hero-counter.in { opacity: 1; }
+
+    /* Main content — bottom-left, like firstframe */
+    .hero-content {
       position: relative;
-      padding: var(--pad-section) var(--pad-x);
-    }
-    .section--alt { background: var(--bg-alt); }
-
-    .section-header {
-      position: relative;
-      margin-bottom: clamp(48px, 6vw, 80px);
-    }
-
-    .section-header .label { margin-bottom: 16px; }
-
-    .section-title {
-      font-family: var(--font-head);
-      font-size: clamp(36px, 5.5vw, 72px);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      position: relative;
-      z-index: 1;
+      z-index: 4;
+      padding: 0 var(--px) clamp(64px, 9vw, 120px);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    /* ─────────────────────────────────────────
-       MANIFIESTO
-    ───────────────────────────────────────── */
-    .manifiesto {
-      background: var(--bg);
-      padding-top: var(--pad-section);
-    }
-
-    /* Número de sección visible — NO ghost */
-    .manifiesto-num {
-      font-family: var(--font-head);
-      font-size: clamp(100px, 15vw, 200px);
-      font-weight: 800;
-      line-height: 0.9;
+    .hero-eyebrow {
+      font-family: var(--fh);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
       color: var(--cyan);
-      letter-spacing: -0.04em;
-      margin-bottom: 8px;
-      padding-left: var(--pad-x);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+      margin-bottom: 20px;
+      display: block;
     }
+    .hero-eyebrow.in { opacity: 0.7; transform: translateY(0); }
 
-    .manifiesto-header {
-      padding: 0 var(--pad-x);
-      margin-bottom: clamp(48px, 6vw, 72px);
-    }
-
-    .manifiesto-title {
-      font-family: var(--font-head);
-      font-size: clamp(42px, 7vw, 96px);
+    .hero h1 {
+      font-family: var(--fh);
+      font-size: clamp(52px, 10.5vw, 150px);
       font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      margin-top: 16px;
+      line-height: 0.93;
+      letter-spacing: -0.04em;
+      color: #fff;
+      max-width: 14em;
     }
-    .manifiesto-title .accent { color: var(--cyan); }
 
-    /* Full-bleed image — sin padding, sin border-radius */
-    .manifiesto-image-wrap {
+    /* Bottom-right status bar — like firstframe's SOUND / FULLSCREEN */
+    .hero-statusbar {
+      position: absolute;
+      bottom: clamp(64px, 9vw, 120px);
+      right: var(--px);
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.9s;
+    }
+    .hero-statusbar.in { opacity: 1; }
+    .hero-statusbar span {
+      font-family: var(--fh);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(232,236,240,0.3);
+    }
+    .hero-statusbar .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+
+    .hero-sub {
+      display: none; /* hidden — replaced by bottom statusbar */
+    }
+
+    /* ═══════════════════════════════════════════
+       MANIFIESTO
+    ═══════════════════════════════════════════ */
+    .manifiesto {
+      position: relative;
+      background: var(--ink);
+      padding: clamp(100px, 14vw, 200px) var(--px) 0;
+      overflow: hidden;
+    }
+
+    /* Ghost number */
+    .manifiesto-ghost {
+      position: absolute;
+      top: clamp(60px, 8vw, 120px);
+      right: -0.04em;
+      font-family: var(--fh);
+      font-size: clamp(200px, 32vw, 480px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: rgba(0,212,255,0.04);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .manifiesto-label {
+      font-family: var(--fh);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      opacity: 0.7;
+      display: block;
+      margin-bottom: 40px;
+    }
+
+    .manifiesto h2 {
+      font-family: var(--fh);
+      font-size: clamp(44px, 8vw, 110px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: #fff;
+      margin-bottom: clamp(60px, 8vw, 120px);
+    }
+    .manifiesto h2 .accent { color: var(--cyan); }
+
+    /* Full-bleed image with diagonal overlap */
+    .manifiesto-img-wrap {
       position: relative;
       overflow: hidden;
       width: 100%;
+      /* Overlaps into the white section via negative margin */
     }
-
-    .manifiesto-image-wrap img {
+    .manifiesto-img-wrap img {
       width: 100%;
-      height: 75vh;
-      min-height: 400px;
+      height: clamp(340px, 60vh, 720px);
       object-fit: cover;
       display: block;
-      border-radius: 0;
+      transform: scale(1.08);
+      transition: transform 1.4s var(--ease-out);
+    }
+    .manifiesto-img-wrap.in img { transform: scale(1); }
+
+    /* ═══════════════════════════════════════════
+       VALORES — WHITE SECTION
+    ═══════════════════════════════════════════ */
+    .valores {
+      background: var(--chalk);
+      position: relative;
     }
 
-    /* ─────────────────────────────────────────
-       VALORES — FONDO BLANCO (contraste brutal)
-    ───────────────────────────────────────── */
-    .valores {
+    /* Diagonal cut on top */
+    .valores::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: clamp(40px, 6vw, 80px);
+      background: var(--ink);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+    }
+
+    .valores-inner {
+      padding: clamp(80px, 10vw, 140px) var(--px);
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      background: var(--bg-white);
-      margin: 0;
-      width: 100%;
+      gap: 0;
     }
 
     .valor {
-      padding: 80px clamp(24px, 3.5vw, 56px);
+      padding: 0 clamp(24px, 3vw, 48px) 0 0;
       color: #0a0a0a;
+      border-right: 1px solid rgba(10,10,10,0.1);
+      padding-right: clamp(24px, 3vw, 48px);
     }
+    .valor:first-child { padding-left: 0; }
+    .valor:last-child { border-right: none; padding-right: 0; padding-left: clamp(24px, 3vw, 48px); }
+    .valor:nth-child(2) { padding-left: clamp(24px, 3vw, 48px); }
 
     .valor-num {
-      font-family: var(--font-head);
-      font-size: 48px;
-      font-weight: 700;
-      color: #0a0a0a;
-      line-height: 1;
-      margin-bottom: 24px;
-      letter-spacing: -0.03em;
+      font-family: var(--fh);
+      font-size: clamp(56px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: rgba(10,10,10,0.08);
+      margin-bottom: 28px;
     }
 
     .valor h3 {
-      font-family: var(--font-head);
-      font-size: 24px;
+      font-family: var(--fh);
+      font-size: clamp(20px, 2.4vw, 30px);
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.15;
       letter-spacing: -0.02em;
-      margin-bottom: 14px;
       color: #0a0a0a;
+      margin-bottom: 14px;
     }
 
     .valor p {
       font-size: 15px;
       font-weight: 300;
-      line-height: 1.7;
-      color: rgba(10,10,10,0.6);
+      line-height: 1.75;
+      color: rgba(10,10,10,0.55);
     }
 
-    /* ─────────────────────────────────────────
-       PROCESO
-    ───────────────────────────────────────── */
+    /* ═══════════════════════════════════════════
+       PROCESO — bold magazine layout
+    ═══════════════════════════════════════════ */
     .proceso {
-      padding: 0;
-      background: transparent;
+      background: var(--ink);
+      position: relative;
+    }
+
+    /* Diagonal cut from chalk to ink */
+    .proceso::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: clamp(40px, 6vw, 80px);
+      background: var(--chalk);
+      clip-path: polygon(0 0, 100% 0, 0 100%);
     }
 
     .proceso-header {
-      padding: var(--pad-section) var(--pad-x) clamp(40px, 6vw, 80px);
-      background: var(--bg-alt);
+      padding: clamp(100px, 14vw, 180px) var(--px) clamp(60px, 8vw, 100px);
+      text-align: center;
+      position: relative;
     }
 
     .proceso-label {
-      display: inline-block;
-      font-family: var(--font-head);
+      font-family: var(--fh);
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--cyan);
-      margin-bottom: 16px;
+      display: block;
+      margin-bottom: 32px;
+      opacity: 0.7;
     }
 
-    /* Título partido — "Cómo" normal / "construimos." enorme */
-    .proceso-title-small {
-      font-family: var(--font-head);
-      font-size: clamp(28px, 3.5vw, 48px);
-      font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--text);
+    .proceso-header-h2 {
+      font-family: var(--fh);
+      font-size: clamp(14px, 2vw, 22px);
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
       display: block;
     }
 
-    .proceso-title-big {
-      font-family: var(--font-head);
-      font-size: clamp(60px, 10vw, 140px);
+    .proceso-big-title {
+      font-family: var(--fh);
+      font-size: clamp(64px, 13vw, 180px);
       font-weight: 800;
-      line-height: 0.9;
-      letter-spacing: -0.04em;
-      color: var(--text);
+      line-height: 0.88;
+      letter-spacing: -0.045em;
+      color: #fff;
       display: block;
-      /* Clip-path reveal — activa con .visible via JS */
-      clip-path: inset(0 100% 0 0);
-      transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .proceso-title-big.visible {
-      clip-path: inset(0 0% 0 0);
     }
 
-    /* Pasos — cada uno es una sección full-width propia */
+    /* Steps */
     .proceso-steps {
-      display: flex;
-      flex-direction: column;
+      border-top: 1px solid var(--border);
     }
 
     .paso {
       display: grid;
-      grid-template-columns: 55fr 45fr;
-      align-items: stretch;
-      min-height: 480px;
+      grid-template-columns: 1fr 1fr;
+      min-height: 520px;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
     }
 
-    /* Pasos impares */
-    .paso:nth-child(odd) {
-      background: #020408;
-    }
-    /* Pasos pares */
-    .paso:nth-child(even) {
-      background: #080c14;
-      border-top: 1px solid rgba(0, 212, 255, 0.2);
-    }
-
-    /* ZIG-ZAG: pares invierten el orden */
-    .paso:nth-child(even) .paso-img  { order: 2; }
-    .paso:nth-child(even) .paso-content { order: 1; }
+    .paso:nth-child(even) .paso-img { order: 2; }
+    .paso:nth-child(even) .paso-body { order: 1; }
 
     .paso-img {
-      overflow: hidden;
-      border-radius: 4px;
       position: relative;
+      overflow: hidden;
     }
     .paso-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 1.2s ease;
-      transform: scale(1.05);
-      border-radius: 4px;
+      transform: scale(1.1);
+      transition: transform 1.6s var(--ease-out);
+    }
+    .paso-img.in img { transform: scale(1); }
+
+    /* Hover zoom on desktop */
+    @media (hover: hover) {
+      .paso:hover .paso-img img { transform: scale(1.04); }
     }
 
-    .paso-content {
-      position: relative;
-      padding: clamp(40px, 5vw, 80px) clamp(32px, 4vw, 64px);
+    .paso-body {
+      padding: clamp(48px, 6vw, 96px) clamp(32px, 5vw, 80px);
       display: flex;
-      align-items: center;
-      overflow: visible;
-    }
-
-    /* Número de paso: enorme, casi fantasma */
-    .paso-num {
-      font-family: var(--font-head);
-      font-size: clamp(80px, 12vw, 160px);
-      font-weight: 800;
-      line-height: 0.9;
-      color: rgba(255,255,255,0.12);
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      pointer-events: none;
-      user-select: none;
-      letter-spacing: -0.04em;
-    }
-
-    .paso-inner {
+      flex-direction: column;
+      justify-content: center;
       position: relative;
-      z-index: 1;
-    }
-
-    .paso-step-label {
-      font-family: var(--font-head);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 16px;
-    }
-
-    .paso-title {
-      font-family: var(--font-head);
-      font-size: clamp(36px, 5vw, 64px);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 20px;
-      color: var(--text);
-    }
-
-    .paso-desc {
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--muted);
-      max-width: 380px;
-    }
-
-    /* ─────────────────────────────────────────
-       COLABORACIÓN
-    ───────────────────────────────────────── */
-    .collab {
-      background: #020408;
-      padding: 0;
-    }
-
-    /* Imagen poster full-bleed con título encima */
-    .collab-poster {
-      position: relative;
-      width: 100%;
       overflow: hidden;
     }
 
-    .collab-poster-img {
+    .paso-num-bg {
+      position: absolute;
+      bottom: -0.2em;
+      right: -0.06em;
+      font-family: var(--fh);
+      font-size: clamp(120px, 20vw, 280px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: rgba(255,255,255,0.04);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .paso-step-tag {
+      font-family: var(--fh);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 20px;
+      display: block;
+      opacity: 0.8;
+    }
+
+    .paso-title {
+      font-family: var(--fh);
+      font-size: clamp(38px, 5.5vw, 72px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+
+    .paso-desc {
+      font-size: clamp(14px, 1.4vw, 16px);
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 360px;
+    }
+
+    /* Alternating bg tint */
+    .paso:nth-child(even) .paso-body {
+      background: rgba(0,212,255,0.02);
+    }
+
+    /* ═══════════════════════════════════════════
+       COLLAB — cinematic full-screen
+    ═══════════════════════════════════════════ */
+    .collab {
+      position: relative;
+      background: var(--ink);
+    }
+
+    .collab-visual {
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+      min-height: 600px;
+    }
+
+    .collab-visual img {
       width: 100%;
-      height: 85vh;
-      min-height: 500px;
+      height: 120%;
       object-fit: cover;
       display: block;
-      border-radius: 0;
+      position: absolute;
+      top: -10%;
       will-change: transform;
     }
 
-    .collab-poster-title {
+    .collab-visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(2,4,8,0.1) 0%,
+        rgba(2,4,8,0.5) 50%,
+        rgba(2,4,8,0.95) 100%
+      );
+    }
+
+    .collab-title-over {
       position: absolute;
       bottom: 0;
       left: 0;
-      right: 0;
-      padding: 40px var(--pad-x);
-      font-family: var(--font-head);
-      font-size: clamp(56px, 10vw, 140px);
-      font-weight: 800;
-      color: #fff;
-      line-height: 0.9;
-      letter-spacing: -0.04em;
-      /* Gradiente por debajo del texto */
-      background: linear-gradient(to top, rgba(2,4,8,0.85) 0%, transparent 100%);
+      padding: 0 var(--px) clamp(48px, 6vw, 80px);
+      z-index: 2;
     }
 
-    /* Items debajo de la imagen */
-    .collab-items {
-      display: flex;
-      align-items: stretch;
+    .collab-title-over h2 {
+      font-family: var(--fh);
+      font-size: clamp(52px, 11vw, 160px);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+      color: #fff;
+    }
+
+    /* Info strip */
+    .collab-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+    }
+
+    .collab-stat {
+      padding: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 48px);
+      border-right: 1px solid var(--border);
+      font-family: var(--fh);
+    }
+    .collab-stat:last-child { border-right: none; }
+
+    .collab-stat-num {
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--cyan);
+      display: block;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .collab-stat-label {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+    }
+
+    /* CTA strip */
+    .collab-cta-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .collab-cta {
+      display: block;
+      background: var(--cyan);
+      color: var(--ink);
+      font-family: var(--fh);
+      font-size: clamp(18px, 2.5vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-align: center;
+      padding: clamp(28px, 4vw, 44px) var(--px);
+      transition: background 0.3s, color 0.3s, letter-spacing 0.3s;
+    }
+    .collab-cta:hover {
+      background: #fff;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+
+    /* ═══════════════════════════════════════════
+       STATEMENT — bold interlude
+    ═══════════════════════════════════════════ */
+    .statement {
+      background: var(--ink-alt);
+      padding: clamp(100px, 14vw, 180px) var(--px);
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
 
-    .collab-item {
-      flex: 1;
-      padding: 40px clamp(24px, 3vw, 48px);
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text);
-      border-right: 1px solid var(--border);
-      text-align: center;
-      line-height: 1.4;
-    }
-    .collab-item:last-child { border-right: none; }
-
-    /* CTA full-width */
-    .collab-cta {
-      display: block;
-      width: 100%;
-      font-family: var(--font-head);
-      font-size: 20px;
+    .statement blockquote {
+      font-family: var(--fh);
+      font-size: clamp(32px, 6vw, 88px);
       font-weight: 700;
-      color: #020408;
-      background: var(--cyan);
-      text-align: center;
-      padding: 28px var(--pad-x);
-      border-radius: 0;
-      letter-spacing: -0.01em;
-      transition: background 0.25s, color 0.25s, border-color 0.25s;
-      border: 2px solid var(--cyan);
-    }
-    .collab-cta:hover {
-      background: #020408;
-      color: var(--cyan);
-      border-color: var(--cyan);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: #fff;
+      max-width: 16em;
     }
 
-    /* ─────────────────────────────────────────
+    .statement blockquote em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,236,240,0.3);
+    }
+
+    .statement-meta {
+      margin-top: 48px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .statement-line {
+      width: 40px; height: 1px;
+      background: var(--cyan);
+      opacity: 0.5;
+    }
+
+    .statement-source {
+      font-family: var(--fh);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(232,236,240,0.3);
+    }
+
+    /* ═══════════════════════════════════════════
        FOOTER
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .footer {
-      background: var(--bg);
+      background: var(--ink);
       border-top: 1px solid var(--border);
-      padding: 40px var(--pad-x);
+      padding: 40px var(--px);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -624,17 +847,15 @@
       overflow: hidden;
     }
 
-    /* Watermark "2025" de fondo */
-    .footer-watermark {
+    .footer-wm {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      font-family: var(--font-head);
-      font-size: clamp(120px, 20vw, 280px);
+      font-family: var(--fh);
+      font-size: clamp(100px, 18vw, 260px);
       font-weight: 800;
       color: var(--text);
-      opacity: 0.04;
+      opacity: 0.03;
       pointer-events: none;
       user-select: none;
       letter-spacing: -0.04em;
@@ -644,7 +865,7 @@
     .footer-copy {
       font-size: 13px;
       color: var(--muted);
-      font-family: var(--font-body);
+      font-family: var(--fb);
       position: relative;
       z-index: 1;
     }
@@ -657,111 +878,74 @@
       z-index: 1;
     }
     .footer-links a {
-      font-family: var(--font-head);
+      font-family: var(--fh);
       font-size: 13px;
       font-weight: 500;
-      color: rgba(232,236,240,0.5);
+      color: rgba(232,236,240,0.4);
       transition: color 0.2s;
     }
     .footer-links a:hover { color: var(--text); }
 
-    /* ─────────────────────────────────────────
-       ANIMACIONES
-    ───────────────────────────────────────── */
-    .anim {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .anim.anim--img {
-      opacity: 0;
-      transform: scale(1.05);
-      transition: opacity 0.9s ease, transform 1.0s ease;
-    }
-    .anim.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    .anim-d1 { transition-delay: 0.1s; }
-    .anim-d2 { transition-delay: 0.2s; }
-    .anim-d3 { transition-delay: 0.3s; }
-    .anim-d4 { transition-delay: 0.4s; }
-    .anim-d5 { transition-delay: 0.5s; }
-
-    /* ─────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        MOBILE
-    ───────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     @media (max-width: 768px) {
-      .nav-links,
-      .nav-cta { display: none; }
+      .nav-links, .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
 
-      .manifiesto-num {
-        font-size: clamp(72px, 20vw, 120px);
-      }
+      .hero { clip-path: polygon(0 0, 100% 0, 100% 97%, 0 100%); }
+      .hero-meta-tl, .hero-counter, .hero-statusbar { display: none; }
 
-      .valores {
+      .valores::before { height: 32px; }
+      .valores-inner {
         grid-template-columns: 1fr;
+        gap: 0;
+        padding: 72px var(--px);
       }
       .valor {
-        padding: 48px clamp(24px, 5vw, 40px);
-        border-bottom: 1px solid rgba(10,10,10,0.12);
+        border-right: none;
+        border-bottom: 1px solid rgba(10,10,10,0.1);
+        padding: 0 0 40px 0 !important;
+        margin-bottom: 40px;
       }
-      .valor:last-child { border-bottom: none; }
-      .valor-num { font-size: 36px; }
+      .valor:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0 !important; }
 
-      .proceso-title-big {
-        font-size: clamp(48px, 14vw, 80px);
-      }
+      .proceso::before { height: 32px; }
 
       .paso {
         grid-template-columns: 1fr;
         min-height: auto;
       }
-      .paso-num { display: none; }
-      .paso:nth-child(even) .paso-img  { order: 1; }
-      .paso:nth-child(even) .paso-content { order: 2; }
-      .paso-img {
-        height: 240px;
-      }
-      .paso-img img {
-        height: 100%;
-        width: 100%;
-      }
+      .paso:nth-child(even) .paso-img { order: 1; }
+      .paso:nth-child(even) .paso-body { order: 2; }
+      .paso-img { height: 260px; }
+      .paso-num-bg { display: none; }
 
-      .collab-items {
-        flex-direction: column;
-        align-items: stretch;
+      .collab-strip {
+        grid-template-columns: 1fr;
       }
-      .collab-item {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        text-align: left;
-        font-size: 16px;
-        padding: 28px var(--pad-x);
-      }
-      .collab-item:last-child { border-bottom: none; }
+      .collab-stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .collab-stat:last-child { border-bottom: none; }
 
-      .collab-poster-title {
-        font-size: clamp(40px, 12vw, 80px);
-        padding: 24px var(--pad-x);
-      }
+      .footer { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-links { flex-wrap: wrap; gap: 16px; }
 
-      .footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-      }
+      .statement blockquote em { -webkit-text-stroke: 1px rgba(232,236,240,0.2); }
+    }
+
+    @media (max-width: 480px) {
+      .hero { clip-path: none; margin-bottom: 0; }
+      .valores::before { display: none; }
+      .proceso::before { display: none; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- ───────────────────────────────────────── -->
-  <!-- NAV                                        -->
-  <!-- ───────────────────────────────────────── -->
+  <!-- Scroll progress -->
+  <div id="progress"><div id="progress-fill"></div></div>
+
+  <!-- ─────────────────── NAV ─────────────────── -->
   <nav class="nav" id="nav" role="navigation" aria-label="Navegación principal">
     <a href="index.html" class="wordmark" aria-label="Nira Labs — inicio">
       <span class="wm-nira">nira</span><span class="wm-l">l</span><span class="wm-a">a</span><span class="wm-b">b</span><span class="wm-s">s</span>
@@ -780,215 +964,219 @@
   </nav>
 
   <!-- Mobile fullscreen menu -->
-  <div class="nav-overlay" id="navOverlay" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+  <div class="nav-overlay" id="navOverlay" role="dialog" aria-modal="true">
     <a href="labs.html">Labs</a>
     <a href="proyectos.html">Proyectos</a>
     <a href="estudio.html" class="active">Estudio</a>
     <a href="radio.html">Radio</a>
-    <a href="index.html#contacto">Contacto</a>
+    <a href="index.html#contacto">Contacto →</a>
   </div>
 
-  <!-- ───────────────────────────────────────── -->
-  <!-- HERO                                       -->
-  <!-- ───────────────────────────────────────── -->
-  <section class="hero" aria-label="Hero — Estudio">
-    <div class="hero-bg" role="img" aria-label="Imagen de fondo del estudio"></div>
+  <!-- ─────────────────── HERO ─────────────────── -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero-bg" id="heroBg" role="img" aria-label="Imagen héroe del estudio"></div>
     <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="label hero-label anim">NIRA — ESTUDIO</p>
-      <h1 class="anim anim-d2">Hacemos lo difícil<br>parecer inevitable.</h1>
+    <div class="grid-overlay" aria-hidden="true"></div>
+
+    <!-- Top-left: client + project info like firstframe -->
+    <div class="hero-meta-tl" id="heroMetaTL" aria-hidden="true">
+      <span>Santiago, Chile</span>
+      <span>Nira Labs · 2025</span>
     </div>
-    <span class="hero-location" aria-hidden="true">Santiago, Chile — 2025</span>
+
+    <!-- Top-right counter -->
+    <span class="hero-counter" id="heroCounter" aria-hidden="true">001 / 001</span>
+
+    <!-- Main — bottom-left -->
+    <div class="hero-content">
+      <span class="hero-eyebrow" id="heroEyebrow">Estudio</span>
+      <h1>
+        <span class="r"><span>Hacemos lo</span></span>
+        <span class="r"><span>difícil parecer</span></span>
+        <span class="r"><span>inevitable.</span></span>
+      </h1>
+    </div>
+
+    <!-- Bottom-right status -->
+    <div class="hero-statusbar" id="heroStatusbar" aria-hidden="true">
+      <div class="dot"></div>
+      <span>Disponibles</span>
+      <span>·</span>
+      <span>Próximo proyecto</span>
+    </div>
   </section>
 
-  <!-- ───────────────────────────────────────── -->
-  <!-- MANIFIESTO                                 -->
-  <!-- ───────────────────────────────────────── -->
-  <section class="manifiesto" aria-labelledby="manifiesto-title">
+  <!-- ─────────────────── MANIFIESTO ─────────────────── -->
+  <section class="manifiesto" aria-labelledby="manifesto-h2">
+    <span class="manifiesto-ghost" aria-hidden="true">01</span>
 
-    <div class="manifiesto-num anim" aria-hidden="true">01</div>
+    <span class="fade-up manifiesto-label">01 — Manifiesto</span>
 
-    <div class="manifiesto-header">
-      <p class="label anim anim-d1">Manifiesto</p>
-      <h2 class="manifiesto-title anim anim-d2" id="manifiesto-title">
-        Creemos en el software<br>que se siente <span class="accent">inevitable.</span>
-      </h2>
-    </div>
+    <h2 id="manifesto-h2">
+      <span class="r" style="margin-bottom:0.04em"><span>Creemos en el software</span></span>
+      <span class="r"><span>que se siente <span class="accent">inevitable.</span></span></span>
+    </h2>
 
-    <!-- Full-bleed image, sin border-radius, extendiéndose hasta los bordes -->
-    <div class="manifiesto-image-wrap anim anim--img">
+    <div class="manifiesto-img-wrap fade-up" style="transition-delay:0.15s">
       <img
         src="estudio/manifiesto.png"
-        alt="El equipo de Nira Labs trabajando"
+        alt="Obsidian monolith with miniature figures — Nira Labs manifiesto"
         loading="lazy"
         width="1440"
         height="810"
       >
     </div>
+  </section>
 
-    <!-- Valores en fondo blanco — el contraste brutal -->
-    <div class="valores" role="list">
-      <div class="valor anim anim-d1" role="listitem">
+  <!-- ─────────────────── VALORES ─────────────────── -->
+  <section class="valores" aria-label="Valores de Nira Labs">
+    <div class="valores-inner">
+      <div class="valor fade-up" style="transition-delay:0s">
         <p class="valor-num" aria-hidden="true">001</p>
-        <h3>Ejecución sobre promesas.</h3>
+        <h3>Ejecución<br>sobre promesas.</h3>
         <p>El trabajo habla. Sin roadmaps públicos ni fechas que no podemos cumplir.</p>
       </div>
-      <div class="valor anim anim-d2" role="listitem">
+      <div class="valor fade-up" style="transition-delay:0.12s">
         <p class="valor-num" aria-hidden="true">002</p>
-        <h3>Foco como ventaja.</h3>
+        <h3>Foco como<br>ventaja.</h3>
         <p>Cada decisión que no tomamos es una decisión de calidad. El alcance define el resultado.</p>
       </div>
-      <div class="valor anim anim-d3" role="listitem">
+      <div class="valor fade-up" style="transition-delay:0.24s">
         <p class="valor-num" aria-hidden="true">003</p>
-        <h3>Hecho para el mundo real.</h3>
+        <h3>Hecho para el<br>mundo real.</h3>
         <p>No diseñamos para demos. Diseñamos para personas con prisa, sueño y distracciones.</p>
       </div>
     </div>
-
   </section>
 
-  <!-- ───────────────────────────────────────── -->
-  <!-- PROCESO                                    -->
-  <!-- ───────────────────────────────────────── -->
-  <section class="proceso" aria-labelledby="proceso-title">
+  <!-- ─────────────────── STATEMENT ─────────────────── -->
+  <section class="statement" aria-label="Filosofía">
+    <blockquote>
+      <span class="r" style="overflow:visible"><span>No tomamos</span></span>
+      <span class="r" style="overflow:visible"><span>proyectos para <em>hacer</em></span></span>
+      <span class="r" style="overflow:visible"><span>portafolio. Los tomamos</span></span>
+      <span class="r" style="overflow:visible"><span>para <em>cambiar</em> algo.</span></span>
+    </blockquote>
+    <div class="statement-meta fade-up d3">
+      <span class="statement-line"></span>
+      <span class="statement-source">Nira Labs · Santiago</span>
+    </div>
+  </section>
 
+  <!-- ─────────────────── PROCESO ─────────────────── -->
+  <section class="proceso" aria-labelledby="proceso-h2">
     <div class="proceso-header">
-      <p class="proceso-label anim">02 — Proceso</p>
-      <h2 id="proceso-title">
-        <span class="proceso-title-small anim anim-d1">Cómo</span>
-        <span class="proceso-title-big" id="construimos-title">construimos.</span>
-      </h2>
+      <span class="fade-up proceso-label">02 — Proceso</span>
+      <span class="proceso-header-h2 fade-up d1">Cómo</span>
+      <span class="proceso-big-title r" id="proceso-h2" aria-label="construimos."><span>construimos.</span></span>
     </div>
 
     <div class="proceso-steps">
 
-      <!-- Paso 1 — impar, fondo #020408 -->
-      <div class="paso anim" aria-label="Paso 01 — Entender">
+      <div class="paso" aria-label="Paso 01">
         <div class="paso-img">
-          <img
-            src="estudio/proceso-01.png"
-            alt="Etapa de comprensión del proyecto"
-            loading="lazy"
-            width="880"
-            height="495"
-          >
+          <img src="estudio/proceso-01.png" alt="Etapa de comprensión — ilustración explorador con libro gigante" loading="lazy" width="880" height="520">
         </div>
-        <div class="paso-content">
-          <span class="paso-num" aria-hidden="true">01</span>
-          <div class="paso-inner">
-            <p class="paso-step-label">Paso 01</p>
-            <h3 class="paso-title">Entender.</h3>
-            <p class="paso-desc">Nos obsesionamos con el problema antes de tocar una línea de código. El brief no es el punto de partida, es el primer síntoma.</p>
-          </div>
+        <div class="paso-body">
+          <span class="paso-num-bg" aria-hidden="true">01</span>
+          <span class="paso-step-tag fade-up">Paso 01</span>
+          <h3 class="paso-title">
+            <span class="r"><span>Entender.</span></span>
+          </h3>
+          <p class="paso-desc fade-up d2">Nos obsesionamos con el problema antes de tocar una línea de código. El brief no es el punto de partida, es el primer síntoma.</p>
         </div>
       </div>
 
-      <!-- Paso 2 — par, fondo #080c14 + border cyan -->
-      <div class="paso anim" aria-label="Paso 02 — Diseñar">
+      <div class="paso" aria-label="Paso 02">
         <div class="paso-img">
-          <img
-            src="estudio/proceso-02.png"
-            alt="Etapa de diseño del proyecto"
-            loading="lazy"
-            width="880"
-            height="495"
-          >
+          <img src="estudio/proceso-02.png" alt="Etapa de diseño — formas flotantes geométricas abstractas" loading="lazy" width="880" height="520">
         </div>
-        <div class="paso-content">
-          <span class="paso-num" aria-hidden="true">02</span>
-          <div class="paso-inner">
-            <p class="paso-step-label">Paso 02</p>
-            <h3 class="paso-title">Diseñar.</h3>
-            <p class="paso-desc">Sistemas simples que escalan. Interfaces que no necesitan explicación. Cada pixel tiene una razón.</p>
-          </div>
+        <div class="paso-body">
+          <span class="paso-num-bg" aria-hidden="true">02</span>
+          <span class="paso-step-tag fade-up">Paso 02</span>
+          <h3 class="paso-title">
+            <span class="r"><span>Diseñar.</span></span>
+          </h3>
+          <p class="paso-desc fade-up d2">Sistemas simples que escalan. Interfaces que no necesitan explicación. Cada pixel tiene una razón.</p>
         </div>
       </div>
 
-      <!-- Paso 3 — impar, fondo #020408 -->
-      <div class="paso anim" aria-label="Paso 03 — Construir">
+      <div class="paso" aria-label="Paso 03">
         <div class="paso-img">
-          <img
-            src="estudio/proceso-03.png"
-            alt="Etapa de construcción del proyecto"
-            loading="lazy"
-            width="880"
-            height="495"
-          >
+          <img src="estudio/proceso-03.png" alt="Etapa de construcción — máscara cyberpunk con overlay de grilla" loading="lazy" width="880" height="520">
         </div>
-        <div class="paso-content">
-          <span class="paso-num" aria-hidden="true">03</span>
-          <div class="paso-inner">
-            <p class="paso-step-label">Paso 03</p>
-            <h3 class="paso-title">Construir.</h3>
-            <p class="paso-desc">Código que dura. Arquitectura que no da vergüenza en un año. Hacemos las cosas bien desde el principio.</p>
-          </div>
+        <div class="paso-body">
+          <span class="paso-num-bg" aria-hidden="true">03</span>
+          <span class="paso-step-tag fade-up">Paso 03</span>
+          <h3 class="paso-title">
+            <span class="r"><span>Construir.</span></span>
+          </h3>
+          <p class="paso-desc fade-up d2">Código que dura. Arquitectura que no da vergüenza en un año. Hacemos las cosas bien desde el principio.</p>
         </div>
       </div>
 
-      <!-- Paso 4 — par, fondo #080c14 + border cyan -->
-      <div class="paso anim" aria-label="Paso 04 — Lanzar">
+      <div class="paso" aria-label="Paso 04">
         <div class="paso-img">
-          <img
-            src="estudio/proceso-04.png"
-            alt="Etapa de lanzamiento del proyecto"
-            loading="lazy"
-            width="880"
-            height="495"
-          >
+          <img src="estudio/proceso-04.png" alt="Etapa de lanzamiento — figura noir en azotea bajo reflector" loading="lazy" width="880" height="520">
         </div>
-        <div class="paso-content">
-          <span class="paso-num" aria-hidden="true">04</span>
-          <div class="paso-inner">
-            <p class="paso-step-label">Paso 04</p>
-            <h3 class="paso-title">Lanzar.</h3>
-            <p class="paso-desc">Rápido, con intención. El lanzamiento no es el final, es el comienzo.</p>
-          </div>
+        <div class="paso-body">
+          <span class="paso-num-bg" aria-hidden="true">04</span>
+          <span class="paso-step-tag fade-up">Paso 04</span>
+          <h3 class="paso-title">
+            <span class="r"><span>Lanzar.</span></span>
+          </h3>
+          <p class="paso-desc fade-up d2">Rápido, con intención. El lanzamiento no es el final, es el comienzo.</p>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ───────────────────────────────────────── -->
-  <!-- COLABORACIÓN                               -->
-  <!-- ───────────────────────────────────────── -->
-  <section class="collab" aria-labelledby="collab-title">
+  <!-- ─────────────────── COLLAB ─────────────────── -->
+  <section class="collab" aria-labelledby="collab-h2">
 
-    <!-- Imagen poster full-bleed con título superpuesto -->
-    <div class="collab-poster">
+    <div class="collab-visual">
       <img
-        class="collab-poster-img anim anim--img"
         id="collabImg"
         src="estudio/colaboracion.png"
-        alt="Equipo de Nira Labs en colaboración"
+        alt="Vista aérea de dos personas trabajando en una mesa larga — Colaboración Nira Labs"
         loading="lazy"
         width="1440"
         height="810"
       >
-      <div class="collab-poster-title anim anim-d1" id="collab-title" aria-hidden="true">
-        Trabajar<br>con Nira.
+      <div class="collab-visual-overlay"></div>
+      <div class="collab-title-over">
+        <h2 id="collab-h2">
+          <span class="r"><span>Trabajar</span></span>
+          <span class="r"><span>con Nira.</span></span>
+        </h2>
       </div>
     </div>
 
-    <!-- 3 items en fila -->
-    <div class="collab-items" role="list">
-      <div class="collab-item anim anim-d1" role="listitem">Proyectos de 4 a 16 semanas</div>
-      <div class="collab-item anim anim-d2" role="listitem">Sin intermediarios</div>
-      <div class="collab-item anim anim-d3" role="listitem">Código + diseño + estrategia</div>
+    <div class="collab-strip" role="list">
+      <div class="collab-stat fade-up d1" role="listitem">
+        <span class="collab-stat-num">4–16</span>
+        <span class="collab-stat-label">semanas por proyecto</span>
+      </div>
+      <div class="collab-stat fade-up d2" role="listitem">
+        <span class="collab-stat-num">100%</span>
+        <span class="collab-stat-label">sin intermediarios</span>
+      </div>
+      <div class="collab-stat fade-up d3" role="listitem">
+        <span class="collab-stat-num">3×1</span>
+        <span class="collab-stat-label">código · diseño · estrategia</span>
+      </div>
     </div>
 
-    <!-- CTA full-width -->
-    <a href="index.html#contacto" class="collab-cta anim anim-d2" aria-label="Iniciar un proyecto con Nira Labs">
+    <a href="index.html#contacto" class="collab-cta" aria-label="Iniciar un proyecto con Nira Labs">
       Iniciar un proyecto →
     </a>
 
   </section>
 
-  <!-- ───────────────────────────────────────── -->
-  <!-- FOOTER                                     -->
-  <!-- ───────────────────────────────────────── -->
+  <!-- ─────────────────── FOOTER ─────────────────── -->
   <footer class="footer" role="contentinfo">
-    <span class="footer-watermark" aria-hidden="true">2025</span>
+    <span class="footer-wm" aria-hidden="true">2025</span>
     <p class="footer-copy">© 2025 Nira Labs · Santiago, Chile</p>
     <ul class="footer-links">
       <li><a href="labs.html">Labs</a></li>
@@ -997,29 +1185,35 @@
     </ul>
   </footer>
 
-  <!-- ───────────────────────────────────────── -->
-  <!-- SCRIPTS                                    -->
-  <!-- ───────────────────────────────────────── -->
+  <!-- ─────────────────── SCRIPTS ─────────────────── -->
   <script>
+    /* ── Scroll progress bar ── */
+    const progressFill = document.getElementById('progress-fill');
+    function updateProgress() {
+      const scrollTop  = window.scrollY;
+      const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressFill.style.height = pct + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
     /* ── Nav scroll ── */
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
+      nav.classList.toggle('scrolled', window.scrollY > 30);
     }, { passive: true });
 
     /* ── Mobile menu ── */
     const hamburger = document.getElementById('hamburger');
     const overlay   = document.getElementById('navOverlay');
-
     hamburger.addEventListener('click', () => {
       const isOpen = overlay.classList.toggle('open');
       hamburger.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', String(isOpen));
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-
-    overlay.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
         overlay.classList.remove('open');
         hamburger.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
@@ -1027,70 +1221,88 @@
       });
     });
 
-    /* ── IntersectionObserver — animaciones generales ── */
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
+    /* ── Hero entrance (immediate) ── */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById('heroEyebrow').classList.add('in');
+        document.getElementById('heroMetaTL').classList.add('in');
+        document.getElementById('heroCounter').classList.add('in');
+        document.getElementById('heroStatusbar').classList.add('in');
+        document.querySelectorAll('.hero .r').forEach((el, i) => {
+          setTimeout(() => el.classList.add('in'), 80 + i * 80);
+        });
       });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.anim').forEach(el => {
-      if (el.closest('.hero')) {
-        setTimeout(() => el.classList.add('visible'), 120);
-      } else {
-        observer.observe(el);
-      }
     });
 
-    /* ── Clip-path reveal para "construimos." ── */
-    const construimosEl = document.getElementById('construimos-title');
-    if (construimosEl) {
-      const titleObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            construimosEl.classList.add('visible');
-            titleObserver.unobserve(entry.target);
+    /* ── IntersectionObserver for all reveal elements ── */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    /* Observe all .r, .fade-up, .wipe outside hero */
+    document.querySelectorAll('.r, .fade-up, .wipe').forEach(el => {
+      if (!el.closest('.hero')) io.observe(el);
+    });
+
+    /* ── Manifiesto image reveal ── */
+    const manifImgWrap = document.querySelector('.manifiesto-img-wrap');
+    if (manifImgWrap) {
+      const manifIO = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            manifIO.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      manifIO.observe(manifImgWrap);
+    }
+
+    /* ── Proceso paso images ── */
+    document.querySelectorAll('.paso-img').forEach(el => {
+      const pasoIO = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            pasoIO.unobserve(e.target);
           }
         });
       }, { threshold: 0.2 });
-      titleObserver.observe(construimosEl);
-    }
-
-    /* ── Img zoom on scroll (proceso) ── */
-    const imgObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const img = entry.target.querySelector('img');
-        if (!img) return;
-        if (entry.isIntersecting) {
-          img.style.transform = 'scale(1)';
-        }
-      });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('.paso-img').forEach(el => {
-      const img = el.querySelector('img');
-      if (img) img.style.transition = 'transform 1.2s ease';
-      if (img) img.style.transform  = 'scale(1.05)';
-      imgObserver.observe(el);
+      pasoIO.observe(el);
     });
 
-    /* ── Parallax en imagen de colaboración ── */
+    /* ── Parallax ── */
+    const heroBg   = document.getElementById('heroBg');
     const collabImg = document.getElementById('collabImg');
-    if (collabImg) {
-      window.addEventListener('scroll', () => {
-        const rect = collabImg.closest('.collab-poster').getBoundingClientRect();
-        const viewH = window.innerHeight;
-        /* Solo cuando la sección está visible */
+
+    function onScroll() {
+      const sy = window.scrollY;
+
+      /* Hero parallax */
+      if (heroBg) {
+        heroBg.style.transform = `translateY(${sy * 0.35}px)`;
+      }
+
+      /* Collab parallax */
+      if (collabImg) {
+        const wrap   = collabImg.closest('.collab-visual');
+        const rect   = wrap.getBoundingClientRect();
+        const viewH  = window.innerHeight;
         if (rect.bottom > 0 && rect.top < viewH) {
           const progress = (viewH - rect.top) / (viewH + rect.height);
-          const offset = (progress - 0.5) * 80; /* ±40px de recorrido */
+          const offset   = (progress - 0.5) * 120;
           collabImg.style.transform = `translateY(${offset}px)`;
         }
-      }, { passive: true });
+      }
     }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   </script>
 </body>
 </html>
