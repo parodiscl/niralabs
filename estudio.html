@@ -1026,9 +1026,6 @@
       <video id="heroVid1" class="hero-vid v-active" autoplay muted playsinline preload="auto">
         <source src="estudio/vid_001.mp4" type="video/mp4">
       </video>
-      <video id="heroVid2" class="hero-vid" muted playsinline preload="auto">
-        <source src="estudio/vid_002.mp4" type="video/mp4">
-      </video>
     </div>
 
     <div class="hero-overlay"></div>
@@ -1076,12 +1073,9 @@
     <div class="manifiesto-media fade-up" id="manifMedia" style="transition-delay:0.15s">
       <!-- Mobile: imagen 002 -->
       <img class="m-img" src="estudio/002.png" alt="Nira Labs — manifiesto visual" loading="lazy" width="1440" height="810">
-      <!-- Desktop: vtox ping-pong -->
-      <video id="mvidA" class="m-vid v-active" muted playsinline preload="auto">
+      <!-- Desktop: vtox loop (un solo elemento) -->
+      <video id="mvidLoop" class="m-vid v-active" autoplay muted playsinline preload="auto">
         <source src="estudio/vtox1.mp4" type="video/mp4">
-      </video>
-      <video id="mvidB" class="m-vid" muted playsinline preload="auto">
-        <source src="estudio/vtox2.mp4" type="video/mp4">
       </video>
     </div>
   </section>
@@ -1321,56 +1315,19 @@
       manifIO.observe(manifMedia);
     }
 
-    /* vtox ping-pong — swap explícito al mostrar */
+    /* vtox loop — un solo video, src rota en ended */
     const VTOX = ['estudio/vtox1.mp4', 'estudio/vtox2.mp4', 'estudio/vtox3.mp4'];
-    const mA = document.getElementById('mvidA');
-    const mB = document.getElementById('mvidB');
+    const mLoop = document.getElementById('mvidLoop');
 
-    if (isDesktop() && mA && mB) {
-      let mActive  = mA;
-      let mStandby = mB;
-      let mSrcIdx  = 0;
-      let mBusy    = false;
-
-      function mvSwap() {
-        if (mBusy) return;
-        mBusy = true;
-
-        // Ocultar actual, mostrar standby
-        mActive.classList.remove('v-active');
-        mStandby.classList.add('v-active');
-
-        // Asegurar que el que se muestra está corriendo
-        mStandby.play().catch(() => {});
-
-        // Rotar roles
-        const tmp = mActive; mActive = mStandby; mStandby = tmp;
-
-        // Cargar el siguiente clip en el que quedó libre
-        mSrcIdx = (mSrcIdx + 1) % VTOX.length;
-        const nextSrc = VTOX[(mSrcIdx + 1) % VTOX.length];
-        mStandby.src = nextSrc;
-        mStandby.load();
-
-        setTimeout(() => { mBusy = false; }, 1200);
-      }
-
-      function watchActive(v) {
-        v.addEventListener('timeupdate', () => {
-          if (v !== mActive || mBusy) return;
-          if (v.duration && v.currentTime >= v.duration - 0.3) mvSwap();
-        });
-        v.addEventListener('ended', () => {
-          if (v === mActive) { mBusy = false; mvSwap(); }
-        });
-      }
-
-      watchActive(mA);
-      watchActive(mB);
-
-      // Arranque: A empieza vtox1, B pre-carga vtox2
-      mA.play().catch(() => {});
-      mB.load(); // solo carga, no reproduce aún
+    if (isDesktop() && mLoop) {
+      let vIdx = 0;
+      mLoop.addEventListener('ended', () => {
+        vIdx = (vIdx + 1) % VTOX.length;
+        mLoop.src = VTOX[vIdx];
+        mLoop.load();
+        mLoop.play().catch(() => {});
+      });
+      mLoop.play().catch(() => {});
     }
 
     /* ── Proceso paso images ── */
@@ -1393,35 +1350,17 @@
     const vid2 = document.getElementById('heroVid2');
     let currentVid = 1;
 
-    const heroVids = [vid1, vid2].filter(Boolean);
-    let hIdx = 0;
-    let hSwitching = false;
-
-    function heroSwitch() {
-      if (hSwitching) return;
-      hSwitching = true;
-      const prev = heroVids[hIdx];
-      hIdx = (hIdx + 1) % heroVids.length;
-      const curr = heroVids[hIdx];
-      prev.classList.remove('v-active');
-      curr.currentTime = 0;
-      curr.play().catch(() => {});
-      curr.classList.add('v-active');
-      setTimeout(() => { hSwitching = false; }, 800);
-    }
-
-    if (isDesktop() && heroVids.length) {
-      heroVids.forEach(v => {
-        v.addEventListener('timeupdate', () => {
-          if (heroVids[hIdx] !== v || hSwitching) return;
-          if (v.duration && v.currentTime >= v.duration - 0.25) heroSwitch();
-        });
-        v.addEventListener('ended', () => {
-          if (heroVids[hIdx] === v) heroSwitch();
-        });
+    /* Hero loop — un solo video por vez, src rota en ended */
+    const HERO_SRCS = ['estudio/vid_001.mp4', 'estudio/vid_002.mp4'];
+    if (isDesktop() && vid1) {
+      let hIdx = 0;
+      vid1.addEventListener('ended', () => {
+        hIdx = (hIdx + 1) % HERO_SRCS.length;
+        vid1.src = HERO_SRCS[hIdx];
+        vid1.load();
+        vid1.play().catch(() => {});
       });
-      heroVids[0].play().catch(() => {});
-      heroVids.slice(1).forEach(v => v.load());
+      vid1.play().catch(() => {});
     }
 
     /* ── Scroll parallax ── */
